@@ -84,28 +84,28 @@ print(ingredients)  # {'fruits': ['mango', 'banana', 'strawberry'], 'topping': [
 for value in ingredients.values():
     print(value)
 """
-['mango', 'banana', 'strawberry']
-['choco', 'cream', 'vanilla']
-['soda', 'smoothie', 'cocktail']
-['mug', 'glass', 'shot']
+    ['mango', 'banana', 'strawberry']
+    ['choco', 'cream', 'vanilla']
+    ['soda', 'smoothie', 'cocktail']
+    ['mug', 'glass', 'shot']
 """
 
 # keys -----------------------------------------------------------------------------------------------------------------
 for key in ingredients.keys():
     print(key)
 """
-fruits
-topping
-drink
-bowl
+    fruits
+    topping
+    drink
+    bowl
 """
 
 # items ----------------------------------------------------------------------------------------------------------------
 for key, value in ingredients.items():
     print(key, value)
 """
-fruits ['mango', 'banana', 'strawberry']
-topping ['choco', 'cream', 'vanilla']
-drink ['soda', 'smoothie', 'cocktail']
-bowl ['mug', 'glass', 'shot']
+    fruits ['mango', 'banana', 'strawberry']
+    topping ['choco', 'cream', 'vanilla']
+    drink ['soda', 'smoothie', 'cocktail']
+    bowl ['mug', 'glass', 'shot']
 """
