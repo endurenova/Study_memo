@@ -1,2 +1,298 @@
 <!-- 주석: 단축키(ctrl + /) -->
 <!DOCTYPE html> <!-- 자동으로 hmtl 5 사용 -->
+<html lang="ko">
+<head>
+  <meta charset="UTF-8"> <!-- charset (character set: 문자집합) -->
+  <title>제목</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+</html>
+<!-- 
+	<meta> 요소는 반드시 <head> 요소 내에 있어야 하고, HTML 파일의 첫 1024byte 내에 존재해야함. 일부 브라우저는 인코딩을 결정하기 전에 1024byte만 확인하기 때문.
+-->
+
+
+block 요소
+ <div>, <h1~6>, <p>, <hr>, <ul>, <ol>, <li>, <address>, <article>, <aside>, <blockgquote>, <canvas>, <dd>, <dl>,<header>, <form>, <table>, <pre>, <video>
+<!--
+	- width, height값을 통해 크기를 지정 가능
+	- 별도의 값을 주지않을 경우 width는 한줄 전체를 사용
+	- 다음 태그는 무조건 줄바꿈이 적용 (대표적인 태그: div)
+-->
+
+
+	<div>..</div> <!-- div 태그 (division: 분배): 웹사이트의 레이아웃 설계용 태그-->
+	<!-- 영역을 나눌 때 사용하는 태그 -->
+
+
+	<h1~6>머리말</h1~6> <!-- h 태그 (heading): 머리말을 넣어주는 태그 -->
+	    <h1>제일 중요한 머리말</h1> <!-- heading 중 글자 크기가 제일 크다 -->
+	    <h6>가장 중요하지 않은 머리말</h6>
+
+
+	<p> </p> <!-- p 태그 (paragraph: 문단): 프린트할 문구 출력해주는 태그 -->
+
+	
+	<hr> <!-- hr 태그 (A horizontal rule): 수평선을 넣어준다 -->
+
+
+	<ol>..</ol> <!-- ol 태그 (ordered list: 숫자나 알파벳등 순서가 있는 리스트) -->
+		<ol type="i" start="21">
+			<li>시루 maltese</li> <!-- xxi. 시루 maltese -->
+		<ol type="i" start="21" reversed>
+		<!-- 
+			type="넘버링 타입"
+				- 1(기본값), a, A, i, I
+
+			start="시작 번호"
+				- 1(기본값)
+
+			reversed: 내림차순 정렬
+		-->
+
+
+	<ul>..</ul> <!-- ul 태그 (unordered list: 순서가 없는 리스트) -->
+ 		<ul style="list-style-type:disc;">
+		    <li>시루</li>
+		    <li>강아지</li>
+		<!-- 
+			style="list-style-type:모양;" - dist(기본값), circle, square, none
+		-->
+
+
+	<li></li> <!-- li 태그 (list item: 리스트 아이템): ol과 ul의 각 항목들을 나열) -->
+		<style>
+			li {
+				display: block;
+			  	float: left;
+			  }
+		</style>
+		<!-- 가로 배열 -->
+
+
+	<form>..</form> <!-- form 태그: 입력 양식  -->
+		<form>
+			<p>
+				<strong>아이디</strong>
+				<input type="text" name="name" value="아이디 입력">
+			</p>
+			<p>
+				<strong>비밀번호</strong>
+				<input type="password" name="password" value="비밀번호 입력">
+			</p>
+			<p>
+				<strong>성별</strong>
+				<input type="radio" name="gender" value="M">남자
+				<input type="radio" name="gender" value="F">여자
+			</p>
+			<p>
+				<strong>응시분야</strong>
+				<input type="checkbox" name="part" value="eng">영어
+				<input type="checkbox" name="part" value="math">수학
+			</p>
+			<p>
+				<input type="submit" value="제출">
+			</p>
+		</form>
+
+inline 요소
+<a>, <i>, <span>, <b>, <br>, <em>, <strong>, <input>, <abbr>, <img>, <sub>, <code>, <small>, <tt>, <map>, <textarea>, <label>, <sup>, <q>, <button>, <cite>
+<!--
+	- width/height 적용 불가
+	- margin/padding-top/bottom 적용 불가
+	- line-height 원하는 대로 적용 불가(속해 있는 block 요소의 전체 크기에만 영향)
+-->
+
+
+	<a> </a> <!-- a 태그 (Anchor: 닻): 하이퍼링크 -->
+		<a href="https://www.naver.com">Go naver</a>
+		<a href="https://www.naver.com" target="_blank">Go naver (new window)</a>
+		<!-- 
+			target="링크를 여는 법"
+				_self: 현재 페이지 (기본값)
+				_blank: 새 탭
+				_parent: 부모 페이지로, iframe 등이 사용된 환경에서 쓰입니다.
+				_top: 최상위 페이지로, iframe 등이 사용된 환경에서 쓰입니다.
+				프레임이름: 직접 프레임이름을 명시해서 사용할 수도 있습니다.
+		-->
+
+
+	<i> </i> <!-- i 태그 (italic): 이텔릭체 -->
+
+
+	<span> <!-- span 태그: 한 태그 안에서 일부 요소만 스타일링 -->
+	<!-- div 태그처럼 특별한 기능은 없지만 줄 바꿈이 불가능-->
+		<span style="background-color:red">span1</span>
+		<span style="background-color:blue">span2</span>
+		<span style="background-color:green">span3</span>
+	
+
+	<b> </b> <!-- b 태그 (bold: 굵은): 볼드체 -->
+
+
+	<br> <!-- br 태그 (break: line break): HTML의 줄바꿈을 위한 태그 -->
+	<!-- 여백을 주기 위한 용도로 사용하면 안됨 -->
+
+		the
+		first
+		line<br>
+		the second line
+
+
+	<em> </em> <!-- em 태그 (emphasized): 폰트에 강조효과 -->
+
+	<strong> </strong> <!-- strong 태그: 강하게 강조 표시하는 태그 -->
+
+	<input> <!-- input 태그: 추가 입력 요소를 만들어주는 태그 -->
+		<input type="" name="" value="">
+			<!-- 
+				type="속성"
+					- text: 텍스트 입력 창
+					- password: 비밀번호 입력 창
+					- radio: 라디오 버튼
+					- checkbox: 체크박스
+					- reset: 리셋 버튼(reset button)
+					- file: 파일 업로드 “파일 선택” 버튼
+					- hidden: 사용자에게는 보이지 않는 숨겨진 입력 필드
+					- image: 제출 버튼(submit button)으로 사용될 이미지를 설정
+					- submit: 제출 버튼(submit button)
+
+				HTML5에서 새롭게 추가된 속성값
+					- color: color picker
+					- time: 시간을 선택할 수 있는 입력 필드 (hour, minute)
+					- date: 날짜 선택 (year, month, day)
+					- week: 날짜를 선택할 수 있는 입력 필드  (year, week)
+					- month: 날짜 선택 (year, month)
+					- datetime-local: 날짜 선택 (year, month, day, hour, minute) 
+					- email: 이메일 주소 입력 필드
+					- number: 숫자를 입력할 수 있는 입력 필드
+					- range: 슬라이드 바를 조정하여 범위 내의 숫자를 선택할 수 있는 필드
+					- search: 검색어를 입력할 수 있는 텍스트 필드
+					- tel: 전화번호를 입력할 수 있는 입력 필드
+					- url: URL 주소를 입력할 수 있는 입력 필드
+
+		 	-->
+
+
+
+
+meta 태그 (metadata)
+<base>, <link>, <script>, <title>, <style>
+<!--
+	요소와 같은 다른 메타데이터 관련 요소들이 나타낼 수 없는 다양한 종류의 메타데이터를 제공할 때 사용되며, 이렇게 제공된 정보는 브라우저나 검색 엔진, 다른 웹 서비스에서 사용하게 됩니다. <head> 요소 내부에 위치해야 합니다.
+-->
+
+
+
+
+
+link 태그
+<link href="css/이름.css" rel="stylesheet">
+
+
+
+
+
+
+<style>
+span.class{
+}
+
+
+
+
+속성
+id선택자는 웹 문서 안에서 요소의 배치 방법을 지정할 때 자주 사용.
+class선택자는 글자색이나 글자 굵기 등 나중에 다른 곳에도 적용할 수 있는 스타일을 지정,
+id선택자의 우선순위가 클래스 선택자의 우선순위보다 높음.
+
+id
+같은 태그 이름을 가진 CSS선택자: 어느 요소에 {스타일}을 입힐지 결정하는 부분를 네이밍해서 분류하는 기능
+<link rel="stylesheet" href="style.css">
+<h2 id="name">
+↓CSS
+#name {
+  color: royalblue;
+  text-align: center
+}
+
+class
+하나의 태그는 하나의 id만 가질 수 있는데 class는 여러개 가능
+<h2 class="name">
+↓CSS
+.name {
+  color: royalblue;
+  text-align: center
+}
+
+<h2 class="name name">
+↓CSS
+.name.name {
+  color: royalblue;
+  text-align: center
+}
+
+href (hypertext reference: 하이퍼텍스트 참조)
+<a href="">
+↓CSS 선택자를 쓸 때 id, class를 제외한 모든 속성은 [attr="value"] 이렇게 써 줍니다.
+[href="https://www.codeit.kr/"]{
+  color: green;
+}
+
+
+
+<h2 style= "color: royalblue; background-color: lightblue: text-align: center">본인의 커리어 목표를 달성해 보세요.</h2>
+
+src 속성 (source: 출처)
+<img src ="경로">
+
+<img src ="xxx" width="xxx" height = "xxx"> %도 가능 (브라우저 크기에 따라 결정됨)
+가운데 정렬
+
+<style>
+    img {
+      display: block;
+      margin-left: auto;
+      margin-right: auto;
+    }
+</style>
+
+
+예시) sample.html
+<!DOCTYPE html>
+<html>
+	<head>  # 아래 title의 부모태그
+	  <title>Codeit</title>  # 위 head의 자식태그
+	  <meta charset="utf-8">
+	</head>
+
+	<body>     ↓속성(attribute)이름  ↓속성의 값
+		<img src="https://www.codeit.kr/static/images/brand/logo_original.png">
+		<h2>본인의 커리어 목표를 달성해 보세요.</h2>
+		<p><b>코드잇</b>은 미국 아이비리그 컴퓨터 사이언스 전공자, 국내 대기업 IT 출신 등으로 구성된 팀을 통해, 
+		   모든 수업들을 자체 제작하여 큰 분야를 쪼개서 유기적으로 학습할수 있게 만들었어요. 코드잇 가이드를 통해 원하는 목표를 빠르게 달성해 보세요</p>
+
+		<hr>
+
+		<h2><i>코드잇</i> 커뮤니티에서 함께 궁금한 점을 해결해 봐요.</h2>
+		<p>궁금한 게 생겼거나 함께 의견을 나누고 싶다면? 서로의 질문과 답변을 통해, 코딩 실력을 더욱 향상시켜 보세요</p>
+
+		<hr>
+
+		<a href="https://www.codeit.kr/">새로운 코딩 교육의 시작, 코드잇</a>
+
+		<ul>
+			<li>프로그래밍 기초 <i>in Python</i></li>
+			<li>프로그래밍 기초 <span><i>in Java</i></span></li>
+		  <li>컴퓨터 개론</li>
+		  <li>웹 퍼블리싱</li>
+		  <li>업무 자동화</li>
+			<li>데이터 사이언스</li>
+		  <li>머신 러닝</li>
+		  <li>알고리즘의 정석</li>
+		</ul>
+	</body>
+</html>
+
+
+

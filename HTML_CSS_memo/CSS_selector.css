@@ -1,3 +1,39 @@
 
-/* 여러 요소를 스타일링 하고 싶으면 class */
-/* 한 요소만 스타일링 하고 싶으면 id */
+#id-name
+/* ID 선택자 문법 (아이디 앞에 "#"을 붙임) 
+ - 문서에서 딱 하나의 태그에만 스타일을 입히고 싶을 때 사용
+ - 동일한 아이디를 여러 태그가 가질 수 없음 */
+
+
+.class-name
+/* Class 선택자 문법 (클래스 앞에 "."을 붙임)
+ - 여러 요소를 스타일링 하고 싶을 때 사용
+ - 하나의 클래스에 여러 값을 가질 수 있음 */
+  <li class="beginner Python">프로그래밍 기초 <i>in Python</i></li>
+  /*위 li 태그는 class 값 두 개, 'beginner'와 'Python'을 가짐 */
+
+/* id와 class를 제외한 나머지 속성 CSS 선택자 문법 [attr="value"] → [속성=값] */
+[href="https://www.codeit.kr/"]
+
+
+/* AND selector (AND 연산 선택자 문법 - 선택자들을 이어붙임) */
+div#m_box { width:500px; height:150px; } /* tag#id { attr1:value; attr2:value; } */
+div.box { background-color:blue; } /* tag.class { attr:value; }*/
+
+/* OR selector (OR 연산 선택자 문법 - 선택자 사이 ",") */
+div, #m_box { width:500px; height:150px; } /* tag, #id { attr1:value; attr2:value; } */
+div, .box { background-color:blue; } /* id, .class { attr:value; }*/
+
+/* Descendant selector (중첩 요소 선택자 문법 - 선택자 사이 " " ) */
+div span { text-align:center; padding:10px; } /* tag tag */
+div.yellow_box span {background-color:yellow; } /* tag.class tag → descendant selector + AND selector*/
+div#c_box span { text-align:center; padding:10px; } /* tag#id tag → descendant selector + AND selector*/
+div span .blue_span { background-color:blue; } /* tag tag .class → descendant selector */
+div span #c_span { text-align:center; padding:10px; } /* tag tag #id  → descendant selector + AND selector*/
+
+/* Child selector (직속 자식 선택자 문법 - 선택자 사이 ">") */
+ul > li { list-style: none; } /* tag > tag → child selector */
+
+/* All selector (모든 선택자 문법 - 선택자 뒤에 "*") */
+li * { text-align:center; padding:10px; } /* tag *→ all selector
+
