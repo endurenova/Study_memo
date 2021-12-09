@@ -30,7 +30,7 @@ soup.select_one('img')['src']  # images/nielsen/group.png
 soup.tagname # soup.select_one('tagname')과 동일
 tag.tagname # tag.select_one('tagname')과 동일
 
-# Method Chaining:  메소드의 리턴값을 변수에 저장하지 않고, 리턴값에 바로 또 다른 메소드를 호출하는 것을 뜻
+# Method Chaining: (태그만 가능) 메소드의 리턴값을 변수에 저장하지 않고, 리턴값에 바로 또 다른 메소드를 호출하는 것을 뜻
 # 1. selector1에 매칭되는 태그를 찾은 다음 그 안에서 selector2에 매칭되는 태그 선택
 soup.select_one("selector1").select_one("selector2")
 

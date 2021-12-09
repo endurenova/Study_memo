@@ -70,7 +70,7 @@ block 요소
 		<!-- 가로 배열 -->
 
 
-	<form>..</form> <!-- form 태그: 입력 양식  -->
+	<form>..</form> <!-- form 태그: 입력 양식 태그가 들어가면 사용해야함  -->
 		<form>
 			<p>
 				<strong>아이디</strong>
@@ -95,8 +95,9 @@ block 요소
 			</p>
 		</form>
 
+
 inline 요소
-<a>, <i>, <span>, <b>, <br>, <em>, <strong>, <input>, <abbr>, <img>, <sub>, <code>, <small>, <tt>, <map>, <textarea>, <label>, <sup>, <q>, <button>, <cite>
+<a>, <i>, <span>, <b>, <br>, <em>, <strong>, <input>, <img>, <abbr>, <sub>, <code>, <small>, <tt>, <map>, <textarea>, <label>, <sup>, <q>, <button>, <cite>
 <!--
 	- width/height 적용 불가
 	- margin/padding-top/bottom 적용 불가
@@ -170,35 +171,27 @@ inline 요소
 					- search: 검색어를 입력할 수 있는 텍스트 필드
 					- tel: 전화번호를 입력할 수 있는 입력 필드
 					- url: URL 주소를 입력할 수 있는 입력 필드
-
 		 	-->
+	
 
+	<img> <!-- img 태그: 이미지를 삽입 -->
+		<img src="URL">	
 
-
-
+		
 meta 태그 (metadata)
 <base>, <link>, <script>, <title>, <style>
 <!--
 	요소와 같은 다른 메타데이터 관련 요소들이 나타낼 수 없는 다양한 종류의 메타데이터를 제공할 때 사용되며, 이렇게 제공된 정보는 브라우저나 검색 엔진, 다른 웹 서비스에서 사용하게 됩니다. <head> 요소 내부에 위치해야 합니다.
 -->
 
-
-
-
-
-link 태그
-<link href="css/이름.css" rel="stylesheet">
-
-
-
+	<link><!-- link 태그 -->
+	<link href="css/이름.css" rel="stylesheet">
 
 
 
 <style>
 span.class{
 }
-
-
 
 
 속성
@@ -250,11 +243,11 @@ src 속성 (source: 출처)
 가운데 정렬
 
 <style>
-    img {
-      display: block;
-      margin-left: auto;
-      margin-right: auto;
-    }
+	img {
+	  display: block;
+	  margin-left: auto;
+	  margin-right: auto;
+	}
 </style>
 
 
