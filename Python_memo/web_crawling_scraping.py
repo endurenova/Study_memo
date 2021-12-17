@@ -8,6 +8,7 @@ soup = BeautifulSoup(music_page, 'html.parser')
 popular_artists = []
 
 #.get_text: 태그 안에 있는 모든 텍스트를 하나로 합쳐서 리턴
+# get_text("", strip = True) ""에 넣은 인자를 구분자로 쓸 수 있고, strip은 이스케이프 시퀀스를 없애준다.
 for tag in soup.select('ul.popular__order li'):
     popular_artists.append((tag.get_text().strip()))
     # 괄호 안에 "문자"를 넣을 경우 텍스트를 합칠 때 파라미터로 넣은 문자열을 텍스트 사이에 넣어줌

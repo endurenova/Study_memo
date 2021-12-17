@@ -15,7 +15,7 @@
 block 요소
  <div>, <h1~6>, <p>, <hr>, <ul>, <ol>, <li>, <address>, <article>, <aside>, <blockgquote>, <canvas>, <dd>, <dl>,<header>, <form>, <table>, <pre>, <video>
 <!--
-	- width, height값을 통해 크기를 지정 가능
+	- width, height값을 통해 크기를 지정 가능 (크기를 지정해도 html에선 auto x auto로 나옴. 가로세로의 길이 개념이 없음)
 	- 별도의 값을 주지않을 경우 width는 한줄 전체를 사용
 	- 다음 태그는 무조건 줄바꿈이 적용 (대표적인 태그: div)
 -->
@@ -57,6 +57,7 @@ block 요소
 		    <li>강아지</li>
 		<!-- 
 			style="list-style-type:모양;" - dist(기본값), circle, square, none
+			padding-left: 0; 왼쪽 여백 없애고 싶을 때
 		-->
 
 
@@ -102,6 +103,8 @@ inline 요소
 	- width/height 적용 불가
 	- margin/padding-top/bottom 적용 불가
 	- line-height 원하는 대로 적용 불가(속해 있는 block 요소의 전체 크기에만 영향)
+	- display: block;을 통해 block처럼 사용 가능
+	- display: inline=block; 다른 요소와 같은 줄에 머무르면서 block 요소처럼 가로, 세로 길이도 정할 수 있음
 -->
 
 
@@ -174,7 +177,8 @@ inline 요소
 		 	-->
 	
 
-	<img> <!-- img 태그: 이미지를 삽입 -->
+	<img> <!-- img 태그: 이미지를 삽입, 대체 요소라서 inline-block 같지만 inline -->
+	<!-- inline이라 글자처럼 정렬 가능 -->
 		<img src="URL">	
 
 		
