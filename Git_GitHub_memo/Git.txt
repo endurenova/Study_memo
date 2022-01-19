@@ -1,0 +1,119 @@
+git
+
+Ctrl + Insert: 복사하기
+Shift + Insert: 붙여넣기
+
+git init: 빈 repository 생성
+mkdir xxx: xxx란 이름을 가진 폴더 생성
+touch xxx: xxx란 이름을 가진 파일 생성
+cd xxx: xxx에 들어가기
+cd ..: 상위 폴더
+ls -al: 해당 디렉토리에 있는 파일들 검색
+
+commit에 필요한 것 (이름, 이메일, 커밋 메시지)
+ → 누가 커밋했는지 알려줘야한다. 이후 프로젝트 디렉토리 내부의 디렉토리들 안에서는 git init 명령어나 user.name, user.email을 작성 안해도 된다.
+
+git config user.name "": 작성자 이름
+git config user.email "": 적성자 메일
+
+
+add를 안해주면 untracked 라는 메시지가 뜬다.
+ → 깃에 의해 아직 추적되지 않고 있다.
+ → 버전 관리 대상이 아니다.
+
+add는 staging area에 파일 추가하는 명령어
+git add .: 현재 프로젝트 디렉토리 내에서 변경사항이 생긴 모든 파일
+git add xxx.py: 깃에 추가할 코딩 파일
+git add License: 유료, 무료 여부
+
+git reset: git add로 staging area에 modified된 파일 취소하기
+          하지만 수정된 모습은 working directory에 그대로 남아있어서
+          파일 수정 필요
+
+git commit -m "Create calculator.py and License"
+ → 옵션 -m (커밋 메시지 남기기)
+
+git commit: -m 없이 커밋 메시지 남기기 (복잡하고 긴 커밋 메시지를 쉽게 남길 수 있음
+          i 누르면 --insert--, 나갈땐 esc + :wq (저장 후 닫기)
+
+
+git commit --amend: 최신 커밋을 수정해서 다시 새로운 커밋으로 만들기 (커밋 메시지 수정)
+사용하고 커밋을 수정할 수 있는 창이 뜨면, i를 눌러 --insert-- 입력 모드를 통해 수정을 완료한 후 esc -> :wq(저장 + 창 닫기)
+
+git push --force: --amend 후, push 에러시 강제 push
+
+git status: 깃이 인식하고 있는 프로젝트 디렉토리의 현재 상태보기
+
+git help [커맨드 이름]: 사용법이 궁금한 Git 커맨드의 공식 메뉴얼 내용 출력
+
+git push: 커밋한 후 git push 입력으로 로컬 레포지토리에서 리모트 레포지토리로 전송
+
+git pull: 리모트 레포지토리 수정 후 git pull로 로컬 레포지토리 가져오기
+
+cat xxx: xxx를 출력해줌
+
+git log: 커밋 히스토리. 나갈땐 q
+git log --pretty=oneline: 커밋 히스토리 한 줄로
+git log --pretty=oneline --all --graph:
+ --all: 모든 브랜치 히스토리 출력 
+ --graph: 커밋 히스토리가 각 브랜치와의 관계가 잘 드러나도록 그래프 형식으로 출력
+
+git show xxxx: 커밋에서 어떤 파일이 어떻게 변했는지, xxxx는 커밋 해쉬 앞 4자리
+git diff xxxx yyyy: xxxx(구 커밋 해쉬)와 yyyy(신 커밋 해쉬), 두 커밋 간의 차이 확인
+
+
+붙이는 별명을 alias라고 하고, 별명을 붙이는 행위를 aliasing
+git config alias.xxx 'xxxxxx': 'xxxxxx'의 xxxxxx 커맨드를 xxx로 커맨드를 만들기
+git config alias.history 'log --pretty=oneline'
+  - git history를 입력하면 git log --pretty=oneline이 실행된다
+
+cat .git/config를 통해 alias를 비롯한 다른 설정들 확인 가능
+
+HEAD: 어떤 커밋 하나를 가리킴. HEAD가 가리키는 커밋에 따라 working directory 구성
+
+Git은 내부적으로 크게 3가지 종류의 작업 영역을 두고 동작
+
+ 1. working directory (working tree)
+    : 프로젝트 디렉토리(MathTool디렉토리가 working directory)
+ 2. staging area (index)
+    : git add를 한 파일들이 존재하는 영역, 
+      커밋을 하게 되면 staging area에 있는 파일들만 반영됨
+ 3. repository
+    : working directory의 변경 이력들이 저장되어 있는 영역
+      커밋들이 저장되는 영역이라는 뜻(.git 디렉토리가 repository)
+
+git reset: HEAD가 과거의 커밋을 가리키게 할 수 있다. working directory의 내용도 과거 커밋의 모습으로 돌아가게 한다.
+
+git reset --soft xxxx: repository가 xxxx커밋으로 바뀜
+git reset --mixed xxxx: staging area, repository가 xxxx커밋으로 바뀜
+git reset --hard xxxx: working directory, staging area, repository가 xxxx커밋으로 바뀜
+ --hard 이용시 그동안 작업한 working directory가 포맷되니 되도록 사용X
+
+git reflog: 변경한 커밋 시점 되돌리기(reset후 커밋하기)
+
+git reset --hard HEAD^
+HEAD가 현재 가리키는 커밋을 기준으로 한 상대적인 표현법인
+
+HEAD^ 최상위 커밋(헤드)
+HEAD~2 차상위 커밋
+
+보통 프로젝트에서 주요 버전의 시작점이 되는 커밋에 이렇게 태그를 단다
+
+git tag [태그 이름] [커밋 아이디]: ex) git tag version_2 xxxx(커밋해시 4자리) 태그 설정
+
+git tag -d [지울 태그 이름]: 태그를 지정한 커밋의 태그를 지울 때
+
+git tag: 해당 프로젝트 디렉토리에 있는 모든 태그 조회
+
+git show [태그 이름]: 태그 이름이 가리키는 커밋 내용 조회, 작업자 확인 가능
+
+git blame 파일명: 파일명의 커밋이력을 확인, 작업자 확인 가능
+
+git revert xxx: 커밋했던 xxx 되돌리기(없애기)
+
+로컬 레포지토리 작업 중이었다면 git reset을 해도 되지만 리모트 레포지토리 작업 중이었다면 revert하고 push 해줘야한다
+
+여러 커밋 취소하기
+git revert xxxx..yyyy: xxxx이후(xxxx제외)부터 yyyy까지 취소(revert)
+
+git reflog (reference log 줄임말): 그동안 HEAD가 가리켜온 커밋 기록(커밋해쉬 확인가능)

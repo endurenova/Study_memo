@@ -1,0 +1,54 @@
+
+remote repository (원격 레포지토리): github에서 만든 repository
+   → endurenova/Math_Box
+local repository (로컬 레포지토리): 컴퓨너 내의 repository
+
+Math_Box는 MathTool의 복제본 레포지토리
+
+
+
+create a new repository on the command line:
+  : 로컬 레포지토리를 만들고 커밋한 후에 깃허브에 업로드
+
+push an existing repository from the command line
+  : 이미 만든 로컬 레포지토리를 깃허브에 업로드
+
+git push -u origin main: 브랜치 최초 등록할때
+git push -u origin test: 브랜치 최초 등록할때
+
+git remote -v : remote 주소 확인
+
+README.md (일반적으로 프로젝트에 관한 설명을 README라는 이름의 파일에 담기 때문에 파일 이름이 README일 경우 깃허브에서 내용을 바로 보여줌)
+### 수학 계산을 위한 코드를 제공하는 프로젝트
+
+리모트 레포지토리에서 edit file시 Commit changes에 내용 작성
+
+git pull은 이미 init되어 있는 상태여야만 가능하고 연동 안된 컴퓨터는 clone
+
+git clone https://github.com/numpy/numpy.git: 리모트 레포지토리를 로컬 레포지토리로 복제
+
+텍스트 표시만으로 약속된 시각적 효과를 줄 수 있게 해주는 문법을 마크다운(markdown) 문법 - README.md
+
+git pull: 리모트 레포지토리의 브랜치를 검토할 필요없이 바로 합치고 싶을 때
+git fetch: 리모트 레포지토리의 브랜치를 검토해야할 때
+
+로컬 레포지토리를 수정하는 동안 리모트 레포지토리가 수정되서 push가 안된다면 우선 pull
+git fetch: 리모트와 로컬 레포지토리가 달라 conflict 발생 상황시 git pull을 사용시 가져옴과 동시에 merge가 되는데 fetch는 merge하지 않고 가져온다 (머지하기 전에 점검해야할 필요가 있을 때 사용)
+
+From https://github.com/endurenova/Math_Box
+   aee2703..a83abe8  premium    -> origin/premium
+git diff premium origin/premium을 통해서 바뀐 내용 확인
+
+git merge origin/premium
+
+수정후 git commit -m "Remove say hello function in calculator.py"
+
+
+.gitignore 
+로컬에서 .gitignore 파일을 만든 다음, 무시하고 싶은 파일들을 적어 넣어 push 해서 만들 수 있습니다.
+
+github에서 만들수도 있지만 프로젝트에 사용되는 프로그램에 따라 아예 권장되는 gitignore을 만들어 주는 사이트도 있습니다.
+
+사이트 링크 공유해드리겠습니다.
+
+https://www.gitignore.io/
