@@ -1,0 +1,52 @@
+
+root commit: 최초 커밋
+branch: 하나의 코드 관리 흐름, 어떤 커밋을 가르키는 포인터
+
+git branch xxx: xxx란 이름의 브랜치 생성
+git checkout xxx: xxx 브랜치 호출
+git branch -b xxx: xxx란 이름의 브랜치 생성 후 호출
+git branch -d xxx: xxx 브랜치 삭제
+
+merge: 다른 브랜치의 것을 가져와 똑같이 병합(머지를 통해 생긴 커밋이 merge commit)
+git merge xxx: xxx 브랜치의 것을 똑같이 가져오기
+git merge --abort: 직전 머지 취소
+
+Fast-forward merge: 동일 선상의 브랜치를 머지했을때
+3-way merge: 공통 조상을 둔 두 커밋이 머지할때, base때의 내용과 비교했을 때 달라진 부분이 있는 것이 우선시되고, 두 브랜치에서 둘다 변화가 일어났을 때는 Conflict를 발생시켜서 사용자가 스스로 선택하게끔 한다
+
+
+하나의 파일을 두고 각각의 브랜치에서 코드 수정을 하면 merge시 conflict(충돌)이 발생하는데 이때 컨플릭트가 발생한 파일을 열고 머지의 결과가 되었으면 하는 모습대로 코드 수정하면 됨
+
+
+master: 로컬 레포지토리의 master 브랜치
+origin/master: 리모트 레포지토리의 master 브랜치
+
+git remote add origin https://github.com/kyuri-dev/Math_Box.git
+https://github.com/kyuri-dev/Math_Box.git 리모트 레포지토리를 origin이라는 이름으로 등록
+
+git push -u origin main: 현재 로컬 레포지토리에 있는 main 브랜치의 내용(=main 브랜치와 관계된 모든 커밋들)을 origin이라는 리모트 레포지토리로 보낸다는 뜻
+-u는 --set-upstream이라는 옵션의 약자
+
+
+git reset: branch가 가리키는 커밋 변경
+git checkout: HEAD가 가리키는 커밋 변경
+git rebase: merge와는 달리 새로운 커밋을 만들지 않고 rebase로 만들어진 커밋 히스토리는 merge로 만들어진 커밋 히스토리보다 좀 더 깔끔
+
+git rebase xxxx → conflict 해결 후 git rebase --continue
+
+git stash: 최근 커밋 이후로 작업했던 내용은 모두 stack(스택)에 옮기지고 working directory 내부는 다시 최근 커밋의 상태로 초기화. 어떤 브랜치에서 하던 작업을 아직 커밋하지 않았는데 다른 브랜치로 가야하는 상황에서 작업 중이던 내용을 잠깐 저장하고 싶을 때
+
+git stash list: stash한 목록 출력
+git stash apply: stash한 내용 다시 working directory로 호출
+git stash apply xxx: xxx이름의 stash 호출
+git stash drop: 가장 최근의 stash 삭제
+git stash drop xxx: xxx이름의 stash 삭제
+git stash save "text": tash 의 별도 메시지를 지정
+git stash pop xxx: xxx이름의 stash를 호출과 동시에 제거
+
+잘못된 브랜치에서 작업하는 실수를 했을땐 git stash로 저장하고 git stash apply후 conflict 해결
+
+git cherry-pick: 예를 들어 test의 브랜치에서 순차적으로 ver_1, ver_2를 commit 했는데, 다른 branch에서 앞선 commit인 ver_1을 merge하고 싶을때. git cherry-pick xxx(ver_1의 커밋해쉬 아이디)
+
+git reset --soft xxx: 예를 들어 test의 브랜치에서 순차적으로 ver_1, ver_2를 commit 했는데, 히스토리가 깔끔하게 ver_1로만 가고 싶을때.
+ver_1 직전 xxx 커밋해시 입력후 add 및 커밋
