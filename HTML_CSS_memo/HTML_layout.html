@@ -99,11 +99,14 @@ block 요소
 		
 	<table>..</table> <!-- table 태그: 테이블표 만들기 -->
 		<table>
+			<caption> <!-- caption 태그: 테이블의 제목 정의-->
 			<tr> <!-- tr 태그 (table row: 테이블의 행): 테이블의 행 -->
 				<th>..</th> <!-- th 태그 (table header: 테이블의 헤더): 테이블의 헤더로 굵은 글씨(bold), 가운데 정렬(center)가 default값 -->
 				<td>..</td> <!-- td 태그 (table data: 테이블의 데이터로 보통 굵기 글씨, 왼쪽 정렬(left-aligned)가 default값 ) -->
 			</tr>
 			<tr>
+				<td rowspan="2">..</td>  <!-- rowspan (row span: 행의 범위): 테이블의 차지할 행 -->
+				<td columnspan="2">..</td>  <!-- columnspan (column span: 열의 범위): 테이블의 차지할 열 -->
 			</tr>
 		</table>
 
@@ -191,7 +194,7 @@ inline 요소
 
 	<img> <!-- img 태그: 이미지를 삽입, 대체 요소라서 inline-block 같지만 inline -->
 	<!-- inline이라 글자처럼 정렬 가능 -->
-		<img src="URL">	
+		<img src="URL" alt=""> <!-- alt 태그: 이미지가 문제되서 표시가 되지 않을 때, 보여줄 대체텍스트 -->	
 
 		
 meta 태그 (metadata)
