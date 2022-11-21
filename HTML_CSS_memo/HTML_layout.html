@@ -99,13 +99,12 @@ block 요소
 		
 	<table>..</table> <!-- table 태그: 테이블표 만들기 -->
 		<table>
-			<th> <!-- th 태그 (table header: 테이블의 헤더): 테이블의 헤더로 굵은 글씨(bold), 가운데 정렬(center)가 default값 -->
-			</th>
-			<tr> <!-- tr 태그 (table row: 테이블의 행): 테이블의 행으로 보통 굵기 글씨, 왼쪽 정렬(left-aligned)가 default값 -->
-				<td> <!-- td 태그 (table data: 테이블의 데이터) -->
-				</td>
+			<tr> <!-- tr 태그 (table row: 테이블의 행): 테이블의 행 -->
+				<th>..</th> <!-- th 태그 (table header: 테이블의 헤더): 테이블의 헤더로 굵은 글씨(bold), 가운데 정렬(center)가 default값 -->
+				<td>..</td> <!-- td 태그 (table data: 테이블의 데이터로 보통 굵기 글씨, 왼쪽 정렬(left-aligned)가 default값 ) -->
 			</tr>
-			<th>
+			<tr>
+			</tr>
 		</table>
 
 
@@ -254,18 +253,38 @@ align (alignment: 글자 정렬)
 <h2 style= "color: royalblue; background-color: lightblue; text-align: center">본인의 커리어 목표를 달성해 보세요.</h2>
 
 src 속성 (source: 출처)
-<img src ="경로">
+	<img src ="경로">
 
-<img src ="xxx" width="xxx" height = "xxx"> %도 가능 (브라우저 크기에 따라 결정됨)
+width, height (너비, 높이)
+	<img src ="xxx" width="xxx" height = "xxx"> %도 가능 (브라우저 크기에 따라 결정됨)
+
+border (경계선)
+border-collapse (경계선-무너뜨리기)
+	<style>
+		table, tr, td, th{
+		  border: 1px solid #000;
+		  border-collapse:collapse;
+		  padding:10px;
+		  text-align:center;
+		  width:400px;
+		}
+	</style>
+
+margin
+	<style>
+		table{
+		  margin:0auto;
+		}
+	</style>
 
 이미지 가운데 정렬
-<style>
-	img {
-	  display: block;
-	  margin-left: auto;
-	  margin-right: auto;
-	}
-</style>
+	<style>
+		img {
+		  display: block;
+		  margin-left: auto;
+		  margin-right: auto;
+		}
+	</style>
 
 
 예시) sample.html
