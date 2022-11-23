@@ -127,6 +127,7 @@ inline 요소
 		<a href="https://www.naver.com">Go naver</a>
 		<a href="https://www.naver.com" target="_blank">Go naver (new window)</a>
 		<!-- 
+			href="#" ← 임시링크
 			target="링크를 여는 법"
 				_self: 현재 페이지 (기본값)
 				_blank: 새 탭
@@ -214,42 +215,42 @@ span.class{
 
 
 속성
-id선택자는 웹 문서 안에서 요소의 배치 방법을 지정할 때 자주 사용.
-class선택자는 글자색이나 글자 굵기 등 나중에 다른 곳에도 적용할 수 있는 스타일을 지정,
-id선택자의 우선순위가 클래스 선택자의 우선순위보다 높음.
+	id선택자는 웹 문서 안에서 요소의 배치 방법을 지정할 때 자주 사용.
+	class선택자는 글자색이나 글자 굵기 등 나중에 다른 곳에도 적용할 수 있는 스타일을 지정,
+	id선택자의 우선순위가 클래스 선택자의 우선순위보다 높음.
 
-id
-같은 태그 이름을 가진 CSS선택자: 어느 요소에 {스타일}을 입힐지 결정하는 부분를 네이밍해서 분류하는 기능
-<link rel="stylesheet" href="style.css">
-<h2 id="name">
-↓CSS
-#name {
-  color: royalblue;
-  text-align: center
-}
+id (같은 태그 이름을 가진 CSS선택자: 어느 요소에 {스타일}을 입힐지 결정하는 부분를 네이밍해서 분류하는 기능)
+	<link rel="stylesheet" href="style.css">
+	<h2 id="name">
+	↓CSS
+	#name {
+	  color: royalblue;
+	  text-align: center
+	}
 
-class
-하나의 태그는 하나의 id만 가질 수 있는데 class는 여러개 가능
-<h2 class="name">
-↓CSS
-.name {
-  color: royalblue;
-  text-align: center
-}
+class (하나의 태그는 하나의 id만 가질 수 있는데 class는 여러개 가능)
+	<h2 class="name">
+	↓CSS
+	.name {
+	  color: royalblue;
+	  text-align: center
+	}
 
-<h2 class="name name">
-↓CSS
-.name.name {
-  color: royalblue;
-  text-align: center
-}
+	<h2 class="name name">
+	↓CSS
+	.name.name {
+	  color: royalblue;
+	  text-align: center
+	}
+
 
 href (hypertext reference: 하이퍼텍스트 참조)
-<a href="">
-↓CSS 선택자를 쓸 때 id, class를 제외한 모든 속성은 [attr="value"] 이렇게 써 줍니다.
-[href="https://www.codeit.kr/"]{
-  color: green;
-}
+	<a href="">
+	↓CSS 선택자를 쓸 때 id, class를 제외한 모든 속성은 [attr="value"] 이렇게 써 줍니다.
+	[href="https://www.codeit.kr/"]{
+	  color: green;
+	}
+
 
 text-decoration: 속성의 데코 초기화
 	a{
@@ -257,15 +258,19 @@ text-decoration: 속성의 데코 초기화
 		color:inherit;  부모 상속
 	}
 	
+
 align (alignment: 글자 정렬)
 <h3 align="center">..</h3>
 <h2 style= "color: royalblue; background-color: lightblue; text-align: center">본인의 커리어 목표를 달성해 보세요.</h2>
 
+
 src 속성 (source: 출처)
 	<img src ="경로">
 
+		
 width, height (너비, 높이)
 	<img src ="xxx" width="xxx" height = "xxx"> %도 가능 (브라우저 크기에 따라 결정됨)
+
 
 border (경계선)
 border-collapse (경계선-무너뜨리기)
@@ -279,12 +284,43 @@ border-collapse (경계선-무너뜨리기)
 		}
 	</style>
 
+
 margin
 	<style>
 		table{
-		  margin:0auto;
+		  margin:0 auto;
 		}
 	</style>
+
+
+box-sizing
+	<style>
+		.bo {
+			box-sizing:border-box; /* border(테두리)를 포함시킨(기준으로) 박스의 사이즈를 지정 */
+			box-sizing:content-box; /* content(Margin, Border, Padding을 제외한 내용물)를 기준으로 박스의 사이즈를 지정 */
+	</style>
+			
+			
+position(포지션)
+	<style>
+		.pos {
+			position:relative; /* 부모로 설정 */
+			position:absolute; /* 해당 객체가 속해 있는 영역에서의 절대값 */
+			right:10px; /* position:absolute;의 값 예시*/
+			bottom:10px; /* position:absolute;의 값 예시*/
+	</style>
+			
+			
+background (배경)
+	<style>
+		.back {
+		  background-image: /* 배경으로 이미지 삽입 */
+		  background-image: url(images/list_icon.png); /* 파일 경로 삽입시 "없이 */
+		  background-repeat: /* background사이즈랑 image사이즈가 다를 경우, 반복 여부 */
+		  background-position: /* background에 삽입한 요소 위치 설정. background-position: 5px 14px 처럼 위치조절 가능 */
+		}
+	</style>
+			
 
 이미지 가운데 정렬
 	<style>
