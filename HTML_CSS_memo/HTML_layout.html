@@ -270,6 +270,15 @@ src 속성 (source: 출처)
 		
 width, height (너비, 높이)
 	<img src ="xxx" width="xxx" height = "xxx"> %도 가능 (브라우저 크기에 따라 결정됨)
+display(
+이미지 가운데 정렬
+	<style>
+		img {
+		  display: block; /* img는 inline요소라 block으로 변환 */
+		  margin-left: auto;
+		  margin-right: auto;
+		}
+	</style>
 
 
 border (경계선)
@@ -301,7 +310,7 @@ box-sizing
 	</style>
 			
 			
-position(포지션)
+position (포지션)
 	<style>
 		.pos {
 			position:relative; /* 부모로 설정 */
@@ -321,15 +330,6 @@ background (배경)
 		}
 	</style>
 			
-
-이미지 가운데 정렬
-	<style>
-		img {
-		  display: block;
-		  margin-left: auto;
-		  margin-right: auto;
-		}
-	</style>
 
 
 예시) sample.html
