@@ -27,7 +27,7 @@ switch (비교할_값) {
     break;  // break이 있어야 끝남
   default:
     동작부분;
- }
+}
 
 switch (myChoice) {
   case 1:

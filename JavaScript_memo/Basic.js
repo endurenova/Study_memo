@@ -6,10 +6,10 @@
 // ctrl + D 파이썬의 shift + ctrl + alt + J
 
 /*------------------------------------------------------------------------------------------------------------*/
+
 `출력`
   console.log(value);
 
-  
   console.log('${year}년'); // ${} python의 포맷과 동일, `(백틱) 사용해야함
 
   console.log(Number('10'));
@@ -17,30 +17,24 @@
     
   console.log("3" - 1); 
     - 2 (Number) // JS는 상황에 따라 유연하게 연산
-  
+
   console.log("3" + 1);
     - 31 (String) // 더하기 처럼 두 가지 기능이 있는 경우, 문자열을 연결하는 기능이 우선순위
 
-`변수 선언 (camelCase 지향, python은 pascalcase 지향)`
-	let name = value;
-
-
+`변수 (camelCase 지향)`
+  var name1;  // 함수스코프 = 지역스코프
+  let  name2;  // 블록스코프;
+  
 `상수 (constant)`
   // 일정 값을 유지하는 수 (변수의 반대) naming 규칙. 대문자 (ex. MY_NUMBER)
-  const PI = 3.14;
+  const PI = 3.14;  // 블록스코프
 
-
-`함수 선언`
-  function name() {command; command;};
-
-  function name() {
-    command; 
-    command;
-  };
-
-  function getTwice(number) {
-    return number * 2;
-  };
+`삼항연산자`
+  조건문 ? 선택문1 : 선택문2
+  let age = 17;
+  let checkAge = (age < 18) ? console.log("성인") : console.log("미성년자");
+  checkAge = function(){age < 18 ? console.log("안녕") : console.log("안녕하세요!");}
+  checkAge();
 
 
 `자료형 타입`
