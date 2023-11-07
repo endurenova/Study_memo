@@ -1,0 +1,732 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="css/reset.css">
+    <link rel="stylesheet" href="css/animate.css">
+    <link rel="stylesheet" href="css/monitor-display__css">
+    <style>
+        /* 공용 시작 ---------------------------------------------------------------------- */
+        :root {
+            /* rgb (43, 43, 43) */
+            --background-main: #2b2b2b;
+
+            /* rgb (244, 186, 86) */
+            --theme-main: #f4ba56;
+
+            /* rgb (203, 109, 47) */
+            --theme-sub: #cb6d2f;
+
+            /* rgb (206, 218, 224) */
+            --theme-text: #cedae0;
+
+            /* rgb (68, 24, 16) */
+            --book-main: #441810;
+
+            /* rgb (200, 200, 200) */
+            --monitor-main: #111;
+            --monitor-main: #c8c8c8;
+            
+
+            --pi: 3.14159265358979;
+
+            --book-shrink-scale: 0.3;
+            /* 모니터 */
+            --monitor-display-width: 96vmin;
+            --monitor-display-height: 54vmin;
+            --monitor-display-thick: 3vmin;
+            
+            /* 모니터 스탠드 */
+            --monitor-stand-width: 22vmin;
+            --monitor-stand-pillar-height: 30vmin;
+            --monitor-stand-base-height: 24vmin;
+            --monitor-stand-thick: calc(var(--monitor-display-thick) / 3);
+            --monitor-stand-border-radius: 1vmin;
+
+            /* 커버 */
+            --monitor-stand-radius-corner-count: 30;
+            --monitor-stand-corner-degree: calc((360 / var(--monitor-stand-radius-corner-count)));
+            --monitor-stand-radius-corner-width: calc(
+                2 * var(--monitor-stand-border-radius) * sin(var(--pi) / var(--monitor-stand-radius-corner-count))
+            );
+
+            /* 힌지 옆면 */
+            --monitor-hinge-radius-corner-count: 30;
+            --monitor-hinge-corner-degree: calc((360 / var(--monitor-hinge-radius-corner-count)));
+            --monitor-hinge-radius-corner-width: calc(
+                2 * (0.5 * var(--monitor-display-thick)) * sin(var(--pi) / var(--monitor-hinge-radius-corner-count))
+            );
+        }
+
+        @font-face {
+            font-family: 'maplestory-bold';
+            src: url('../font/Maplestory-Bold.ttf');
+        }
+        @font-face {
+            font-family: 'maplestory-light';
+            src: url('../font/Maplestory-Light.ttf');
+        }
+
+        /* 공용 끝 ---------------------------------------------------------------------- */
+        /* 모니터 공통 시작 ---------------------------------------------------------------------- */
+            .monitor-display__box {
+                display: flex;
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+                transform-style: preserve-3d;
+                width: var(--monitor-display-width);
+                height: var(--monitor-display-height);
+                scale: var(--book-shrink-scale);
+                scale: 1;
+                transition: 0.3s;
+            }
+            .monitor-display__box > .scene {
+                position: relative;
+                width: calc(var(--monitor-display-width) + 30px);
+                height: calc(var(--monitor-display-height) + 30px);
+                transform-style: preserve-3d;
+                transition: 0.3s;
+                background-color: rgba(223, 223, 223, 0.6675);
+            }
+        /* 모니터 공통 끝 ---------------------------------------------------------------------- */
+
+        /* 모니터 스탠드 시작 ---------------------------------------------------------------------- */
+            .monitor-display__stand {
+                position: absolute;
+                transform-style: preserve-3d;
+                transition: 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%)
+                rotateX(0deg)
+                rotateY(0deg)
+                rotateZ(0deg);
+                width: var(--monitor-stand-width);
+                height: var(--monitor-stand-base-height);
+            }
+            .stand-base__face {
+                position: absolute;
+                width: var(--monitor-stand-corner-degree);
+                height: var(--monitor-stand-thick);
+            }
+            .stand-base__face.stand-base--front,
+            .stand-base__face.stand-base--back {
+                width:calc(var(--monitor-stand-width) - (2 * var(--monitor-stand-border-radius)));
+                height: var(--monitor-stand-thick);
+                left: 50%;
+                transform: translateX(-50%) rotateX(90deg);
+            }
+            .stand-base__face.stand-base--front {
+                transform-origin: top;
+                top: 100%;
+            }
+            .stand-base__face.stand-base--back {
+                transform-origin: top;
+                top: 0%;
+            }
+            .stand-base__face.stand-base--left,
+            .stand-base__face.stand-base--right {
+                top: 50%;
+                transform-origin: center;
+                width: calc(var(--monitor-stand-base-height) - (2 * var(--monitor-stand-border-radius)));
+                height: var(--monitor-stand-thick);
+            }
+            .stand-base__face.stand-base--left {
+                left: 0%;
+                transform: translate3D(-50%, -50%, calc(0.5 * var(--monitor-stand-thick))) rotateX(90deg) rotateY(90deg);
+            }
+            .stand-base__face.stand-base--right {
+                right: 0%;
+                transform: translate3D(50%, -50%, calc(0.5 * var(--monitor-stand-thick))) rotateX(90deg) rotateY(90deg);
+            }
+            .stand-base__face.stand-base--top,
+            .stand-base__face.stand-base--bottom {
+                width: var(--monitor-stand-width);
+                height: var(--monitor-stand-base-height);
+                border-radius: var(--monitor-stand-border-radius) var(--monitor-stand-border-radius);
+            }
+            .stand-base__face.stand-base--top {
+                transform-style: preserve-3d;
+                transform: translateZ(var(--monitor-stand-thick));
+            }
+            .stand-base-cr {
+                /* x:좌우, y:앞뒤, z:상하 */
+                position: absolute;
+                transform-style: preserve-3d;
+                width: var(--monitor-stand-border-radius);
+                height: var(--monitor-stand-thick);
+            }
+            .stand-base-cr-Fr-Rt {
+                transform-origin: right;
+                bottom: 0;
+                right: 0;
+                transform: rotateX(90deg) translateY(50%) translateZ(calc(0.5 * var(--monitor-stand-border-radius)));
+            }
+            .stand-base-cr-Fr-Lt {
+                transform-origin: left;
+                bottom: 0;
+                left: 0;
+                transform: rotateX(90deg) translateX(calc(1 * var(--monitor-stand-border-radius))) translateY(50%) translateZ(calc(0.5 * var(--monitor-stand-border-radius)));
+            }
+            .stand-base-cr-Bk-Rt {
+                transform-origin: right;
+                top: 0;
+                right: 0;
+                transform: rotateX(90deg) translateY(50%) translateZ(calc(-0.5 * var(--monitor-stand-border-radius)));
+            }
+            .stand-base-cr-Bk-Lt {
+                transform-origin: left;
+                top: 0;
+                left: 0;
+                transform: rotateX(90deg) translateX(calc(1 * var(--monitor-stand-border-radius))) translateY(50%) translateZ(calc(-0.5 * var(--monitor-stand-border-radius)));
+            }
+            .monitor-display__stand .stand-base-cr .side {
+                position: absolute;
+                width: var(--monitor-stand-radius-corner-width);
+                height: var(--monitor-stand-thick);
+            }
+            /* 스탠드 기둥 */
+            .stand-pillar {
+                top: 20%;
+                left: 50%;             
+                position: absolute;
+                transform-origin: top;
+                transform: rotateX(75deg) translateX(-50%);
+                transform-style: preserve-3d;
+                width: var(--monitor-stand-width);
+                height: var(--monitor-stand-pillar-height);
+            }
+            .stand-pillar__face {
+                transform-origin: center;
+                position: absolute;
+                transform-style: preserve-3d;
+            }
+            .stand-pillar__face.stand-pillar--left,
+            .stand-pillar__face.stand-pillar--right {
+                top: calc(50% - 0.1 * var(--monitor-stand-thick));
+                width: calc(var(--monitor-stand-pillar-height) + 0.2 * var(--monitor-display-thick));
+                height: var(--monitor-stand-thick);
+            }
+            
+            .stand-pillar__face.stand-pillar--left {
+                left: 0%;
+                transform: translate3D(-50%, -50%, calc(0.5 * var(--monitor-stand-thick))) rotateX(90deg) rotateY(90deg);
+            }
+            .stand-pillar__face.stand-pillar--right {
+                right: 0%;
+                transform: translate3D(50%, -50%, calc(0.5 * var(--monitor-stand-thick))) rotateX(90deg) rotateY(90deg);
+            }
+            .stand-pillar__face.stand-pillar--front {
+                width: calc(var(--monitor-stand-width));
+                height: var(--monitor-stand-thick);
+                left: 50%;
+                transform: translateX(-50%) rotateX(90deg);
+            }
+            .stand-pillar__face.stand-pillar--front {
+                transform-origin: top;
+                top: 100%;
+            }
+            
+            .stand-pillar__face.stand-pillar--top,
+            .stand-pillar__face.stand-pillar--bottom {
+                bottom: 0;
+                width: var(--monitor-stand-width);
+            }
+            .stand-pillar__face.stand-pillar--top {
+                height: calc(var(--monitor-stand-pillar-height) + 0.66 * var(--monitor-display-thick));
+                transform: translateZ(var(--monitor-stand-thick));
+            }
+            .stand-pillar__face.stand-pillar--bottom {
+                top: 0;
+                height: calc(var(--monitor-stand-pillar-height) - 0.33 * var(--monitor-display-thick));
+            }
+            .monitor-hinge {
+                position: absolute;
+                transform-style: preserve-3d;
+                left: 50%;
+                bottom: 0;
+                transform: rotateY(90deg) rotateZ(0deg) translateX(50%);
+            }
+            .monitor-hinge__face {
+                bottom: 0%;
+                position: absolute;
+                border-radius: 100% 100%;
+            }
+            .monitor-hinge--left {
+                left: calc(-1 * var(--monitor-stand-thick));
+                width: var(--monitor-display-thick);
+                height: var(--monitor-display-thick);
+                transform: translateY(50%) translateZ(calc(-0.501 * var(--monitor-stand-width)));
+            }
+            .monitor-hinge--right {
+                left: calc(-1 * var(--monitor-stand-thick));
+                width: var(--monitor-display-thick);
+                height: var(--monitor-display-thick);
+                transform: translateY(50%) translateZ(calc(0.5 * var(--monitor-stand-width)));
+            }
+            .monitor-hinge--left::after,
+            .monitor-hinge--right::after {
+                content: '';
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+                width: 80%;
+                height: 80%;
+                border-radius: 100% 100%;
+                background-color: #2b2b2b;
+            }
+            .monitor-hinge--pillar{
+                transform-style: preserve-3d;
+                left: calc(-1 * var(--monitor-stand-thick));
+                width: var(--monitor-display-thick);
+                height: var(--monitor-display-thick);
+                transform: translateY(50%) translateZ(calc(-0.5 * var(--monitor-stand-width)));
+            }
+            .monitor-hinge--pillar .side {
+                position: absolute;
+                transform-origin: right;
+                top: var(--monitor-stand-thick);            
+                right: 50%;
+                height: var(--monitor-hinge-radius-corner-width);
+                width: var(--monitor-stand-width);
+            }
+            .monitor-connector {            
+                position: absolute;
+                transform-origin: left;
+                transform-style: preserve-3d;
+                top: 50%;
+                left: 50%;
+                width: var(--monitor-display-thick);
+                height: var(--monitor-stand-thick);
+                transform: rotateZ(15deg) translate(calc(-0.25 * var(--monitor-stand-thick)), -50%) translateZ(calc(0.5 * var(--monitor-stand-width)));
+            }
+            .monitor-connector__face{
+                position: absolute;
+            }
+            .monitor-connector__face.connector--front {
+                height: var(--monitor-stand-thick);
+                width: calc(0.9 * var(--monitor-stand-width));
+                right: 0%;
+                transform-origin: right;
+                transform:  rotateY(90deg) translateX(50%);
+                transform-style: preserve-3d;
+            }
+            .monitor-connector__face.connector--back {
+                height: var(--monitor-stand-thick);
+                width: calc(0.9 * var(--monitor-stand-width));
+                left: 0%;
+                transform-origin: left;
+                transform:  rotateY(90deg) translateX(-50%);
+            }
+            .monitor-connector__face.connector--left {
+                width: inherit;
+                height: inherit;
+                transform: translateZ(calc(-0.45 * var(--monitor-stand-width)));
+            }
+            .monitor-connector__face.connector--right{
+                width: inherit;
+                height: inherit;
+                transform: translateZ(calc(0.45 * var(--monitor-stand-width)));
+            }
+            
+            .monitor-connector__face.connector--top,
+            .monitor-connector__face.connector--bottom {
+                transform-origin: top;
+                top: 0%;
+                width: var(--monitor-display-thick);
+                height: calc(0.9 * var(--monitor-stand-width));
+            }
+            .monitor-connector__face.connector--top {            
+                transform: translateZ(calc(-0.45 * var(--monitor-stand-width))) rotateX(90deg);
+            }
+            .monitor-connector__face.connector--bottom {
+                top: 100%;
+                transform: translateZ(calc(-0.45 * var(--monitor-stand-width))) rotateX(90deg);
+            }
+        /* 모니터 스탠드 끝 ---------------------------------------------------------------------- */
+        
+        /* 모니터 디스플레이 시작 ---------------------------------------------------------------------- */
+            .monitor-display {
+                position: absolute;
+                width: var(--monitor-display-width);
+                height: var(--monitor-display-height);
+                transform-style: preserve-3d;
+                transform-origin: center;
+                left: 50%;
+                transform: rotateZ(180deg) translate(50%, 20%);
+            }
+            .monitor-frame__face {
+                position: absolute;
+            }
+            .monitor-frame__face.frame--top,
+            .monitor-frame__face.frame--bottom {
+                width: calc(var(--monitor-display-width) - (2 * var(--monitor-stand-border-radius)));
+                height: var(--monitor-display-thick);
+                left: 50%;
+                transform: translateX(-50%) rotateX(90deg);
+            }
+            .monitor-frame__face.frame--top {
+                transform-origin: top;
+                top: 100%;
+            }
+            .monitor-frame__face.frame--bottom {
+                transform-origin: top;
+                top: 0%;
+            }
+            .monitor-frame__face.frame--left,
+            .monitor-frame__face.frame--right {
+                top: 50%;
+                height: var(--monitor-display-thick);
+                width: calc(var(--monitor-display-height) - (2 * var(--monitor-stand-border-radius)));
+            }
+            .monitor-frame__face.frame--left {
+                left: 0%;
+                transform: translate3D(-50%, -50%, calc(0.5 * var(--monitor-display-thick))) rotateX(90deg) rotateY(90deg);
+            }
+            .monitor-frame__face.frame--right {
+                right: calc(0.5 * var(--monitor-stand-radius-corner-width));
+                transform: translate3D(50%, -50%, calc(0.5 * var(--monitor-display-thick))) rotateX(90deg) rotateY(90deg);
+            }
+            .monitor-frame__face.frame--front,
+            .monitor-frame__face.frame--back {
+                transform-style: preserve-3d;
+                width: var(--monitor-display-width);
+                height: var(--monitor-display-height);
+                border-radius: var(--monitor-stand-border-radius) var(--monitor-stand-border-radius);
+            }
+            .monitor-frame__face.frame--front {
+                background-color: rgba(0, 0, 0, 1);
+                transform: translateZ(var(--monitor-display-thick));
+            }
+            .monitor-display .cr {
+                position: absolute;
+                transform-style: preserve-3d;
+                width: var(--monitor-display-thick);
+                height: var(--monitor-stand-border-radius);
+            }
+            .monitor-display .cr-Bt-Rt {
+                transform-origin: right;
+                bottom: 0;
+                right: calc(0.5 * var(--monitor-stand-radius-corner-width));
+                transform: rotateY(90deg)
+                    translateZ(calc(-1 * var(--monitor-stand-border-radius)));
+            } 
+            .monitor-display .cr-Bt-Lt {
+                transform-origin: left;
+                bottom: 0;
+                left: 0;
+                transform: rotateY(-90deg)
+                    translateZ(calc(-1 * var(--monitor-stand-border-radius)));
+            }
+            .monitor-display .cr-Tp-Rt {
+                transform-origin: right;
+                top: 0;
+                right: calc(0.5 * var(--monitor-stand-radius-corner-width));
+                transform: rotateY(90deg)
+                    translateZ(calc(-1 * var(--monitor-stand-border-radius)));
+            }
+            .monitor-display .cr-Tp-Lt {
+                transform-origin: left;
+                top: 0;
+                left: 0;
+                transform: rotateY(-90deg)
+                translateZ(calc(-1 * var(--monitor-stand-border-radius)));
+            }
+            .monitor-display .cr .side {
+                position: absolute;
+                width: var(--monitor-display-thick);
+                height: var(--monitor-stand-radius-corner-width);
+            }
+            .monitor-display .cr-Tp-Rt .side,
+            .monitor-display .cr-Tp-Lt .side {
+                right: 0;
+                top: calc(var(--monitor-stand-border-radius) - 0.5 * var(--monitor-stand-radius-corner-width));
+            }
+            .monitor-display .cr-Bt-Rt .side {
+                right: 0;
+                top: calc(-0.5 * var(--monitor-stand-radius-corner-width));
+            }
+            .monitor-display .cr-Bt-Lt .side {
+                left: 0;
+                top: calc(-0.5 * var(--monitor-stand-radius-corner-width));
+            }
+            .monitor-display .cr-Tp-Rt .s0,
+            .monitor-display .cr-Tp-Lt .s0 {
+                transform: rotateX(0deg) translateZ(var(--monitor-stand-border-radius));
+            }
+            .monitor-display .cr-Tp-Rt .s1,
+            .monitor-display .cr-Tp-Lt .s1 {
+                transform: rotateX(12deg) translateZ(var(--monitor-stand-border-radius));
+            }
+            .monitor-display .cr-Tp-Rt .s2,
+            .monitor-display .cr-Tp-Lt .s2 {
+                transform: rotateX(24deg) translateZ(var(--monitor-stand-border-radius));
+            }
+            .monitor-display .cr-Tp-Rt .s3,
+            .monitor-display .cr-Tp-Lt .s3 {
+                transform: rotateX(36deg) translateZ(var(--monitor-stand-border-radius));
+            }
+            .monitor-display .cr-Tp-Rt .s4,
+            .monitor-display .cr-Tp-Lt .s4 {
+                transform: rotateX(48deg) translateZ(var(--monitor-stand-border-radius));
+            }
+            .monitor-display .cr-Tp-Rt .s5,
+            .monitor-display .cr-Tp-Lt .s5 {
+                transform: rotateX(60deg) translateZ(var(--monitor-stand-border-radius));
+            }
+            .monitor-display .cr-Tp-Rt .s6,
+            .monitor-display .cr-Tp-Lt .s6 {
+                transform: rotateX(72deg) translateZ(var(--monitor-stand-border-radius));
+            }
+            .monitor-display .cr-Tp-Rt .s7,
+            .monitor-display .cr-Tp-Lt .s7 {
+                transform: rotateX(84deg) translateZ(var(--monitor-stand-border-radius));
+            }
+            .monitor-display .cr-Bt-Rt .s0,
+            .monitor-display .cr-Bt-Lt .s0 {
+                transform: rotateX(270deg) translateZ(var(--monitor-stand-border-radius));
+            }
+            .monitor-display .cr-Bt-Rt .s1,
+            .monitor-display .cr-Bt-Lt .s1 {
+                transform: rotateX(282deg) translateZ(var(--monitor-stand-border-radius));
+            }
+            .monitor-display .cr-Bt-Rt .s2,
+            .monitor-display .cr-Bt-Lt .s2 {
+                transform: rotateX(294deg) translateZ(var(--monitor-stand-border-radius));
+            }
+            .monitor-display .cr-Bt-Rt .s3,
+            .monitor-display .cr-Bt-Lt .s3 {
+                transform: rotateX(306deg) translateZ(var(--monitor-stand-border-radius));
+            }
+            .monitor-display .cr-Bt-Rt .s4,
+            .monitor-display .cr-Bt-Lt .s4 {
+                transform: rotateX(318deg) translateZ(var(--monitor-stand-border-radius));
+            }
+            .monitor-display .cr-Bt-Rt .s5,
+            .monitor-display .cr-Bt-Lt .s5 {
+                transform: rotateX(330deg) translateZ(var(--monitor-stand-border-radius));
+            }
+            .monitor-display .cr-Bt-Rt .s6,
+            .monitor-display .cr-Bt-Lt .s6 {
+                transform: rotateX(342deg) translateZ(var(--monitor-stand-border-radius));
+            }
+            .monitor-display .cr-Bt-Rt .s7,
+            .monitor-display .cr-Bt-Lt .s7 {
+                transform: rotateX(354deg) translateZ(var(--monitor-stand-border-radius));
+            }
+        /* 모니터 디스플레이 끝 ---------------------------------------------------------------------- */
+        /* 색상 시작 ---------------------------------------------------------------------- */
+        .stand-base__face {
+                background-color: rgba(200, 200, 200,1);
+                border: 0.01px solid rgba(88, 88, 88, 1);
+            }
+            .monitor-display__stand .stand-base-cr .side {
+                border: 0.01px solid rgba(88, 88, 88, 1);
+                background-color: rgba(200, 200, 200, 1);
+            }
+            
+            .monitor-hinge--left,
+            .monitor-hinge--right {
+                border: 0.01px solid rgba(88, 88, 88, 1);
+                background-color: rgba(200, 200, 200, 1)
+            }
+            
+            .stand-pillar__face,
+            .monitor-hinge--pillar .side {
+                border: 0.01px solid rgba(88, 88, 88, 1);
+                background-color: rgba(200, 200, 200, 1)
+
+            }
+            .monitor-connector__face {
+                border: 0.01px solid rgba(88, 88, 88, 1);
+                background-color: rgba(200, 200, 200, 1);
+            }
+            .monitor-frame__face {
+                border: 0.01px solid rgba(88, 88, 88, 1);
+                background-color: rgba(200, 200, 200, 1);
+            }
+            .monitor-display .cr .side {
+                background-color: rgba(200, 200, 200, 1);
+            }
+        /* 색상 끝 ---------------------------------------------------------------------- */
+        .tempArea {
+            background-color: #2b2b2b;
+            position: absolute;
+            width: 100vmin;
+            height: 100vmin;
+            top: 50%;
+            left: 50%;
+            transform-style: preserve-3d;
+            /* transform: translateX(-50%) translateY(-0%)
+            rotateX(85deg)
+            rotateY(0deg)
+            rotateZ(00deg); */
+            scale: 1;
+            animation: f 5s ease-in both infinite;
+        }
+        @keyframes f {
+            from {
+            transform: translateX(-50%) translateY(-0%)
+            rotateX(70deg)
+            rotateY(0deg)
+            rotateZ(00deg);
+            }
+            to {
+            transform: translateX(-50%) translateY(-0%)
+            rotateX(70deg)
+            rotateY(0deg)
+            rotateZ(360deg);
+
+            }
+        }
+        h1 {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-family: 'maplestory-bold';
+            font-size: 10vmin;
+        }
+        .fro {
+            position: absolute;
+            bottom: 0;
+            background-color: red;
+            height: 3%;
+            width: 100%;
+        }
+        .career-view {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: aliceblue;
+            width: 95%;
+            height: 90%;
+        }
+    </style>
+    <body>
+        <div class="tempArea">
+            <div class="fro"></div>
+            <div class="monitor-display__box">
+                <div class="scene">
+                    <!-- 1. cover Front -->
+                    <div class="monitor-display__stand">
+                        <div class="stand-base__face stand-base--front"></div>
+                        <div class="stand-base__face stand-base--back"></div>
+                        <div class="stand-base__face stand-base--right"></div>
+                        <div class="stand-base__face stand-base--left"></div>
+                        <div class="stand-base__face stand-base--bottom"></div>
+                        <div class="stand-base__face stand-base--top">
+                            <div class="stand-pillar">                                    
+                                <div class="stand-pillar__face stand-pillar--back"></div>
+                                <div class="stand-pillar__face stand-pillar--right"></div>
+                                <div class="stand-pillar__face stand-pillar--left"></div>
+                                <div class="stand-pillar__face stand-pillar--top"></div>
+                                <div class="stand-pillar__face stand-pillar--bottom"></div>
+                                <div class="monitor-hinge">
+                                    <div class="monitor-hinge__face monitor-hinge--right"></div>
+                                    <div class="monitor-hinge__face monitor-hinge--pillar">
+                                        <div class="monitor-connector">
+                                            <div class="monitor-connector__face connector--front">
+                                                <div class="monitor-display">
+                                                    <div class="monitor-frame__face frame--left"></div>
+                                                    <div class="monitor-frame__face frame--right"></div>
+                                                    <div class="monitor-frame__face frame--top"></div>
+                                                    <div class="monitor-frame__face frame--bottom"></div>
+                                                    <div class="monitor-frame__face frame--front">
+                                                        <div class="career-view">
+                                                            <h1>
+                                                                시루쭁
+                                                            </h1>
+                                                        </div>
+                                                    </div>
+                                                    <div class="monitor-frame__face frame--back"></div>
+                                                    <div class="cr cr-Tp-Rt">
+                                                        <div class="face side s0"></div>
+                                                        <div class="face side s1"></div>
+                                                        <div class="face side s2"></div>
+                                                        <div class="face side s3"></div>
+                                                        <div class="face side s4"></div>
+                                                        <div class="face side s5"></div>
+                                                        <div class="face side s6"></div>
+                                                        <div class="face side s7"></div>
+                                                    </div>
+                                                    <div class="cr cr-Bt-Rt">
+                                                        <div class="face side s0"></div>
+                                                        <div class="face side s1"></div>
+                                                        <div class="face side s2"></div>
+                                                        <div class="face side s3"></div>
+                                                        <div class="face side s4"></div>
+                                                        <div class="face side s5"></div>
+                                                        <div class="face side s6"></div>
+                                                        <div class="face side s7"></div>
+                                                    </div>
+                                                    <div class="cr cr-Tp-Lt">
+                                                        <div class="face side s0"></div>
+                                                        <div class="face side s1"></div>
+                                                        <div class="face side s2"></div>
+                                                        <div class="face side s3"></div>
+                                                        <div class="face side s4"></div>
+                                                        <div class="face side s5"></div>
+                                                        <div class="face side s6"></div>
+                                                        <div class="face side s7"></div>
+                                                    </div>
+                                                    <div class="cr cr-Bt-Lt">
+                                                        <div class="face side s0"></div>
+                                                        <div class="face side s1"></div>
+                                                        <div class="face side s2"></div>
+                                                        <div class="face side s3"></div>
+                                                        <div class="face side s4"></div>
+                                                        <div class="face side s5"></div>
+                                                        <div class="face side s6"></div>
+                                                        <div class="face side s7"></div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="monitor-connector__face connector--back"></div>
+                                            <div class="monitor-connector__face connector--left"></div>
+                                            <div class="monitor-connector__face connector--right"></div>
+                                            <div class="monitor-connector__face connector--top"></div>
+                                            <div class="monitor-connector__face connector--bottom"></div>
+                                        </div>
+                                    </div>
+                                    <div class="monitor-hinge__face monitor-hinge--left"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="stand-base-cr stand-base-cr-Bk-Rt"></div>
+                        <div class="stand-base-cr stand-base-cr-Bk-Lt"></div>
+                        <div class="stand-base-cr stand-base-cr-Fr-Lt"></div>
+                        <div class="stand-base-cr stand-base-cr-Fr-Rt"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <script>
+            const standSide = document.querySelectorAll(".stand-base-cr")
+            const standSideCount = getComputedStyle(document.documentElement).getPropertyValue("--monitor-stand-radius-corner-count");
+            const standSideDegree = 360 / standSideCount;
+
+            Array.from(standSide).forEach((e) => {
+                for(var i=0; i<standSideCount; i++) {
+                e.insertAdjacentHTML('beforeend',
+                    `<span class="face side s${i}" 
+                    style="transform: translateX(-50%)  rotateY(${i * standSideDegree}deg) translateZ(var(--monitor-stand-border-radius));"></span>`);
+                }
+            });
+            const hingeSide = document.querySelector(".monitor-hinge--pillar")
+            const hingeSideCount = getComputedStyle(document.documentElement).getPropertyValue("--monitor-hinge-radius-corner-count");
+            const hingeSideDegree = 360 / hingeSideCount;
+            for(var i=0; i<hingeSideCount; i++) {
+                    hingeSide.insertAdjacentHTML('beforeend',
+                    `<span class="face side s${i}" 
+                    style="background-color: var(--monitor-main); transform: translate(0, 100%) rotateY(90deg) rotateX(${i * standSideDegree}deg) translateZ(calc(0.5 * var(--monitor-display-thick)));"></span>`);
+            }
+        </script>
+    </body>
+</html>

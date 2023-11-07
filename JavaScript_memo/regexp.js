@@ -109,3 +109,27 @@ console.log(targetStr.match(regexr)); // 3`
 RegExp.prototype.match
 // String.prototype.match
 // str.match(regexp);
+
+var input_url = document.querySelector('');
+var input_url_pattern = /(http[s]?|ftp):\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}/g;
+
+// url만 복붙되는 
+input_url.addEventListener('input', function () {
+  if (!input_url_pattern.test(input_url.value)) {
+    input_url.value = '';
+  }
+});
+
+// 정규식 표현 - k단위 자동(,)입력
+  const regularExpressionComma = function(payment) {
+    Array.from(payment).forEach((consultation) => {
+        consultation.innerText = Number(consultation.innerText).toLocaleString();
+    });
+}
+
+// 정규식 표현 - 소수점 출력 (대상, 소수점 개수)
+const regularExpressionFloat = function(invoiceCredit, len) {
+    Array.from(invoiceCredit).forEach((credit) => {
+        credit.innerText = parseFloat(Number(credit.innerText)).toFixed(len);
+    });
+}

@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .box {
+            display: flex;
+            flex-flow: column;
+        }
+        .product_nal {
+            display: flex;
+            flex-flow: column;
+            margin: 1%;
+        }
+        .row {
+            display: flex;
+            flex-flow: row;
+        }
+        .product_nal > button {
+            width: 80px;
+        }
+    </style>
+</head>
+<body>
+    <button onclick="prodAdd()">생성</button>
+    <div class="box"></div>
+    <script>
+        const box =  document.querySelector(".box");
+        let inputComponent = `
+            <div class="product_nal">
+                <div class="row">
+                    <label for="inquiryEmail">이메일</label>
+                    <input type="email" name="inquiryEmail" id="inquiryEmail" class="inquiry-email" placeholder="이메일을 입력해주세요.">
+                </div>
+                <button type="button" onclick="del_nal()" class="btn btn-danger btn-sm">삭제</button>
+            </div>
+        `;
+        (()=>{
+            box.innerHTML = inputComponent;
+        })();
+        prodAdd = () => {
+            box.insertAdjacentHTML('afterbegin', inputComponent);
+        };
+        del_nal = () => {
+            event.target.closest(".product_nal").remove(); // 가장 가까운 .product_nal 요소 삭제 
+        }
+        
+    </script>
+</body>
+</html>

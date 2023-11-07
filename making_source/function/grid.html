@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="./css/reset.css">
+    <link rel="stylesheet" href="./css/common.css">
+    <style>
+            .grid-box {
+
+            }
+            .grid-box .grid-part {
+                grid-row: grid-row-start / grid-row-end;
+                grid-column: grid-column-start / grid-column-end;
+                grid-area: grid-row-start / grid-column-start / grid-row-end / grid-column-end;                
+                grid-auto-rows:minmax(100px, auto); /* 최소한 100px, 최대는 자동으로(auto) 늘어나게 */                
+            }            
+    </style>
+</head>
+<body>
+    
+</body>
+</html>

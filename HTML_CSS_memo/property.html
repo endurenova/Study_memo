@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        /* Show hidden content when the checkbox is checked */
+        #expand-toggle:checked ~ * .expandable {
+            visibility: visible;
+        }
+
+        /* Style the button when the checkbox is checked */
+        #expand-toggle:checked ~ #expand-btn {
+            background-color: #ccc;
+        }
+
+        /* Labels for checked inputs */
+        input:checked + label {
+            color: red;
+        }
+
+        /* Radio element, when checked */
+        input[type="radio"]:checked {
+            box-shadow: 0 0 0 3px orange;
+        }
+
+        /* Checkbox element, when checked */
+        input[type="checkbox"]:checked {
+            box-shadow: 0 0 0 3px hotpink;
+        }
+
+        /* Option elements, when selected */
+        option:checked {
+            box-shadow: 0 0 0 3px lime;
+            color: red;
+        }
+
+        .background {
+            /* <background-color> 사용 */
+            background: green;
+
+            /* <bg-image>와 <repeat-style> 사용 */
+            background: url("test.jpg") repeat-y;
+
+            /* <box>와 <background-color> 사용 */
+            background: border-box red;
+
+            /* 단일 이미지, 중앙 배치 및 크기 조절 */
+            background: no-repeat center/80% url("../img/image.png");
+        }
+        .transition {
+            /* Apply to 1 property */
+            /* property name | duration */
+            transition: margin-left 4s;
+
+            /* property name | duration | delay */
+            transition: margin-left 4s 1s;
+
+            /* property name | duration | timing function | delay */
+            transition: margin-left 4s ease-in-out 1s;
+
+            /* Apply to 2 properties */
+            transition:
+            margin-left 4s,
+            color 1s;
+
+            /* Apply to all changed properties */
+            transition: all 0.5s ease-out;
+
+            /* Global values */
+            transition: inherit;
+            transition: initial;
+            transition: unset;
+        }
+        .boxSizing {
+            box-sizing: border-box; /* border(테두리)를 포함시킨(기준으로) 박스의 사이즈를 지정 */
+			box-sizing: content-box; /* content(Margin, Border, Padding을 제외한 내용물)를 기준으로 박스의 사이즈를 지정 */
+        }
+    </style>
+</head>
+<body>
+    <input type="" name="" value="">  <!-- input 태그: 추가 입력 요소를 만들어주는 태그 -->
+        <!-- 
+            type="속성"
+                - text: 텍스트 입력 창
+                - password: 비밀번호 입력 창
+                - radio: 라디오 버튼
+                - checkbox: 체크박스
+                - reset: 리셋 버튼(reset button)
+                - file: 파일 업로드 “파일 선택” 버튼
+                - hidden: 사용자에게는 보이지 않는 숨겨진 입력 필드
+                - image: 제출 버튼(submit button)으로 사용될 이미지를 설정
+                - submit: 제출 버튼(submit button)
+
+            HTML5에서 새롭게 추가된 속성값
+                - color: color picker
+                - time: 시간을 선택할 수 있는 입력 필드 (hour, minute)
+                - date: 날짜 선택 (year, month, day)
+                - week: 날짜를 선택할 수 있는 입력 필드  (year, week)
+                - month: 날짜 선택 (year, month)
+                - datetime-local: 날짜 선택 (year, month, day, hour, minute) 
+                - email: 이메일 주소 입력 필드
+                - number: 숫자를 입력할 수 있는 입력 필드
+                - range: 슬라이드 바를 조정하여 범위 내의 숫자를 선택할 수 있는 필드
+                - search: 검색어를 입력할 수 있는 텍스트 필드
+                - tel: 전화번호를 입력할 수 있는 입력 필드
+                - url: URL 주소를 입력할 수 있는 입력 필드
+        -->
+    <table>  <!-- table 태그: 테이블표 만들기 -->
+        <caption> <!-- caption 태그: 테이블의 제목 정의-->
+        <tr> <!-- tr 태그 (table row: 테이블의 행): 테이블의 행 -->
+            <th>..</th> <!-- th 태그 (table header: 테이블의 헤더): 테이블의 헤더로 굵은 글씨(bold), 가운데 정렬(center)가 default값 -->
+            <td>..</td> <!-- td 태그 (table data: 테이블의 데이터로 보통 굵기 글씨, 왼쪽 정렬(left-aligned)가 default값 ) -->
+        </tr>
+        <tr>
+            <td rowspan="2">..</td>  <!-- row span (row span: 행의 범위): 테이블의 차지할 행 -->
+            <td colspan="2">..</td>  <!-- column span (column span: 열의 범위): 테이블의 차지할 열 -->
+        </tr>
+    </table>
+    <ol type="i" start="21" reversed>  <!-- ol 태그 (ordered list: 숫자나 알파벳등 순서가 있는 리스트) -->
+        <li>시루 maltese</li> <!-- xxi. 시루 maltese -->
+        <!-- 
+            type="넘버링 타입"
+                - 1(기본값), a, A, i, I
+
+            start="시작 번호"
+                - 1(기본값)
+
+            reversed: 내림차순 정렬
+        -->
+
+    <a href="https://www.naver.com" target="_blank">Go naver</a>  <!-- a 태그 (Anchor: 닻): 하이퍼링크 -->
+        <!-- 
+            href="#" ← 임시링크
+            target="링크를 여는 법"
+                _self: 현재 페이지 (기본값)
+                _blank: 새 탭
+                _parent: 부모 페이지로, iframe 등이 사용된 환경에서 쓰입니다.
+                _top: 최상위 페이지로, iframe 등이 사용된 환경에서 쓰입니다.
+                프레임이름: 직접 프레임이름을 명시해서 사용할 수도 있습니다.
+        -->
+</body>
+</html>

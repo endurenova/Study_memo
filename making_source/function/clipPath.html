@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="./css/reset.css">
+    <link rel="stylesheet" href="./css/common.css">
+    <style>
+        :root {
+            --frame-shape-ml: 25%;
+            --frame-shape-mt: 25%;
+            --frame-shape-mb: 75%;
+            --frame-shape-mr: 75%;
+        }
+        .clip-path_shape {
+            width: 100vw;
+            height: 100vh;
+            background: rgb(238,174,202);
+            background: radial-gradient(circle, rgba(238,174,202,1) 0%, rgba(148,187,233,1) 100%);
+        }
+        .shape-frame {
+            width: 200px;
+            height: 200px;
+            background-color: red;
+            clip-path: polygon(
+                0% 0%, 0% 100%,
+                var(--frame-shape-ml) 100%,
+                var(--frame-shape-ml) var(--frame-shape-mt),
+                var(--frame-shape-mr) var(--frame-shape-mt),
+                var(--frame-shape-mr) var(--frame-shape-mb),
+                var(--frame-shape-ml) var(--frame-shape-mb),        
+                var(--frame-shape-ml) 100%,
+                100% 100%, 100% 0%
+            );
+        }
+    </style>
+</head>
+<body>
+    <div class="clip-path_shape">
+        <div class="shape-frame"></div>
+    </div>
+</body>
+</html>

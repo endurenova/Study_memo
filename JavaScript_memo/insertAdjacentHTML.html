@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <link rel="stylesheet" href="./css/reset.css" />
+        <link rel="stylesheet" href="./css/common.css" />
+        <link rel="stylesheet" href="./css/insertAdjacentHTML.css" />
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+        <title>Document</title>
+    </head>
+    <body>
+        <div class="list-box">
+            <ul class="JavaScript-list">
+                <li style="color: red"><strong>li</strong> center</li>
+            </ul>
+        </div>
+        <div class="list-box">
+            <ul class="jQuery-list">
+                <li style="color: red"><strong>li</strong> center</li>
+            </ul>
+        </div>
+        <script>
+            let javaScriptBox = document.querySelector('.JavaScript-list');
+            const $jQueryBox = $('.jQuery-list');
+
+            $jQueryBox.before('<ul>ul - before로 추가</ul>');
+
+            $jQueryBox.prepend('<li><strong>li</strong> .prepend로 추가</li>');
+            $('<li><strong>li</strong> .prependTo로 추가</li>').prependTo($jQueryBox);
+
+            $jQueryBox.append('<li><strong>li</strong> .append로 추가</li>');
+            $('<li><strong>li</strong> .appendTo로 추가</li>').appendTo($jQueryBox);
+
+            $jQueryBox.after('<ul>ul - after로 추가</ul>');
+
+            // 'beforebegin' element 앞에 (=prev silbling)
+            javaScriptBox.insertAdjacentHTML('beforebegin', `<ul>ul - beforebegin으로 추가</ul>`);
+
+            // 'afterbegin' element 안에 가장 첫번째 child (=first child)
+            javaScriptBox.insertAdjacentHTML('afterbegin', `<li><strong>li</strong> afterbegin으로 추가</li>`);
+
+            // 'beforeend' element 안에 가장 마지막 child (=last child)
+            javaScriptBox.insertAdjacentHTML('beforeend', `<li><strong>li</strong> beforeend로 추가</li>`);
+
+            // 'afterend' element 뒤에 위치 (=next silbling)
+            javaScriptBox.insertAdjacentHTML('afterend', `<ul>ul - afterend로 추가</ul>`);
+        </script>
+    </body>
+</html>

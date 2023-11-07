@@ -108,5 +108,3 @@ console.log();  // 값만 보여줌
   // 2. HTML 태그의 onclick 속성에 바로 표시하기
       <button id="myBtn" onclick="console.log('Hello Codeit!')">클릭!</button>
 
-
-

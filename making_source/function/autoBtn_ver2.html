@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .box {
+            display: flex;
+            flex-flow: column;
+        }
+        .product_nal {
+            display: flex;
+            flex-flow: column;
+            margin: 1%;
+        }
+        .row {
+            display: flex;
+            flex-flow: row;
+        }
+        .product_nal > button {
+            width: 80px;
+        }
+    </style>
+</head>
+<body>
+    <button onclick="prodAdd()">생성</button>
+    <div class="box">
+        <div class="product_nal">
+            <div class="row nb-5 mt-10">
+                <input type="text" value="">
+                <input type="text" value="">
+            </div>
+        </div>
+        <div class="product_nal">
+            <div class="row nb-5 mt-10">
+                <input type="text" value="">
+                <input type="text" value="">
+            </div>
+        </div>
+    </div>
+    <script>
+        let deleteButton = `<button type="button" onclick="del_nal()" class="btn btn-danger btn-sm">삭제</button>`;
+        prodAdd = () => {
+            let clonedDiv = document.querySelector('.product_nal').cloneNode(true); // 요소 복사
+            clonedDiv.querySelector("input").value=''; // value 비우기
+            if (clonedDiv.getElementsByClassName("btn-danger").length === 0) {
+                clonedDiv.insertAdjacentHTML('beforeend', deleteButton);
+            }
+            document.querySelector(".box").insertAdjacentHTML('afterbegin', `<div class="product_nal">${clonedDiv.innerHTML}</div>`);
+        };
+        document.querySelectorAll('.product_nal').forEach((e)=>{
+            if(e.querySelector(".btn-danger")){
+                return
+            }else {
+                e.insertAdjacentHTML('beforeend', deleteButton);
+            };
+        });
+        del_nal = () => {
+            event.target.closest(".product_nal").remove(); // 가장 가까운 .product_nal 요소 삭제 
+        }
+    </script>
+</body>
+</html>

@@ -21,8 +21,12 @@
   console.log("3" + 1);
     - 31 (String) // 더하기 처럼 두 가지 기능이 있는 경우, 문자열을 연결하는 기능이 우선순위
 
+`타입`  
+  const a = null;  // 비어있다 (값은 있 다)
+  let b;  // undefined (값이 없다)
+
 `변수 (camelCase 지향)`
-  var name1;  // 함수스코프 = 지역스코프
+  var name1;  // 함수스코프 = 지역스코프 사용x
   let  name2;  // 블록스코프;
   
 `상수 (constant)`

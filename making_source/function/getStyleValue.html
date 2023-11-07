@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="./css/reset.css">
+    <link rel="stylesheet" href="./css/common.css">
+    <style>
+        :root {
+            --box-width: 100px;
+            --box-degree: 0deg;
+        }
+        .box {
+            display: inline-block;
+            width: (var(--box-width));
+            height: 120px;
+            font-size: 20px;
+            background-color: aquamarine;
+            transform: rotate(var(--box-degree));
+        }        
+    </style>
+</head>
+<body>
+    <div class="box"></div>
+    <script>       
+        console.log(`getComputedStyle: 인자로 전달받은 HTMLL요소에 대한 모든 CSS 속성값을 담은 스타일 객체 반환`);
+        console.log(`getPropertyValue: 스타일 객체 중 인자로 전달받은 특정 속성에 대한 값을 문자열로 반환`);
+        console.log(`setProperty: 스타일의 값을 변경함`);
+        // getComputedStyle(document.documentElement).getPropertyValue("");
+        // document.documentElement => css의 :root
+        const cssRootBoxWidth = getComputedStyle(document.documentElement).getPropertyValue("--box-width");
+        
+        // getComputedStyle(element).getPropertyValue("property");
+        // element => css의 :root, property => css property
+        const box = document.querySelector('.box')
+        const boxHeight = getComputedStyle(box).getPropertyValue("height");
+
+        box.innerText = `box-width: ${cssRootBoxWidth} \n box-height: ${boxHeight}`;
+
+        document.documentElement.style.setProperty('--box-degree', '180deg');
+
+    </script>
+</body>
+</html>

@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+<p>SELECT *</p>
+<p>FROM 테이블명</p>
+<p>ORDER BY 컬럼명 ASC; 오름차순</p>
+<p>ORDER BY 컬럼명 DESC; 내림차순</p>
+
+<p>SELECT 컬럼명 AS 대체명 (SELECT 컬럼명 대체명, 컬럼명 대체명 ← 스페이스로도 가능)</p>
+<p>FROM 테이블명</p>
+<p>ORDER BY 컬럼명 DESC; 내림차순</p>
+
+<p>SELECT 컬럼명 연산자 숫자 FROM 테이블명;</p>
+<p>/ : 나눴을 때, 몫만 출력</p>
+<p>% : 나눴을 때, 나머지 값만 출력</p>
+
+<p>SELECT Country || " " || City || " " || Address AS 주소 FROM Customers;</p>
+<p>연결 연산자</p>
+<p>|| : Oracle</p>
+<p>+ : mSQL</p>
+<p>" " : mySQL</p>
+
+<p>ex)</p>
+<p>SELECT ProductName AS 제품이름, Price AS 기존가, Price*0.2 AS 할인된가격, Price*0.8 AS 최종가  FROM Products</p>
+
+<p>& (and) | (or) </p>
+<p>True and False = False</p>
+<p>True or False = True</p>
+<p>not True = False</p>
+
+<p>SELECT 5 & 7;</p>
+<p>→ 5 (2진법 101)</p>
+
+<p>SELECT 5 | 7;</p>
+<p>→ 7 (2진법 111)</p>
+
+<p>SELECT * FROM Customers WHERE CustomerID BETWEEN 30 AND 50;</p>
+<p>SELECT * FROM Customers WHERE CustomerID IN (10, 20, 30);</p>
+<p>SELECT * FROM Customers WHERE CustomerID LIKE '1';</p>
+
+<p>_ : wild card (개수 만큼 체크됨)</p>
+<p>SELECT * FROM Customers WHERE CustomerID LIKE '_1';</p>
+<p> - CustomerID 가 x1인 리스트</p>
+<p>SELECT * FROM Customers WHERE CustomerID LIKE '1_';</p>
+<p> - CustomerID 가 1x인 리스트</p>
+
+<p>SELECT * FROM Customers WHERE CustomerID LIKE '%1';</p>
+<p> - CustomerID에서 1이 뒤에 들어가는 리스트</p>
+<p>SELECT * FROM Customers WHERE CustomerID LIKE '1%';</p>
+<p> - CustomerID에서 1이 앞에 들어가는 리스트</p>
+
+<p>SELECT * FROM Customers WHERE CustomerID IS NULL;</p>
+
+
+</body>
+</html>

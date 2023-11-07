@@ -1,0 +1,91 @@
+@charset "UTF-8";
+// 한줄 주석은 SCSS에서는 보이지만 css컴파일 되지는 않음
+// @:골뱅이(at sign)
+// &:앰퍼샌드(ampersand)
+// ~:물결(tild)
+// ^:눈꼬리(caret)
+
+// $name: - 변수 선언
+// $name:() - 다중변수 선언 (css의 :root와 비슷)
+$box-color: (
+    red-box: rgba(255, 0, 0, 0.3),
+    orange-box: rgba(255, 122, 0, 0.3),
+    yellow-box: rgba(255, 255, 0, 0.3),
+    greenyellow-box: rgba(122, 255, 0, 0.3),
+    jade-box: rgba(0, 255, 255, 0.3),
+    blue-box: rgba(0, 122, 255, 0.3),
+);
+$square-size: (
+    mini-size: 50px,
+    small-size: 100px,
+    medium-size: 150px,
+    large-size: 200px,
+);
+.orange {
+    /* Built-in Function:map-get */
+    // style-property: map-get(key, value)
+    // style-property: map-get($map: $name, $key: keyName);
+    background-color: map-get($box-color, orange-box);
+}
+// @mixin - 재사용할 그룹을 선언 (스타일 정의)
+@mixin style-box__list {
+    display: flex;
+    position: relative;
+}
+
+@mixin style-hover {
+    border: 1px solid rgba(0, 0, 0, 0.3);
+    &:hover {
+        border: 1px solid rgba(0, 0, 0, 1);
+    }
+}
+@mixin style-red {
+    display: block;
+    position: relative;
+    background-color: map-get($map: $box-color, $key: red-box);
+}
+
+body {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto;
+    width: 100%;
+    height: 100%;
+    .box-group {
+        display: flex;
+        // Nesting(선택자중첩)
+        flex-flow: row nowrap;
+        width: 50%;
+        height: auto;
+        > .box-list {
+            // @include - 정의된 @mixin 호출
+            @include style-box__list;
+            @include style-hover;
+            width: 100%;
+            height: 100%;
+            &-red {
+                // @at-root - 동일 element나 동일한 이름의 sellector의 기준 스타일 정의 (다른 부모에 속한 요소까지 적용 가능)
+                @at-root .box {
+                    @include style-hover;
+                    width: map-get($map: $square-size, $key: small-size);
+                    height: map-get($map: $square-size, $key: small-size);
+                }
+                .box {
+                    @include style-red;
+                }
+            }
+            &-orange {
+                .box {
+                    // @extend - element나 sellector의 스타일 호출
+                    @extend .orange;
+                }
+            }
+            &-yellow {
+                .box {
+                    background-color: map-get($map: $box-color, $key: yellow-box);
+                }
+            }
+        }
+    }
+}

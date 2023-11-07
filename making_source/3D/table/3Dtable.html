@@ -1,0 +1,621 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Document</title>
+        <link rel="stylesheet" href="./css/reset.css" />
+        <style>
+            /* TTF 윈도우, OTF 맥북 */
+            :root {
+                /* rgb(43, 43, 43) */
+                --background-main: #2b2b2b;
+
+                /* rgb (244, 186, 86) */
+                --theme-main: #f4ba56;
+
+                /* rgb (203, 109, 47) */
+                --theme-sub: #cb6d2f;
+
+                /* rgb (206, 218, 224) */
+                --theme-text: #cedae0;
+
+                --table-width: 400px;
+                --table-height: 200px;
+                --table-perspective: var(--table-width);
+                --table-thick: 20px;
+                --table-leg-thick: 20px;
+                --table-leg-height: 120px;
+                --pi: 3.14159265358979;
+                --table-face-border-radius: 10px;
+                --table-face-radius-corner-count: 20;
+                /* 다각형의 내각
+                    n(변의 수)
+                    = (n - 2) * 180° / n */
+                /* 원에 내접하는 한 면의 길이
+                    n(내각)
+                    = 2r * tan(π/n)
+                 */
+                /* 원에 외접하는 한 면의 길이
+                    n(내각)
+                    = 2R * sin(π/n)
+                 */
+                --table-radius-corner-degree: calc((360 / var(--table-face-radius-corner-count)));
+                --table-radius-corner-width: calc(
+                    2 * var(--table-face-border-radius) * sin(var(--pi) / var(--table-face-radius-corner-count))
+                );
+                --table-total-height: calc(var(--table-thick) + var(--table-leg-height));
+            }
+            @font-face {
+                font-family: 'maplestory-bold';
+                src: url('./font/Maplestory-Bold.ttf');
+            }
+            @font-face {
+                font-family: 'maplestory-light';
+                src: url('./font/Maplestory-Light.ttf');
+            }
+            h1 {
+                font-size: fit-content;
+                font-family: 'maplestory-bold';
+                color: var(--theme-sub);
+            }
+            h1 span:nth-of-type(1) {
+                color: var(--theme-main);
+            }
+            h1 span:nth-of-type(2) {
+                color: var(--theme-text);
+            }
+            .wooden-table__box {
+                display: flex;
+                position: relative;
+                align-items: center;
+                justify-content: center;
+                width: 100vw;
+                height: 100vh;
+                background-color: var(--background-main);
+                border: 1px solid red;
+            }
+
+            .wooden-table__box .scene {
+                width: var(--table-width);
+                height: var(--table-total-height);
+                perspective: var(--table-perspective);
+                /* background-color: rgba(0, 0, 0, 0.1); */
+                perspective-origin: center center;
+            }
+            .wooden-table {
+                width: 100%;
+                height: 100%;
+                position: relative;
+                transform-style: preserve-3d;
+                font-size: fit-content;
+            }
+            .table__face {
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                position: absolute;
+                color: #fff;
+                font-family: 'maplestory-bold';
+            }
+            .table__face--top,
+            .table__face--bottom {
+                width: var(--table-width);
+                height: var(--table-height);
+                border-radius: var(--table-face-border-radius) var(--table-face-border-radius);
+            }
+            .table__face--left,
+            .table__face--right {
+                left: var(--table-face-border-radius);
+                width: calc(var(--table-height) - (var(--table-face-border-radius) * 2));
+                height: var(--table-thick);
+            }
+            .table__face--front,
+            .table__face--back {
+                left: var(--table-face-border-radius);
+                width: calc(var(--table-width) - (var(--table-face-border-radius) * 2));
+                height: var(--table-thick);
+            }
+            .wooden-table {
+                transform: rotateX(-75deg) rotateY(0deg) rotateZ(-30deg);
+                transform: rotateX(-20deg) rotateY(0deg) rotateZ(0deg);
+                animation: hhi 10s cubic-bezier(0, 0, 0, 0) both infinite;
+            }
+            .table__face--top {
+                background-color: rgba(255, 100, 55, 0.3);
+                transform: rotateX(90deg) translateZ(calc(0.5 * var(--table-height)));
+            }
+            .table__face--bottom {
+                background-color: rgba(2, 0, 255, 0.3);
+                transform: rotateX(-90deg) translateZ(calc(-0.5 * var(--table-height) + var(--table-thick)));
+            }
+            .table__face--front {
+                background-color: rgba(255, 0, 255, 0.3);
+                transform: rotateY(0deg) translateZ(calc(var(--table-height) / 2));
+            }
+            .table__face--back {
+                background-color: rgba(0, 0, 255, 0.3);
+                transform: rotateY(180deg) translateZ(calc(var(--table-height) / 2));
+            }
+            .table__face--right {
+                background-color: rgba(109, 57, 8, 0.3);
+                transform: rotateY(90deg) translateZ(calc(var(--table-width) - (var(--table-height) / 2)));
+            }
+            .table__face--left {
+                background-color: rgba(109, 57, 8, 0.8);
+                transform: rotateY(-90deg) translateZ(calc(var(--table-height) / 2));
+            }
+
+            .table__leg-list {
+                display: flex;
+                position: relative;
+                width: var(--table-width);
+                height: var(--table-height);
+                transform-style: preserve-3d;
+                top: calc(var(--table-thick));
+                font-family: 'maplestory-bold';
+                font-size: fit-content;
+            }
+            .table__leg {
+                position: absolute;
+                transform-style: preserve-3d;
+            }
+            .table__leg-front-left {
+                transform: translateX(var(--table-leg-thick))
+                    translateZ(calc(var(--table-height) / 2 - var(--table-leg-thick)));
+            }
+            .table__leg-back-left {
+                transform: translateX(var(--table-leg-thick))
+                    translateZ(calc(-1 * (var(--table-height) / 2 - var(--table-leg-thick))));
+            }
+            .table__leg-front-right {
+                right: var(--table-leg-thick);
+                transform: translateX(calc(-1 * var(--table-leg-thick)))
+                    translateZ(calc((var(--table-height) / 2 - var(--table-leg-thick))));
+            }
+            .table__leg-back-right {
+                right: var(--table-leg-thick);
+                transform: translateX(calc(-1 * var(--table-leg-thick)))
+                    translateZ(calc(-1 * ((var(--table-height) / 2 - var(--table-leg-thick)))));
+            }
+            .leg__face {
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                position: absolute;
+                width: var(--table-leg-thick);
+                height: var(--table-leg-height);
+                color: #fff;
+                writing-mode: vertical-lr;
+                text-orientation: upright;
+            }
+            .leg__face--top,
+            .leg__face--bottom {
+                width: var(--table-leg-thick);
+                height: var(--table-leg-thick);
+            }
+            .leg__face--left,
+            .leg__face--right {
+                width: var(--table-leg-thick);
+                height: var(--table-leg-height);
+            }
+            .leg__face--front,
+            .leg__face--back {
+                width: var(--table-leg-thick);
+                height: var(--table-leg-height);
+            }
+            @keyframes hhi {
+                0% {
+                    transform: rotateX(-15deg) rotateY(0deg) rotateZ(0deg);
+                }
+                50% {
+                    transform: rotateX(15deg) rotateY(180deg) rotateZ(0deg);
+                }
+                100% {
+                    transform: rotateX(-15deg) rotateY(360deg) rotateZ(0deg);
+                }
+            }
+            .leg__face--top {
+                background-color: red;
+                transform: rotateX(90deg) translateZ(calc(0.5 * var(--table-leg-thick)));
+            }
+            .leg__face--bottom {
+                background-color: rgba(255, 100, 55, 0.7);
+                transform: rotateX(-90deg) translateZ(calc(-0.5 * var(--table-leg-thick) + var(--table-leg-height)));
+            }
+            .leg__face--front {
+                background-color: rgba(122, 122, 99, 0.7);
+                transform: rotateY(0deg) translateZ(calc(var(--table-leg-thick) / 2));
+            }
+            .leg__face--back {
+                background-color: rgba(0, 255, 255, 0.7);
+                transform: rotateY(180deg) translateZ(calc(var(--table-leg-thick) / 2));
+            }
+            .leg__face--right {
+                background-color: rgba(109, 57, 8, 0.7);
+                transform: rotateY(90deg) translateZ(calc(var(--table-leg-thick) / 2));
+            }
+            .leg__face--left {
+                background-color: rgba(0, 255, 6, 0.7);
+                transform: rotateY(-90deg) translateZ(calc(var(--table-leg-thick) / 2));
+            }
+
+            .table-cr {
+                position: absolute;
+                transform-style: preserve-3d;
+                width: calc(var(--table-face-border-radius));
+            }
+            .table-cr-Fr-Rt {
+                left: 100%;
+                background-color: var(--theme-sub);
+                transform: translate3D(
+                    calc(-50% - (var(--table-face-border-radius) / 2) - (var(--table-radius-corner-width) / 2)),
+                    0,
+                    calc(var(--table-height) / 2 - var(--table-face-border-radius))
+                );
+            }
+
+            .table-cr-Bk-Rt {
+                left: 100%;
+                transform: translate3D(
+                    calc(-50% - (var(--table-face-border-radius) / 2) - (var(--table-radius-corner-width) / 2)),
+                    0,
+                    calc(-1 * var(--table-height) / 2 + var(--table-face-border-radius))
+                );
+            }
+
+            .table-cr-Bk-Lt {
+                left: 0%;
+                transform: translate3D(
+                    calc(50% + (var(--table-face-border-radius) / 2) - (var(--table-radius-corner-width) / 2)),
+                    0,
+                    calc(-1 * var(--table-height) / 2 + var(--table-face-border-radius))
+                );
+            }
+            .table-cr-Fr-Lt {
+                left: 0%;
+                transform: translate3D(
+                    calc(50% + (var(--table-face-border-radius) / 2) - (var(--table-radius-corner-width) / 2)),
+                    0,
+                    calc(var(--table-height) / 2 - var(--table-face-border-radius))
+                );
+            }
+            .table-cr .side {
+                position: absolute;
+                width: var(--table-radius-corner-width);
+                height: var(--table-thick);
+                background-color: var(--theme-text);
+            }
+            .table-cr-Fr-Rt .s0 {
+                transform: rotateY(9deg) translate3D(0%, 0, var(--table-face-border-radius));
+                background-color: rgba(0, 0, 255, 0.8);
+            }
+            .table-cr-Fr-Rt .s1 {
+                transform: rotateY(27deg) translate3D(0%, 0, var(--table-face-border-radius));
+                background-color: rgba(0, 0, 255, 0.8);
+            }
+            .table-cr-Fr-Rt .s2 {
+                transform: rotateY(45deg) translate3D(0%, 0, var(--table-face-border-radius));
+                background-color: rgba(0, 0, 255, 0.8);
+            }
+            .table-cr-Fr-Rt .s3 {
+                transform: rotateY(63deg) translate3D(0%, 0, var(--table-face-border-radius));
+                background-color: rgba(0, 0, 255, 0.8);
+            }
+            .table-cr-Fr-Rt .s4 {
+                transform: rotateY(81deg) translate3D(0%, 0, var(--table-face-border-radius));
+                background-color: rgba(0, 0, 255, 0.8);
+            }
+            .table-cr-Bk-Rt .s0 {
+                background-color: rgba(255, 0, 255, 0.8);
+                transform: rotateY(99deg) translate3D(0%, 0, var(--table-face-border-radius));
+            }
+            .table-cr-Bk-Rt .s1 {
+                background-color: rgba(255, 0, 255, 0.8);
+                transform: rotateY(117deg) translate3D(0%, 0, var(--table-face-border-radius));
+            }
+            .table-cr-Bk-Rt .s2 {
+                background-color: rgba(255, 0, 255, 0.8);
+                transform: rotateY(135deg) translate3D(0%, 0, var(--table-face-border-radius));
+            }
+            .table-cr-Bk-Rt .s3 {
+                background-color: rgba(255, 0, 255, 0.8);
+                transform: rotateY(153deg) translate3D(0%, 0, var(--table-face-border-radius));
+            }
+            .table-cr-Bk-Rt .s4 {
+                background-color: rgba(255, 0, 255, 0.8);
+                transform: rotateY(171deg) translate3D(0%, 0, var(--table-face-border-radius));
+            }
+            .table-cr-Bk-Lt .s0 {
+                background-color: rgba(0, 255, 255, 0.8);
+                transform: rotateY(189deg) translate3D(0%, 0, var(--table-face-border-radius));
+            }
+            .table-cr-Bk-Lt .s1 {
+                background-color: rgba(0, 255, 255, 0.8);
+                transform: rotateY(207deg) translate3D(0%, 0, var(--table-face-border-radius));
+            }
+            .table-cr-Bk-Lt .s2 {
+                background-color: rgba(0, 255, 255, 0.8);
+                transform: rotateY(225deg) translate3D(0%, 0, var(--table-face-border-radius));
+            }
+            .table-cr-Bk-Lt .s3 {
+                background-color: rgba(0, 255, 255, 0.8);
+                transform: rotateY(243deg) translate3D(0%, 0, var(--table-face-border-radius));
+            }
+            .table-cr-Bk-Lt .s4 {
+                background-color: rgba(0, 255, 255, 0.8);
+                transform: rotateY(261deg) translate3D(0%, 0, var(--table-face-border-radius));
+            }
+            .table-cr-Fr-Lt .s0 {
+                background-color: rgba(255, 255, 0, 0.8);
+                transform: rotateY(279deg) translate3D(0%, 0, var(--table-face-border-radius));
+            }
+            .table-cr-Fr-Lt .s1 {
+                background-color: rgba(255, 255, 0, 0.8);
+                transform: rotateY(297deg) translate3D(0%, 0, var(--table-face-border-radius));
+            }
+            .table-cr-Fr-Lt .s2 {
+                background-color: rgba(255, 255, 0, 0.8);
+                transform: rotateY(315deg) translate3D(0%, 0, var(--table-face-border-radius));
+            }
+            .table-cr-Fr-Lt .s3 {
+                background-color: rgba(255, 255, 0, 0.8);
+                transform: rotateY(333deg) translate3D(0%, 0, var(--table-face-border-radius));
+            }
+            .table-cr-Fr-Lt .s4 {
+                background-color: rgba(255, 255, 0, 0.8);
+                transform: rotateY(351deg) translate3D(0%, 0, var(--table-face-border-radius));
+            }
+
+            .f1 {
+                filter: grayscale(100%);
+            } /* 흑백효과 */
+            .f2 {
+                filter: blur(35px);
+            } /* 흐림효과 */
+            .f3 {
+                filter: brightness(200%);
+            } /* 밝게 */
+            .f4 {
+                filter: contrast(200%);
+            } /* 색상대비 */
+            .f5 {
+                filter: drop-shadow(8px 8px 10px gray);
+            } /* 그림자효과 */
+            .f6 {
+                filter: hue-rotate(90deg);
+            } /* 색상보정 */
+            .f7 {
+                filter: invert(100%);
+            } /* 색상반전 */
+            .f8 {
+                filter: opacity(30%);
+            } /* 불투명도 */
+            .f9 {
+                filter: saturate(800%);
+            } /* 채도 */
+            .f10 {
+                filter: sepia(100%);
+            } /* 낡은느낌효과 */
+            .f11 {
+                filter: contrast(200%) brightness(150%);
+            } /* 여러개 필터적용 */
+            .table__face--top,
+            .table__face--bottom,
+            .table__face--front,
+            .table__face--back,
+            .table__face--right,
+            .table__face--left {
+                filter: contrast(150%) sepia(80%) saturate(150%);
+                color: rgba(0, 0, 0, 0);
+                background-image: url(./img/woodenH.png);
+                background-size: cover;
+            }
+            .s0,
+            .s1,
+            .s2,
+            .s3,
+            .s4 {
+                filter: contrast(150%) sepia(80%) saturate(150%);
+                background-image: url(./img/woodenH.png);
+                background-size: cover;
+            }
+            .leg__face--top,
+            .leg__face--bottom,
+            .leg__face--front,
+            .leg__face--back,
+            .leg__face--right,
+            .leg__face--left {
+                color: rgba(0, 0, 0, 0);
+                filter: contrast(150%) sepia(80%) saturate(150%);
+                background-image: url(./img/woodenH.png);
+                background-size: cover;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="wooden-table__box">
+            <div class="scene">
+                <div class="wooden-table">
+                    <div class="table__face table__face--front">front</div>
+                    <div class="table__face table__face--back">back</div>
+                    <div class="table__face table__face--right">right</div>
+                    <div class="table__face table__face--left">left</div>
+                    <div class="table__face table__face--top">top</div>
+                    <div class="table__face table__face--bottom">bottom</div>
+                    <div class="table-cr table-cr-Fr-Rt">
+                        <div class="face side s0"></div>
+                        <div class="face side s1"></div>
+                        <div class="face side s2"></div>
+                        <div class="face side s3"></div>
+                        <div class="face side s4"></div>
+                    </div>
+                    <div class="table-cr table-cr-Bk-Rt">
+                        <div class="face side s0"></div>
+                        <div class="face side s1"></div>
+                        <div class="face side s2"></div>
+                        <div class="face side s3"></div>
+                        <div class="face side s4"></div>
+                    </div>
+                    <div class="table-cr table-cr-Bk-Lt">
+                        <div class="face side s0"></div>
+                        <div class="face side s1"></div>
+                        <div class="face side s2"></div>
+                        <div class="face side s3"></div>
+                        <div class="face side s4"></div>
+                    </div>
+                    <div class="table-cr table-cr-Fr-Lt">
+                        <div class="face side s0"></div>
+                        <div class="face side s1"></div>
+                        <div class="face side s2"></div>
+                        <div class="face side s3"></div>
+                        <div class="face side s4"></div>
+                    </div>
+                    <ul class="table__leg-list">
+                        <li class="table__leg table__leg-front-left">
+                            <div class="leg__face leg__face--front">Fr</div>
+                            <div class="leg__face leg__face--back">Bk</div>
+                            <div class="leg__face leg__face--right">Rt</div>
+                            <div class="leg__face leg__face--left">Lt</div>
+                            <div class="leg__face leg__face--top">T</div>
+                            <div class="leg__face leg__face--bottom">B</div>
+                        </li>
+                        <li class="table__leg table__leg-front-right">
+                            <div class="leg__face leg__face--front">Fr</div>
+                            <div class="leg__face leg__face--back">Bk</div>
+                            <div class="leg__face leg__face--right">Rt</div>
+                            <div class="leg__face leg__face--left">Lt</div>
+                            <div class="leg__face leg__face--top">T</div>
+                            <div class="leg__face leg__face--bottom">B</div>
+                        </li>
+                        <li class="table__leg table__leg-back-left">
+                            <div class="leg__face leg__face--front">Fr</div>
+                            <div class="leg__face leg__face--back">Bk</div>
+                            <div class="leg__face leg__face--right">Rt</div>
+                            <div class="leg__face leg__face--left">Lt</div>
+                            <div class="leg__face leg__face--top">T</div>
+                            <div class="leg__face leg__face--bottom">B</div>
+                        </li>
+                        <li class="table__leg table__leg-back-right">
+                            <div class="leg__face leg__face--front">Fr</div>
+                            <div class="leg__face leg__face--back">Bk</div>
+                            <div class="leg__face leg__face--right">Rt</div>
+                            <div class="leg__face leg__face--left">Lt</div>
+                            <div class="leg__face leg__face--top">T</div>
+                            <div class="leg__face leg__face--bottom">B</div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </body>
+    <script>
+        // console.log(`${document.documentElement.style.getPropertyValue('--table-radius-corner-degree')}`);
+        console.log(`${getComputedStyle(document.documentElement).getPropertyValue('--table-radius-corner-degree')}`);
+        console.log(`${getComputedStyle(document.documentElement).getPropertyValue('--table-total-height')}`);
+        console.log();
+    </script>
+</html>
+
+<!-- 
+perspective-origin 속성 - 3D요소 바라보는 위치
+    
+3D요소를 바라보는 방향 지정.
+
+1.
+실제 perspective-origin 효과 적용되는 건 자식요소임. (주의: 해당요소 X)
+
+2.
+perspective 속성과 함께 사용.
+
+3.
+기본값: 50% 50%
+상속여부: X
+애니효과: O
+CSS버전: CSS3
+JS구문: object.style.perspectiveOrigin="10px 50%"
+
+
+4. 
+IE10 이상 주요 최신 브라우저 지원.
+
+
+selector {perspective-origin: x-axis y-axis|initial|inherit;}
+
+[속성값]
+x-axis
+X축 시점 위치. (기본값: 50%) ※ 가능값 종류 리스트.
+left : 왼쪽.
+center : 중앙.
+right : 오른쪽.
+length : (예) 50px
+% : (예) 50%
+
+
+y-axis
+Y축 시점 위치. (기본값: 50%) ※ 가능값 종류 리스트.
+top : 상단.
+center : 중단.
+bottom : 하단.
+length : (예) 50px
+% : (예) 50%
+
+initial
+이 속성의 기본값으로 설정.
+
+inherit
+부모요소의 속성값 상속.
+-->
+
+<!-- 
+perspective - 원근 표현
+
+1.
+개체가 사용자로부터 얼마나 멀리 있는지 지정.
+즉, 물체를 가까이 볼수록 물체의 원근 효과 ↑.
+(∴ 값이 낮을수록 원근 효과 ↑)
+
+
+2.
+실제 perspective 효과 적용되는 건 자식요소임. (주의: 해당요소 X)
+
+
+3.
+perspective-origin 속성: 사용자가 3D 개체를보고있는 위치를 정의
+
+
+4.
+기본값: none
+상속여부: X
+애니효과: O
+CSS버전: CSS3
+JS구문: object.style.perspective="50px"
+
+
+5.
+IE10 이상 주요 최신 브라우저 지원.
+
+selector {perspective: length|none|initial|inherit;}
+
+
+[속성값]
+
+length
+요소가 시야에서 얼마나 멀리 있어야 하는지 지정. (예: 100px)
+※ 숫자 작을수록 원근 효과 ↑
+
+
+
+none
+미설정. 즉, 0과 동일. (기본값)
+
+
+
+initial
+이 속성의 기본값으로 설정.
+
+
+
+inherit
+부모요소의 속성값 상속.
+-->

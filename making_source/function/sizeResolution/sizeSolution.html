@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>size resolution</title>
+    <link rel="stylesheet" href="./css/sizeResolution.css">
+</head>
+<body>    
+    <div class="console">
+        <button class="scroll-toggle" onclick="scrollToggle();">스크롤 토글</button>
+        <ul class="resize-solution"></ul>
+    </div>
+    <div class="box-viewport"></div>
+    <div class="box-percent"></div>
+    
+    <script>
+        const boxViewport = document.querySelector(".box-viewport");
+        let boxViewportWidth = getComputedStyle(boxViewport).getPropertyValue("width");
+        let boxViewportHeight = getComputedStyle(boxViewport).getPropertyValue("height");
+
+        const boxPercent = document.querySelector(".box-percent");
+        let boxPercentWidth = getComputedStyle(boxPercent).getPropertyValue("width");
+        let boxPercentHeight = getComputedStyle(boxPercent).getPropertyValue("height");
+        console.log(boxViewportWidth, boxViewportHeight);
+        console.log(boxPercentWidth, boxPercentHeight);
+        
+
+        console.log(`getComputedStyle: 인자로 전달받은 HTMLL요소에 대한 모든 CSS 속성값을 담은 스타일 객체 반환`);
+        console.log(`getPropertyValue: 스타일 객체 중 인자로 전달받은 특정 속성에 대한 값을 문자열로 반환`);
+        console.log(`setProperty: 스타일의 값을 변경함`);
+
+        const resizeSolution = document.querySelector(".resize-solution");
+        let sizeData;
+        resizeCalculator = () => {
+            sizeData = [
+                {
+                    property: "모니터 해상도",
+                    dataType: typeof(screen.width),
+                    widthProp: "screen.width",
+                    heightProp: "screen.height",
+                    width: screen.width,
+                    height: screen.height,
+                    widthPs: "{width:100vw}",
+                    heightPs: "{height:100vh}"
+                },
+                {
+                    property: "스크롤",
+                    dataType: typeof(window.innerWidth),
+                    widthProp: "html::-webkit-scrollbar{width}",
+                    heightProp: "html::-webkit-scrollbar{height}",
+                    width: window.innerWidth - document.documentElement.clientWidth,
+                    height: window.innerHeight - document.documentElement.clientHeight,
+                    widthPs: "(Y-Axis)",
+                    heightPs: "(X-Axis)"
+                },
+                {
+                    property: "브라우저 창<span>실제 마크업 영역 (scroll 영역 포함)</span>",
+                    dataType: typeof(window.innerWidth),
+                    widthProp: "window.innerWidth",
+                    heightProp: "window.innerHeight",
+                    width: window.innerWidth,
+                    height: window.innerHeight,
+                    widthPs: "{width:100vw}",
+                    heightPs: "{height:100vh}"
+                },
+                {
+                    property: "브라우저 창<span>실제 마크업 영역 (scroll 영역 제외)</span>",
+                    dataType: typeof(document.documentElement.clientWidth),
+                    widthProp: "document.documentElement.clientWidth",
+                    heightProp: "document.documentElement.clientHeight",
+                    width: document.documentElement.clientWidth,
+                    height: document.documentElement.clientHeight,
+                    widthPs: "{width:100%}",
+                    heightPs: "{height:100%}"
+                },
+                {
+                    property: "브라우저 창<span>실제 마크업 영역 (scroll 영역 제외)</span>",
+                    dataType: typeof(getComputedStyle(document.documentElement).getPropertyValue("width")),
+                    widthProp: "getComputedStyle(document.documentElement).getPropertyValue('width')",
+                    heightProp: "getComputedStyle(document.documentElement).getPropertyValue('height')",
+                    width: getComputedStyle(document.documentElement).getPropertyValue("width"),
+                    height: getComputedStyle(document.documentElement).getPropertyValue("height"),
+                    widthPs: "{width:100%}",
+                    heightPs: "{height:100%}"
+                },
+            ];
+
+            let resizeResultHtml = '';
+            sizeData.forEach((e) => {
+                resizeResultHtml += `
+                    <li>
+                        <h3>${e.property}</h3>
+                        <p class="type">
+                            <strong>Type</strong>                            
+                            <span>
+                                <span>${e.dataType}</span>
+                            </span>
+                        </p>
+                        <p class="prop">
+                            <strong>Prop</strong>
+                            <span>
+                                <span>${e.widthProp}</span>
+                                <span>${e.heightProp}</span>
+                            </span>
+                        </p>
+                        <p class="size">
+                            <strong>Size</strong>
+                            <span>
+                                <span>
+                                    <span class="calcSize">${e.width}</span>
+                                    <span>${e.widthPs}</span>
+                                </span>
+                                <span>
+                                    <span class="calcSize">${e.height}</span>
+                                    <span>${e.heightPs}</span>
+                                </span>
+                            </span>
+                        </P>
+                    </li>
+                `;
+            });
+            resizeSolution.innerHTML = resizeResultHtml;
+        }
+        function scrollToggle () {
+            document.documentElement.classList.toggle("scrollRemoved");
+            resizeCalculator();
+        }
+        window.addEventListener("resize", () =>{
+            resizeCalculator();
+        });
+        (()=>{
+            resizeCalculator();
+        })();
+        const displayResolution = `▶ 모니터 해상도\n ■ typeof(${typeof(screen.width)})\n · screen.width = ${screen.width}\n · screen.height = ${screen.height}`;
+        const scrollSize = `▶ 스크롤\n ■ typeof(${typeof(window.innerWidth)})\n · html::-webkit-scrollbar{width} = ${window.innerWidth - document.documentElement.clientWidth} (Y축)\n · html::-webkit-scrollbar{height} = ${window.innerHeight - document.documentElement.clientHeight} (X축)`;
+        let viewportSize =`width: ${boxViewportWidth} (100vw)\nheight: ${boxViewportHeight} (100vh)`;
+        let includeScrollNumber = `▶ 브라우저 창 - 실제 마크업 영역 (scroll 영역 포함)\n ■ typeof(${typeof(window.innerWidth)})\n · window.innerWidth = ${window.innerWidth} {width: 100vw}\n · window.innerHeight = ${window.innerHeight} {height: 100vh}`;
+        let percentSize = `width: ${getComputedStyle(boxPercent).getPropertyValue("width")} (100%)\nheight: ${getComputedStyle(boxPercent).getPropertyValue("height")} (100%)`;
+        let exceptScrollNumber = `▶ 브라우저 창 - 실제 마크업 영역 (scroll 영역 제외)\n ■ typeof(${typeof(document.documentElement.clientWidth)})\n · document.documentElement.clientWidth = ${document.documentElement.clientWidth} {width: 100%}\n · document.documentElement.clientHeight = ${document.documentElement.clientHeight} {height: 100%}`;
+        let exceptScrollString = `▶ 브라우저 창 - 실제 마크업 영역 (scroll 영역 제외)\n ■ typeof(${typeof(getComputedStyle(document.documentElement).getPropertyValue("width"))})\n · getComputedStyle(document.documentElement).getPropertyValue("width") = ${getComputedStyle(document.documentElement).getPropertyValue("width")} {width: 100%}\n · getComputedStyle(document.documentElement).getPropertyValue("height") = ${getComputedStyle(document.documentElement).getPropertyValue("height")} {height: 100%}`;            
+    </script>
+</body>
+</html>

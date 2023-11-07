@@ -6,6 +6,12 @@ local repository (로컬 레포지토리): 컴퓨너 내의 repository
 Math_Box는 MathTool의 복제본 레포지토리
 
 
+touch README.md
+git init
+git add README.md
+git commit -m "first commit"
+git remote add origin https://github.com/username/my-repo.git
+git push -u origin master
 
 create a new repository on the command line:
   : 로컬 레포지토리를 만들고 커밋한 후에 깃허브에 업로드

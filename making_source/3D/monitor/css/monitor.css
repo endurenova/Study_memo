@@ -1,0 +1,647 @@
+/* 공용 시작 ---------------------------------------------------------------------- */
+:root {
+    /* rgb (43, 43, 43) */
+    --background-main: #2b2b2b;
+
+    /* rgb (244, 186, 86) */
+    --theme-main: #f4ba56;
+
+    /* rgb (203, 109, 47) */
+    --theme-sub: #cb6d2f;
+
+    /* rgb (206, 218, 224) */
+    --theme-text: #cedae0;
+
+    /* rgb (68, 24, 16) */
+    --book-main: #441810;
+
+    --pi: 3.14159265358979;
+
+    --table-width: 60vw;
+    --table-height: 30vw;
+    --table-perspective: var(--table-width);
+    --table-thick: 2vw;
+    --table-leg-thick: 2vw;
+    --table-leg-height: 20vh;
+    --table-face-border-radius: 1vw;
+    --table-face-radius-corner-count: 20;
+    --table-radius-corner-degree: calc((360 / var(--table-face-radius-corner-count)));
+    --table-radius-corner-width: calc(
+        2 * var(--table-face-border-radius) * sin(var(--pi) / var(--table-face-radius-corner-count))
+    );
+    --table-total-height: calc(var(--table-thick) + var(--table-leg-height));
+
+    /* 
+    --book-width: 128px;
+    --book-page-width: 120px;
+    --book-height: 176px;
+    --book-page-height: 160px;
+    --book-cover-thick: 6px;
+    --book-pages: 1.2px;
+    --book-cover-border-radius: 2px; */
+
+    --book-shrink-scale: 0.3;
+    --book-width: 60vmin;
+    --book-height: 70vmin;
+    --book-page-width: 57vmin;
+    --book-page-height: 66vmin;
+    --book-cover-thick: 1vmin;
+    --book-pages: 0vmin;
+    /* --book-pages-thick: calc(0.1 * var(--book-pages)); */
+    --book-pages-thick: 0vmin;
+    --book-total-thick: calc((var(--book-cover-thick) * 2) + var(--book-pages-thick));
+    --book-side-thick: calc(0.5 * var(--book-total-thick));
+    --book-total-width: calc(var(--book-side-thick) + var(--book-width));
+    --book-perspective: calc(var(--book-height) + var(--book-width));
+
+    /* 커버 */
+    --book-cover-border-radius: 2vmin;
+    --book-cover-radius-corner-count: 30;
+    --book-radius-corner-degree: calc((360 / var(--book-cover-radius-corner-count)));
+    --book-radius-corner-width: calc(
+        2 * var(--book-cover-border-radius) * sin(var(--pi) / var(--book-cover-radius-corner-count))
+    );
+
+    /* 옆면 */
+    --book-side-radius-face-count: 30;
+    --book-side-degree: calc((360 / var(--book-side-radius-face-count)));
+    --book-side-radius-corner-width: calc(
+        2 * var(--book-cover-thick) * sin(var(--pi) / var(--book-side-radius-face-count))
+    );
+
+    /* 다각형의 내각
+        n(변의 수)f
+        = (n - 2) * 180° / n
+    */
+    /* 원에 내접하는 한 면의 길이
+        n(내각)
+        = 2r * tan(π/n)
+    */
+    /* 원에 외접하는 한 면의 길이
+        n(내각)
+        = 2R * sin(π/n)
+    */
+
+    --window-ml: 25%;
+    --window-mt: 10%;
+    --window-mb: 65%;
+    --window-mr: 90%;
+}
+
+/* TTF 윈도우, OTF 맥북 */
+@font-face {
+    font-family: 'maplestory-bold';
+    src: url('../font/Maplestory-Bold.ttf');
+}
+@font-face {
+    font-family: 'maplestory-light';
+    src: url('../font/Maplestory-Light.ttf');
+}
+
+/* 공용 끝 ---------------------------------------------------------------------- */
+@import url(./common.css);
+/* 책 바인더 공통 시작 ---------------------------------------------------------------------- */
+.book-binder__box {
+    display: flex;
+    position: absolute;
+    transform-style: preserve-3d;
+    width: var(--book-width);
+    height: calc(var(--book-height));
+    scale: var(--book-shrink-scale);
+    /* scale: 1; */
+    transform: rotateZ(-8deg);
+    transition: 0.3s;
+}
+.open.book-binder__box {
+    display: block;
+    position: absolute;
+    /* top 앞뒤 left 좌우*/
+    top: calc(50% + (0.5 * var(--table-height)));
+    left: 50%;
+    width: 100vw;
+    height: 100vh;
+    /* x: 좌우, y: 상하, z: 앞뒤 */
+    transform: rotateX(-90deg) translateX(calc(-50%)) translateY(calc(-50% + var(--table-total-height)))
+        translateZ(calc(100vw + 0.5 * var(--table-total-height) - var(--book-height)));
+    scale: 1;
+}
+.book-binder__box > .scene {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: var(--book-width);
+    height: var(--book-height);
+    transform-style: preserve-3d;
+    box-shadow: rgba(0, 0, 0, 1) -1vw 1vw 8vw 1vw;
+    transition: 1s;
+}
+.open.book-binder__box > .scene {
+    box-shadow: rgba(0, 0, 0, 0) 0vw 0vw 0vw 0vw;
+}
+.book-binder__box .exit-layer {
+    display: none;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+}
+.open.book-binder__box .exit-layer {
+    display: unset;
+    background-color: rgba(0, 0, 0, 0.7);
+}
+.book-binder {
+    position: absolute;
+    left: 50%;
+    width: var(--book-width);
+    height: var(--book-height);
+    transform: translateX(-50%) translateZ(calc(1 * var(--book-cover-thick)));
+    transform-style: preserve-3d;
+    transition: 0.3s;
+}
+.open.book-binder {
+    position: absolute;
+    transform: rotateX(0deg) rotateZ(0deg) translateZ(var(--book-cover-thick));
+}
+/* 책 바인더 공통 끝 ---------------------------------------------------------------------- */
+
+/* 책 커버 시작 ---------------------------------------------------------------------- */
+.book-cover {
+    position: absolute;
+    top: 50%;
+    left: 0;
+    transform: translate(0, -50%);
+    transform-style: preserve-3d;
+    transform-origin: left;
+    position: absolute;
+    width: var(--book-width);
+    height: var(--book-height);
+    transition: 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+.book-cover.Fr {
+    transform: rotateY(0deg) translate(0%, -50%);
+    border-top-right-radius: var(--book-cover-border-radius) var(--book-cover-border-radius);
+    border-bottom-right-radius: var(--book-cover-border-radius) var(--book-cover-border-radius);
+}
+.book-cover.Rr {
+    transform: rotateY(180deg) translate(-100%, -50%);
+    border-top-left-radius: var(--book-cover-border-radius) var(--book-cover-border-radius);
+    border-bottom-left-radius: var(--book-cover-border-radius) var(--book-cover-border-radius);
+}
+.flipOpen.book-cover.Fr {
+    /* 앞 커버 오픈 */
+    transform: rotateY(-180deg) translate3D(0, -50%, 0);
+}
+.flipClose.book-cover.Rr {
+    /* 뒷 커버 닫기 */
+    transform: rotateY(0deg) translate3d(-100%, -50%, 0);
+}
+.book-cover__face {
+    display: flex;
+    box-sizing: border-box;
+    position: absolute;
+}
+
+.book-cover__face--front,
+.book-cover__face--back {
+    width: var(--book-width);
+    height: var(--book-height);
+}
+.Fr .book-cover__face--front,
+.Rr .book-cover__face--back {
+    border-top-right-radius: var(--book-cover-border-radius) var(--book-cover-border-radius);
+    border-bottom-right-radius: var(--book-cover-border-radius) var(--book-cover-border-radius);
+}
+.Fr .book-cover__face--back,
+.Rr .book-cover__face--front {
+    border-top-left-radius: var(--book-cover-border-radius) var(--book-cover-border-radius);
+    border-bottom-left-radius: var(--book-cover-border-radius) var(--book-cover-border-radius);
+}
+.book-cover__face--front {
+    transform: translateZ(var(--book-cover-thick));
+}
+.book-cover__face--back {
+    transform: rotateY(180deg);
+}
+
+.book-cover__face--top,
+.book-cover__face--bottom {
+    width: calc(var(--book-width) - var(--book-cover-border-radius));
+    height: var(--book-cover-thick);
+}
+.book-cover__face--top {
+    transform-origin: top;
+    top: 0;
+    transform: rotateX(90deg);
+}
+.Fr .book-cover__face--top {
+    left: 0;
+}
+.Rr .book-cover__face--top {
+    right: 0;
+}
+
+.book-cover__face--bottom {
+    transform-origin: bottom;
+    bottom: 0;
+    transform: rotateX(-90deg);
+}
+.Fr .book-cover__face--bottom {
+    left: 0;
+}
+.Rr .book-cover__face--bottom {
+    right: 0;
+}
+
+.book-cover .cr-Tp-Rt .side::after,
+.book-cover .cr-Bt-Rt .side::after {
+    content: '';
+    position: absolute;
+    right: 0;
+    width: calc(var(--book-cover-thick) * 0.6);
+    height: 100%;
+    background-color: #efefef;
+}
+.book-cover .cr-Tp-Lt .side::after,
+.book-cover .cr-Bt-Lt .side::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    width: calc(var(--book-cover-thick) * 0.6);
+    height: 100%;
+    background-color: #efefef;
+}
+.book-cover__face--top::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    height: calc(var(--book-cover-thick) * 0.6);
+    width: 100%;
+    background-color: #efefef;
+}
+.book-cover__face--bottom::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    height: calc(var(--book-cover-thick) * 0.6);
+    width: 100%;
+    background-color: #efefef;
+}
+.Fr .book-cover__face--right::after {
+    content: '';
+    position: absolute;
+    right: 0;
+    width: calc(var(--book-cover-thick) * 0.6);
+    height: 100%;
+    background-color: #efefef;
+}
+.Rr .book-cover__face--left::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    width: calc(var(--book-cover-thick) * 0.6);
+    height: 100%;
+    background-color: #efefef;
+}
+.book-cover__face--left,
+.book-cover__face--right {
+    width: var(--book-cover-thick);
+}
+.Fr .book-cover__face--left,
+.Rr .book-cover__face--right {
+    height: var(--book-height);
+}
+.Fr .book-cover__face--right,
+.Rr .book-cover__face--left {
+    height: calc(var(--book-height) - (2 * var(--book-cover-border-radius)));
+}
+.Fr .book-cover__face--right {
+    transform-origin: right;
+    top: 0;
+    right: 0;
+    transform: rotateY(90deg) translateY(var(--book-cover-border-radius));
+}
+.Rr .book-cover__face--left {
+    transform-origin: left;
+    top: 0;
+    left: 0;
+    transform: rotateY(-90deg) translateY(var(--book-cover-border-radius));
+}
+.Rr .book-cover__face--right {
+    transform-origin: right;
+    right: 0;
+    bottom: 0;
+    transform: rotateY(90deg);
+}
+.Fr .book-cover__face--left {
+    transform-origin: left;
+    top: 0;
+    left: 0;
+    transform: rotateY(-90deg);
+}
+.book-cover .cr {
+    position: absolute;
+    transform-style: preserve-3d;
+    width: var(--book-cover-thick);
+    height: var(--book-cover-border-radius);
+}
+.cr-Bt-Rt {
+    transform-origin: right;
+    bottom: 0;
+    right: 0;
+    transform: rotateY(90deg) translateZ(calc(-1 * var(--book-cover-border-radius)));
+}
+
+.cr-Bt-Lt {
+    transform-origin: left;
+    bottom: 0;
+    left: 0;
+    transform: rotateY(-90deg) translateZ(calc(-1 * var(--book-cover-border-radius)));
+}
+.cr-Tp-Rt {
+    transform-origin: right;
+    top: 0;
+    right: 0;
+    transform: rotateY(90deg) translateZ(calc(-1 * var(--book-cover-border-radius)));
+}
+.cr-Tp-Lt {
+    transform-origin: left;
+    top: 0;
+    left: 0;
+    transform: rotateY(-90deg) translateZ(calc(-1 * var(--book-cover-border-radius)));
+}
+.book-cover .cr .side {
+    width: var(--book-cover-thick);
+    position: absolute;
+    height: var(--book-radius-corner-width);
+}
+.book-cover .cr-Tp-Rt .side,
+.book-cover .cr-Tp-Lt .side {
+    bottom: calc(-0.5 * var(--book-radius-corner-width));
+}
+.book-cover .cr-Bt-Rt .side,
+.book-cover .cr-Bt-Lt .side {
+    top: calc(-0.5 * var(--book-radius-corner-width));
+    /* bottom: calc(var(--book-cover-border-radius) - (0.5 * var(--book-radius-corner-width))); */
+}
+
+.book-cover .cr-Tp-Rt .s0,
+.book-cover .cr-Tp-Lt .s0 {
+    transform: rotateX(0deg) translateZ(var(--book-cover-border-radius));
+}
+.book-cover .cr-Tp-Rt .s1,
+.book-cover .cr-Tp-Lt .s1 {
+    transform: rotateX(12deg) translateZ(var(--book-cover-border-radius));
+}
+.book-cover .cr-Tp-Rt .s2,
+.book-cover .cr-Tp-Lt .s2 {
+    transform: rotateX(24deg) translateZ(var(--book-cover-border-radius));
+}
+.book-cover .cr-Tp-Rt .s3,
+.book-cover .cr-Tp-Lt .s3 {
+    transform: rotateX(36deg) translateZ(var(--book-cover-border-radius));
+}
+.book-cover .cr-Tp-Rt .s4,
+.book-cover .cr-Tp-Lt .s4 {
+    transform: rotateX(48deg) translateZ(var(--book-cover-border-radius));
+}
+.book-cover .cr-Tp-Rt .s5,
+.book-cover .cr-Tp-Lt .s5 {
+    transform: rotateX(60deg) translateZ(var(--book-cover-border-radius));
+}
+.book-cover .cr-Tp-Rt .s6,
+.book-cover .cr-Tp-Lt .s6 {
+    transform: rotateX(72deg) translateZ(var(--book-cover-border-radius));
+}
+.book-cover .cr-Tp-Rt .s7,
+.book-cover .cr-Tp-Lt .s7 {
+    transform: rotateX(84deg) translateZ(var(--book-cover-border-radius));
+}
+.book-cover .cr-Bt-Rt .s0,
+.book-cover .cr-Bt-Lt .s0 {
+    transform: rotateX(270deg) translateZ(var(--book-cover-border-radius));
+}
+.book-cover .cr-Bt-Rt .s1,
+.book-cover .cr-Bt-Lt .s1 {
+    transform: rotateX(282deg) translateZ(var(--book-cover-border-radius));
+}
+.book-cover .cr-Bt-Rt .s2,
+.book-cover .cr-Bt-Lt .s2 {
+    transform: rotateX(294deg) translateZ(var(--book-cover-border-radius));
+}
+.book-cover .cr-Bt-Rt .s3,
+.book-cover .cr-Bt-Lt .s3 {
+    transform: rotateX(306deg) translateZ(var(--book-cover-border-radius));
+}
+.book-cover .cr-Bt-Rt .s4,
+.book-cover .cr-Bt-Lt .s4 {
+    transform: rotateX(318deg) translateZ(var(--book-cover-border-radius));
+}
+.book-cover .cr-Bt-Rt .s5,
+.book-cover .cr-Bt-Lt .s5 {
+    transform: rotateX(330deg) translateZ(var(--book-cover-border-radius));
+}
+.book-cover .cr-Bt-Rt .s6,
+.book-cover .cr-Bt-Lt .s6 {
+    transform: rotateX(342deg) translateZ(var(--book-cover-border-radius));
+}
+.book-cover .cr-Bt-Rt .s7,
+.book-cover .cr-Bt-Lt .s7 {
+    transform: rotateX(354deg) translateZ(var(--book-cover-border-radius));
+}
+/* 책 커버 끝 ---------------------------------------------------------------------- */
+
+/* 책 옆면 시작 ---------------------------------------------------------------------- */
+.book-side {
+    position: absolute;
+    top: 50%;
+    transform: translate(0, -50%);
+    transform-style: preserve-3d;
+    transition: 0.3s;
+    height: var(--book-height);
+}
+.book-side__face {
+    display: flex;
+    position: absolute;
+    transition: 0.3s;
+}
+.book-side__face--top,
+.book-side__face--bottom {
+    position: absolute;
+    width: var(--book-side-thick);
+    height: var(--book-total-thick);
+}
+.book-side__face--top {
+    transform-origin: top;
+    left: calc(-1 * var(--book-cover-thick));
+    top: 0;
+    transform: rotateX(90deg) translateY(calc(-1 * var(--book-side-thick)));
+    border-top-left-radius: var(--book-cover-thick) calc(var(--book-side-thick));
+    border-bottom-left-radius: calc(var(--book-side-thick)) calc(var(--book-side-thick));
+}
+.book-side__face--bottom {
+    transform-origin: bottom;
+    left: calc(-1 * var(--book-cover-thick));
+    bottom: 0;
+    transform: rotateX(90deg) translateY(calc(1 * var(--book-side-thick)));
+    border-top-left-radius: var(--book-cover-thick) var(--book-cover-thick);
+    border-bottom-left-radius: var(--book-cover-thick) var(--book-cover-thick);
+}
+.book-side .cr-Side {
+    transform-origin: left;
+    top: 0;
+    left: 0;
+    height: var(--book-height);
+    position: absolute;
+    transform-style: preserve-3d;
+    transform: rotateY(0deg);
+    transition: 0.3s;
+}
+.open.book-binder .cr-Side {
+    transform: rotateY(-90deg);
+}
+.close.book-binder .book-side .cr-Side {
+    transform: rotateY(-180deg);
+}
+.book-side .cr-Side .side {
+    transform-origin: top;
+    top: 0;
+    right: calc(-0.5 * var(--book-side-radius-corner-width));
+    position: absolute;
+    height: var(--book-height);
+    width: var(--book-side-radius-corner-width);
+}
+.open.book-binder .book-side .cr-Side span:first-of-type,
+.open.book-binder .book-side .cr-Side span:last-of-type {
+    opacity: 0;
+}
+.open.book-binder .book-side .book-side__face {
+    opacity: 0;
+}
+/* 책 옆면 끝 ---------------------------------------------------------------------- */
+
+/* 책 페이지 시작 ---------------------------------------------------------------------- */
+.book-page {
+    z-index: 1;
+    top: 50%;
+    transform: translate(0, -50%);
+    position: absolute;
+    width: calc(var(--book-page-width));
+    height: calc(var(--book-page-height));
+    background-color: blue;
+}
+.book-page-list {
+    position: relative;
+    width: inherit;
+    height: inherit;
+}
+.binder__page {
+    display: flex;
+    position: absolute;
+    flex-flow: column;
+    -ms-flex-flow: column;
+    justify-content: space-between;
+    width: calc(var(--book-page-width));
+    height: calc(var(--book-page-height));
+    background-color: rgba(255, 255, 255, 1);
+    /* border: 0.1px solid black; */
+    /* box-sizing: border-box; */
+    transform-style: preserve-3d;
+    transition: 0.4s;
+}
+.binder__page.flipPageRight {
+    transform-origin: left;
+    transform: rotateY(0deg);
+}
+.binder__page.flipPageLeft {
+    transform-origin: left;
+    transform: rotateY(-180deg);
+}
+.page {
+    display: flex;
+    flex-flow: column;
+    position: absolute;
+    justify-content: space-between;
+    width: inherit;
+    height: inherit;
+}
+.page-odd {
+    background-color: aqua;
+}
+.page-even {
+    position: absolute;
+    background-color: blueviolet;
+}
+.page.upper {
+    z-index: 1;
+}
+
+.page-main {
+    display: flex;
+    position: relative;
+    align-items: center;
+    flex-flow: column;
+    -ms-flex-flow: column;
+}
+.page-main h1 {
+    font-size: 15px;
+}
+.page-main span {
+    position: relative;
+    height: 50%;
+    width: 70%;
+}
+.page-main span img {
+    position: relative;
+    object-fit: contain;
+    width: 100%;
+}
+.page-bottom {
+    display: flex;
+    position: relative;
+    flex-flow: row;
+    -ms-flex-flow: row;
+    align-items: center;
+    justify-content: space-around;
+    width: 100%;
+    height: 5%;
+    font-size: 14px;
+    color: black;
+}
+.page-bottom span {
+    width: calc(100% / 3);
+    text-align: center;
+}
+.left.page-main {
+    transform: rotateY(180deg);
+}
+.left.page-bottom {
+    transform: rotateY(180deg);
+}
+.page-bottom span:nth-of-type(1) {
+    /* span.tempName */
+    background-color: yellow;
+}
+.page-bottom span:nth-of-type(2) {
+    /* span.page-bottom-title */
+    background-color: orange;
+}
+.page-bottom span:nth-of-type(3) {
+    /* span.page-index */
+    background-color: chartreuse;
+}
+/* 책 페이지 끝 ---------------------------------------------------------------------- */
+
+/* 색상 & 백그라운드 시작 ---------------------------------------------------------------------- */
+.book-side .cr-Side .side,
+.book-cover .cr .side,
+.book-cover__face {
+    background-image: url(../images/ORACLA_1.png);
+}
+.book-side__face {
+    background-color: #efefef;
+    box-sizing: border-box;
+    border-top: calc(var(--book-cover-thick) * 0.5) solid var(--book-main);
+    border-left: calc(var(--book-cover-thick) * 0.5) solid var(--book-main);
+    border-bottom: calc(var(--book-cover-thick) * 0.5) solid var(--book-main);
+}
+/* 색상 & 백그라운드 끝 ---------------------------------------------------------------------- */

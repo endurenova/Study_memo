@@ -1,0 +1,82 @@
+:root {
+    /* rgb(43, 43, 43) */
+    --background-main: var(--background-main);
+
+    /* rgb (244, 186, 86) */
+    --theme-main: #f4ba56;
+
+    /* rgb (203, 109, 47) */
+    --theme-sub: #cb6d2f;
+
+    /* rgb (206, 218, 224) */
+    --theme-text: #cedae0;
+
+    --book-width: 320px;
+    --book-page-width: 300px;
+    --book-height: 424px;
+    --book-page-height: 404px;
+    --book-thick: 3px;
+    --book-pages: 6px;
+    --book-perspective: calc(var(--book-height) + var(--book-width));
+    --pi: 3.14159265358979;
+    --book-cover-border-radius: 10px;
+    --book-cover-radius-corner-count: 20;
+    /* 다각형의 내각
+        n(변의 수)f
+        = (n - 2) * 180° / n */
+    /* 원에 내접하는 한 면의 길이
+        n(내각)
+        = 2r * tan(π/n)
+     */
+    /* 원에 외접하는 한 면의 길이
+        n(내각)
+        = 2R * sin(π/n)
+     */
+    --book-radius-corner-degree: calc((360 / var(--book-cover-radius-corner-count)));
+    --book-radius-corner-width: calc(
+        2 * var(--book-cover-border-radius) * sin(var(--pi) / var(--book-cover-radius-corner-count))
+    );
+}
+
+@keyframes flip-page-left {
+    0% {
+        transform: rotateY(0) translate3D(0, -50%, 0);
+        transform-origin: left;
+    }
+    100% {
+        transform: rotateY(-180deg) translate3D(0, -50%, 0);
+        transform-origin: left;
+    }
+}
+
+@keyframes flip-page-right {
+    0% {
+        transform: rotateY(180deg) translate3D(0, -50%, 0);
+        transform-origin: left;
+    }
+    50% {
+        transform: rotateY(90deg) translate(0, -50%, 0);
+        transform-origin: left;
+    }
+    100% {
+        transform: rotateY(0deg) translate(0, -50%, 0);
+        transform-origin: left;
+    }
+}
+
+.flipCoverLeft {
+    -webkit-animation: flip-cover-left 0.4s ease-in-out both;
+    animation: flip-cover-left 0.4s ease-in-out both;
+}
+.flipPageLeft {
+    -webkit-animation: flip-page-left 0.4s ease-in-out both;
+    animation: flip-page-left 0.4s ease-in-out both;
+}
+.flipCoverRight {
+    -webkit-animation: flip-cover-right 0.4s ease-in-out both;
+    animation: flip-cover-right 0.4s ease-in-out both;
+}
+.flipPageRight {
+    -webkit-animation: flip-page-right 0.4s ease-in-out both;
+    animation: flip-page-right 0.4s ease-in-out both;
+}

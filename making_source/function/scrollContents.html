@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">    
+    <link rel="stylesheet" href="./css/reset.css">
+    <link rel="stylesheet" href="./css/common.css">
+    <title>Document</title>
+    <style>
+        html {
+            overflow-y: hidden;
+        }
+        body::-webkit-scrollbar { /* 스크롤바의 너비 */
+            width: 1vmin;
+        }
+        body::-webkit-scrollbar-thumb {
+            height: 30%; /* 스크롤바의 길이 */
+            background-color: purple;
+            border-radius: 10px;
+        }
+        body::-webkit-scrollbar-track {
+            background-color: greenyellow;
+        }
+        :root {
+            --header-height: 8vmin;
+            --wrapper-width: 90%;
+        }
+        header {
+            position: fixed;
+            z-index: 100;
+            width: 100%;
+            height: var(--header-height);
+            top: 0;
+            left: 0;
+            bottom: 0;
+            right: 0;
+            transition: 0.3;
+            background-color: rgba(0, 0, 0, 0.7);
+        }
+        header.hidden {
+            transform: translateY(calc(-1 * var(--header-height)));
+        }
+        .header-bar {
+            display: flex;
+            flex-flow: row;
+            position: relative;
+            justify-content: space-between;
+            margin: 0 auto;
+            width: var(--wrapper-width);
+            height: inherit;
+        }
+        .header__menu-box {
+            display: flex;
+            flex-flow: row;
+            position: relative;
+            width: 50%;
+        }
+        .header__menu-list {
+            display: flex;
+            flex-flow: row;
+            position: relative;
+            width: 100%;
+        }
+        .header__menu-list > li {
+            width: 25%;
+            height: 100%;
+        }
+        .header__menu-list > li > a {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            height: 100%;
+            font-size: 20px;
+            font-weight: 400;
+            color: #efefef;
+        }
+        .header__menu-list > li > a:hover {
+            font-weight: 500;
+            border: 1px solid #f00;
+            color: #ffffff;
+        }
+        main {
+            display: flex;
+            flex-flow: column;
+            height: auto;
+        }
+        section {
+            width: 100vw;
+            height: 100vh;
+        }
+        section:nth-of-type(1){background-color: rgba(255, 0, 0, 0.15)}
+        section:nth-of-type(2){background-color: rgba(255, 122, 0, 0.15)}
+        section:nth-of-type(3){background-color: rgba(122, 255, 0, 0.15)}
+        section:nth-of-type(4){background-color: rgba(122, 255, 255, 0.15)}
+    </style>
+</head>
+<body>
+    <!-- 섹션을 내리거나 올리다가 scrollX 컨텐츠가 있으면 스크롤 해주는 기능 -->
+        <header>
+            <nav class="header-bar">
+                <div class="header__logo-box"></div>
+                <div class="header__menu-box">
+                    <ul class="header__menu-list">
+                        <li>
+                            <a href="#profile">
+                                <span>메뉴-1</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#web-publishing">
+                                <span>메뉴-2</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#design">
+                                <span>메뉴-3</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#skill">
+                                <span>메뉴-4</span>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </nav>
+        </header>
+        <main>
+            <section></section>
+            <section></section>
+            <section></section>
+            <section></section>
+        </main>
+    <script>
+        const headerBar = document.querySelector('header');
+        let prevScrollpos = 0;
+        window.addEventListener('scroll', event => {
+            event.preventDefault();
+            const currentScrollPos = window.scrollY; // 스크롤 했을 때의 현재 스크롤 위치
+            if(prevScrollpos < currentScrollPos){ // 이전 스크롤 위치보다 클 때
+                headerBar.classList.add('hidden'); // 헤더 숨기기
+            }
+            else{ // 이전 스크롤 위치보다 작을 때
+                headerBar.classList.remove('hidden'); // 헤더 보이기
+            }
+            prevScrollpos = currentScrollPos; // 현재 스크롤 위치를 다음 이벤트를 위해 이전 스크롤 위치로 재할당
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title></title>
+        <link rel="stylesheet" href="./css/reset.css" />
+        <link rel="stylesheet" href="./css/cube.css" />
+        <link rel="stylesheet" href="./css/animate.css" />
+    </head>
+    <body>
+        <section class="cube__box">
+            <div class="scene">
+                <div class="cube">
+                    <div class="cube__face cube__face--front">
+                        <section class="section1">
+                            <h1>section1</h1>
+                        </section>
+                    </div>
+                    <div class="cube__face cube__face--back">
+                        <section class="section3">
+                            <h1>section3</h1>
+                        </section>
+                    </div>
+                    <div class="cube__face cube__face--right">
+                        <section class="section2">
+                            <h1>section2</h1>
+                        </section>
+                    </div>
+                    <div class="cube__face cube__face--left">
+                        <section class="section4">
+                            <h1>section4</h1>
+                        </section>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <script>
+            const cube = document.querySelector('.cube');
+            const pfPage = document.querySelectorAll('.cube__face');
+            document.querySelector('.section1-btn').addEventListener('click', () => {
+                Array.from(pfPage).forEach((e) => {
+                    e.classList.add('fwd-right-side');
+                });
+                cube.classList.add('rotate-90-vertical-bck');
+            });
+        </script>
+    </body>
+</html>

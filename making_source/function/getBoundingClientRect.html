@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./css/reset.css">
+    <link rel="stylesheet" href="./css/common.css">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+    <title>Document</title>
+    <style>
+        :root {
+            --target-size: 1vmin;
+            --target-move-minus: -1vmin;
+            --box-size: 30vmin;
+            --from-outside-top: calc(1 * (40vh - (var(--box-size) / 2)));
+            --from-outside-left: calc(1 * (40vw - (var(--box-size) / 2)));
+            --arrow-font-size: 5vmin;
+        }
+        .material-symbols-outlined {
+            font-variation-settings:
+            'FILL' 10,
+            'wght' 400,
+            'GRAD' 0,
+            'opsz' 24
+        }
+        .wrap {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 80vw;            
+            height: 80vh;
+            border: 1px solid blueviolet;
+        }
+        .box-face {
+            position: relative;
+            width: var(--box-size);
+            height: var(--box-size);
+            border-top: 1px dashed red;
+            border-left: 1px dashed red;
+            background-color: floralwhite;
+        }
+        .box-face > span {
+            position: absolute;
+            width: var(--target-size);
+            height: var(--target-size);
+        }
+        span.x-left {
+            background-color: rgba(255, 0, 0, 0.2);
+            left: calc(-1 * var(--from-outside-left));
+            top: 0;
+            width: var(--from-outside-left);
+            height: 100%;            
+        }
+        span.x-left > span:nth-of-type(1) {
+            width: 50px;
+            background-color: #fff;
+        }
+        span.y-top {
+            background-color: rgba(255, 122, 0, 0.2);
+            left: 0;
+            top: calc(-1 * var(--from-outside-top));
+            width: 100%;
+            height: var(--from-outside-top);
+        }
+        span.right {
+            background-color: rgba(255, 255, 0, 0.2);
+            right: 0;
+            height: calc(var(--from-outside-top));
+            width: calc(var(--from-outside-left) + var(--box-size));
+            bottom: calc(-1 * var(--from-outside-top));
+            border-right: 1px dashed red;
+        }
+        span.bottom {
+            background-color: rgba(122, 255, 122, 0.2);
+            right: calc(-1 * var(--from-outside-left));
+            bottom: 0;
+            width: var(--from-outside-left);
+            height: calc(var(--from-outside-top) + var(--box-size));
+            border-bottom: 1px dashed red;
+        }
+        .arrow-box > span {
+            line-height: 0;
+        }
+        hr {
+            position: absolute;
+        }
+        .width-arrow-body {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: calc(100% - var(--arrow-font-size) * 0.4);
+            border-top: 1px solid #000;
+            border-bottom: 1px solid #000;
+        }        
+        .height-arrow-body {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            height: calc(100% - var(--arrow-font-size) * 0.4);
+            border-left: 1px solid #000;
+            border-right: 1px solid #000;
+        }
+        .width-arrow {
+            position: absolute;
+            font-size: var(--arrow-font-size);
+            top: 50%;
+            width: 0;
+        }
+        .arrow_left {
+            left: 0;
+            transform: translate(calc(var(--arrow-font-size) * -0.4), -50%);
+        }
+        .arrow_right {
+            right: 0;
+            transform: translate(calc(var(--arrow-font-size) * -0.6), -50%);
+        }
+        .height-arrow {
+            position: absolute;
+            font-size: var(--arrow-font-size);
+            left: 50%;
+            height: 0;
+        }
+        .arrow_up {
+            top: 0;
+            transform: translate(-50%, calc(var(--arrow-font-size) * 0.2));
+        }
+        .arrow_down {
+            bottom: 0;
+            transform: translate(-50%, calc( var(--arrow-font-size) * -0.2));
+        }
+    </style>
+</head>
+<body>
+    <div class="wrap">
+        <div class="box-face">
+            <span class="x-left">
+                <span>x &#47; left</span>
+                <div class="arrow-box">
+                    <span class="material-symbols-outlined width-arrow arrow_left">arrow_left</span>
+                    <hr class="width-arrow-body">
+                    <span class="material-symbols-outlined width-arrow arrow_right">arrow_right</span>
+                </div>
+            </span>
+            <span class="y-top">
+                <span>y &#47; top</span>
+                <div class="arrow-box">
+                    <span class="material-symbols-outlined height-arrow arrow_up">arrow_drop_up</span>
+                    <hr class="height-arrow-body">
+                    <span class="material-symbols-outlined height-arrow arrow_down">arrow_drop_down</span>
+                </div>
+            </span>
+            <span class="right">
+                <span>right</span>
+                <div class="arrow-box">
+                    <span class="material-symbols-outlined width-arrow arrow_left">arrow_left</span>
+                    <hr class="width-arrow-body">
+                    <span class="material-symbols-outlined width-arrow arrow_right">arrow_right</span>
+                </div>
+            </span>
+            <span class="bottom">
+                <span>bottom</span>
+                <div class="arrow-box">
+                    <span class="material-symbols-outlined height-arrow arrow_up">arrow_drop_up</span>
+                    <hr class="height-arrow-body">
+                    <span class="material-symbols-outlined height-arrow arrow_down">arrow_drop_down</span>
+                </div>
+            </span>
+        </div>
+    </div>
+    <script>
+        // window.scrollTo(0, .getBoundingClientRect().top);
+    </script>
+</body>
+</html>

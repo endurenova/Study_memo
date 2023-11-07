@@ -1,0 +1,46 @@
+.orange, body .box-group > .box-list-orange .box {
+  /* Built-in Function:map-get */
+  background-color: rgba(255, 122, 0, 0.3);
+}
+
+body {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto;
+  width: 100%;
+  height: 100%;
+}
+body .box-group {
+  display: flex;
+  flex-flow: row nowrap;
+  width: 50%;
+  height: auto;
+}
+body .box-group > .box-list {
+  display: flex;
+  position: relative;
+  border: 1px solid rgba(0, 0, 0, 0.3);
+  width: 100%;
+  height: 100%;
+}
+body .box-group > .box-list:hover {
+  border: 1px solid rgb(0, 0, 0);
+}
+.box {
+  border: 1px solid rgba(0, 0, 0, 0.3);
+  width: 100px;
+  height: 100px;
+}
+.box:hover {
+  border: 1px solid rgb(0, 0, 0);
+}
+
+body .box-group > .box-list-red .box {
+  display: block;
+  position: relative;
+  background-color: rgba(255, 0, 0, 0.3);
+}
+body .box-group > .box-list-yellow .box {
+  background-color: rgba(255, 255, 0, 0.3);
+}

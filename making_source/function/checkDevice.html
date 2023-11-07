@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="./css/reset.css">
+    <link rel="stylesheet" href="./css/common.css">
+</head>
+<body>
+    <script>
+        // 디바이스 체크
+        function detectMobileDevice(agent) {
+            const mobileRegex = [
+                /Android/i,
+                /iPhone/i,
+                /iPad/i,
+                /iPod/i,
+                /BlackBerry/i,
+                /Windows Phone/i
+            ];
+            return mobileRegex.some(mobile => agent.match(mobile));
+        }
+        const isMobile = detectMobileDevice(window.navigator.userAgent);
+        if (isMobile) {
+            console.log('current device is mobile');
+        }
+        else {
+            console.log('current device is not mobile');
+        }
+    </script>
+</body>
+</html>

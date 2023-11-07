@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html>
+  <body>
+    <div id="root"></div>
+  </body>
+  <!-- React JS는 어플리케이션이 interactive 하도록 만들어주는 Library -->
+  <!-- React JS는 interactive한 UI를 만들어 주는 엔진 -->
+  <script src="https://unpkg.com/react@18.2.0/umd/react.production.min.js"></script>
+  <!-- React-dom은 Library 또는 Package인데 모든 React element들을 HTML body에 둘 수 있게 해줌 -->
+  <!-- React-dom은 React element들을 HTML body에 조립하는 기계 -->
+  <script src="https://unpkg.com/react-dom@18.2.0/umd/react-dom.production.min.js"></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  <script type="text/babel">
+    function MinutesToHours () {
+      const [amount, setAmount] = React.useState(0);      
+      const [inverted, setInverted] = React.useState(false);  // flip function
+      const onChange = (event) => {
+        setAmount(event.target.value);
+      };
+      const reset = () => setAmount(0);
+      // const onFlip = () => setInverted(!inverted);  // flip function
+      const onFlip = () => {
+        reset();
+        setInverted((current) => !current);
+      };
+      return (        
+        <div>
+          <div>
+            {/* for와 class는 JavaScript용어라 JSX에선 htmlFor와 className으로 사용 */}
+            {/* 중괄호를 쓰면 JavaScript 함수를 쓸수 있다. */}
+            <label htmlFor="minutes">Minutes</label>
+            <input
+              value={inverted ? amount * 60 : amount}
+              id="minutes"
+              placeholder="Minutes"
+              type="number"
+              onChange={onChange}
+              disabled={inverted}  // 만약 inverted이 true 라면
+              // disabled={inverted === true}
+            />
+            <label htmlFor="hours">Hours</label>
+            <input
+              value={inverted ? amount : Math.round(amount/60)}
+              id="hours"
+              placeholder="Hours"
+              type="number"
+              onChange={onChange}
+              disabled={!inverted}  // 만약 inverted이 false 라면
+              // disabled={inverted === false}
+            />
+          </div>        
+          <button onClick={reset}>Reset</button>
+          <button onClick={onFlip}>{inverted ? "Turn back" : "Invert"}</button>
+        </div>
+      );
+    };
+    function KmToMiles() {
+      const [distance, setDistance] = React.useState(0);
+      const [flipped, setFlipped] = React.useState(false);
+      const onChange = (event) => {
+        setDistance(event.target.value);
+      }
+      const reset = () => setDistance(0);
+      const onFlip = () => {
+        reset();
+        setFlipped((current) => !current);
+      }
+      return (
+        <div>
+          <div>
+            <label htmlFor="km">Km</label>
+            <input
+              value={flipped ?  distance * 0.62 : distance}
+              id="Km"
+              type="number"
+              placeholder="Km"
+              onChange={onChange}
+              disabled={flipped}
+            />
+            <label htmlFor="Miles">Miles</label>
+            <input
+              value={flipped ? distance : Math.round(distance / 0.62)}
+              id="Miles"
+              type="number"
+              placeholder="Miles"
+              onChange={onChange}
+              disabled={!flipped}
+            />
+          </div>
+          <button onClick={reset}>Reset</button>
+          <button onClick={onFlip}>{flipped ? "Turn back" : "Invert"}</button>
+        </div>
+        );
+    }
+    function App () {
+      const [index, setIndex] = React.useState("xx");
+      const onSelect = (event) => {
+        setIndex(event.target.value);
+      }
+      return (
+        <div>
+          <h1>Super Converter</h1>
+          <select value={index} onChange={onSelect}>
+            <option value="xx">Select your units</option>
+            <option value="0">Minutes & Hours</option>
+            <option value="1">Km & Miles</option>
+          </select>
+          <hr />
+          {index === "xx" ? "Please select your units" : null}
+          {index === "0" ? <MinutesToHours /> : null}
+          {index === "1" ? <KmToMiles /> : null}
+        </div>
+      );
+    };
+    
+    const root = document.getElementById('root');
+    ReactDOM.render(<App />, root);
+  </script>
+</html>

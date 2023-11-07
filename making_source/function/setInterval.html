@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="./css/reset.css">
+    <link rel="stylesheet" href="./css/common.css">
+    <style>
+        body {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .skill-list {
+            display: flex;
+            flex-flow: column;
+            width: 1000px;
+            height: 600px;
+        }
+        .skill-list li {
+            display: flex;
+            position: relative;
+            flex-flow: row;
+            width: 100%;
+            height: calc(100% / 10);
+        }
+        .skill-level {
+            position: relative;            
+            width: 90%;  /* li에서 progress의 비중 */
+            height: 100%;
+            border: 1px dashed red;
+        }
+        .skill-level__progress {
+            position: absolute;
+            width: 0%;
+            height: 100%;
+            transition: 2s;
+        }
+        .skill-list li:nth-of-type(1) .skill-level__progress {background:linear-gradient(to right, #E34F2688, #E34F26);}
+        .skill-list li:nth-of-type(2) .skill-level__progress {background:linear-gradient(to right, #1573b688, #1572B6);}
+        .skill-list li:nth-of-type(3) .skill-level__progress {background:linear-gradient(to right, #F7DF1E88, #F7DF1E);}
+        .skill-list li:nth-of-type(4) .skill-level__progress {background:linear-gradient(to right, #0769AD88, #0769AD);}
+        .skill-list li:nth-of-type(5) .skill-level__progress {background:linear-gradient(to right, #3776AB88, #3776AB);}
+        .skill-list li:nth-of-type(6) .skill-level__progress {background:linear-gradient(to right, #31A8FF88, #31A8FF);}
+        .skill-list li:nth-of-type(7) .skill-level__progress {background:linear-gradient(to right, #FF9A0088, #FF9A00);}
+        .skill-list li:nth-of-type(8) .skill-level__progress {background:linear-gradient(to right, #F24E1E88, #F24E1E);}
+        .skill-list li:nth-of-type(9) .skill-level__progress {background:linear-gradient(to right, #B7472A88, #B7472A);}
+        .skill-list li:nth-of-type(10) .skill-level__progress {background:linear-gradient(to right, #21734688, #217346);}
+        
+        .skill-percent {
+            display: flex;
+            justify-content: center;
+            right: 0;
+            width: 10%;  /* li에서 progress의 비중 */
+            height: 100%;
+            color: var(--grayScale-n5);
+            font-size: var(--info-font-size);
+            border: 1px dashed red;
+        }
+        .skill-percent .skill-percent__binder {
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            width: 80%;
+            font-family: 'pretendard-Regular';
+            font-size: 30px;
+            text-shadow: 0.5px 0.5px 0 var(--grayScale-n2);
+            border: 1px dashed red;
+        }
+        .skill-percent .skill-percent__binder span:nth-of-type(1) {            
+            border: 1px dashed green;
+        }
+        .skill-percent .skill-percent__binder span:nth-of-type(2) {            
+            border: 1px dashed blue;
+        }
+    </style>
+</head>
+<body>
+    <ul class="skill-list">
+        <li>
+            <span class="skill-level">
+                <span class="skill-level__progress"></span>
+            </span>
+            <span class="skill-percent">
+                <span class="skill-percent__binder"></span>
+            </span>
+        </li>
+        <li>
+            <span class="skill-level">
+                <span class="skill-level__progress"></span>
+            </span>
+            <span class="skill-percent">
+                <span class="skill-percent__binder"></span>
+            </span>
+        </li>
+        <li>
+            <span class="skill-level">
+                <span class="skill-level__progress"></span>
+            </span>
+            <span class="skill-percent">
+                <span class="skill-percent__binder"></span>
+            </span>
+        </li>
+        <li>
+            <span class="skill-level">
+                <span class="skill-level__progress"></span>
+            </span>
+            <span class="skill-percent">
+                <span class="skill-percent__binder"></span>
+            </span>
+        </li>
+        <li>
+            <span class="skill-level">
+                <span class="skill-level__progress"></span>
+            </span>
+            <span class="skill-percent">
+                <span class="skill-percent__binder"></span>
+            </span>
+        </li>
+        <li>
+            <span class="skill-level">
+                <span class="skill-level__progress"></span>
+            </span>
+            <span class="skill-percent">
+                <span class="skill-percent__binder"></span>
+            </span>
+        </li>
+        <li>
+            <span class="skill-level">
+                <span class="skill-level__progress"></span>
+            </span>
+            <span class="skill-percent">
+                <span class="skill-percent__binder"></span>
+            </span>
+        </li>
+        <li>
+            <span class="skill-level">
+                <span class="skill-level__progress"></span>
+            </span>
+            <span class="skill-percent">
+                <span class="skill-percent__binder"></span>
+            </span>
+        </li>
+        <li>
+            <span class="skill-level">
+                <span class="skill-level__progress"></span>
+            </span>
+            <span class="skill-percent">
+                <span class="skill-percent__binder"></span>
+            </span>
+        </li>
+        <li>
+            <span class="skill-level">
+                <span class="skill-level__progress"></span>
+            </span>
+            <span class="skill-percent">
+                <span class="skill-percent__binder"></span>
+            </span>
+        </li>
+    </ul>
+    <script>
+        const skillList = document.querySelector(".skill-list");
+        const skillLevelList = [85, 90, 75, 80, 70, 80, 85, 85, 90, 75];
+        skillLoading = () => {
+            const counter = ($counter, max, progress) => {
+                var i=0;
+                progress.style.setProperty('width', `${max}%`);
+                const handle = setInterval(() => {
+                    if (i<=max) {                
+                        $counter.innerHTML = `<span>${Math.ceil(i)}</span><span>&#37;</span>`;
+                        i++;
+                    } else {
+                        clearInterval(handle); // 목표수치에 도달하면 정지                
+                    }
+                }, 20);
+            }
+            Array.from(skillList.querySelectorAll(".skill-level__progress")).forEach((e, i) => {
+                const $counter = skillList.querySelectorAll(".skill-percent__binder")[i];  // 카운트를 적용시킬 요소
+                const max = skillLevelList[i];  // 목표 수치
+                const progress = e;
+                setTimeout(() => counter($counter, max, progress), 1);
+            });
+        }
+        setTimeout(() => {
+            skillLoading();
+        }, 2000);
+    </script>
+</body>
+</html>

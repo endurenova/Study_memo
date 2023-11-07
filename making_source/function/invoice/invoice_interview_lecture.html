@@ -1,0 +1,750 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- <link rel="stylesheet" href="/css/invoice.css"> -->
+    <title>인보이스 내역 (인터뷰, 강연)</title>
+    <style>
+        /* 공용 -------------------------------------------------------------------------------- */
+        body {
+            width: 100%;
+            height: 100%;
+            margin: 0;
+            padding: 0;
+            background-color: #FAFAFA;
+            -webkit-print-color-adjust:exact !important;
+            print-color-adjust:exact !important;
+        }
+        * {
+            padding: 0;
+            margin: 0;
+            box-sizing: border-box;
+            -moz-box-sizing: border-box;
+        }
+        img {
+            vertical-align: middle;
+            text-decoration: none;
+        }
+        .invoice-page__interLec, .invoice-page__employment {
+            width: 210mm;
+            min-height: 297mm;
+            padding-top: 2cm;
+            padding-left: 1.2cm;
+            padding-right: 1.2cm;
+            margin: 10mm auto;
+            border: 1px #D3D3D3 solid;
+            border-radius: 5px;
+            background: white;
+            box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+        }
+        .invoice-page__wrap {           
+            height: 257mm;
+        }
+        @page {
+            size: A4;
+            margin: 0;
+        }
+        @media print {
+            html, body {
+                width: 210mm;
+                height: 297mm;
+            }
+            .invoice-page__interLec, .invoice-page__employment {
+                margin: 0;
+                border: initial;
+                border-radius: initial;
+                width: initial;
+                min-height: initial;
+                box-shadow: initial;
+                background: initial;
+                page-break-after: always;
+            }
+        }
+
+        .invoice-top, .invoice-middle{
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .invoice-bottom table.calculateResult {
+            display: flex;
+            justify-content: end;
+        }
+
+        .invoice-top .invoice-top__title,
+        table.calculateResult tfoot tr td,
+        table.wayToCalculate tbody tr:not(:nth-child(-n+1)) td:last-child,
+        .invoice-page__interLec table.calculateList tbody tr td:first-child,
+        .invoice-page__interLec table.calculateList tbody tr td:nth-child(n+5):nth-child(-n+8),
+        .invoice-page__employment table.calculateList tbody tr:not(:first-child) td:nth-child(n+2):nth-child(-n+3),
+        .invoice-page__employment table.calculateList tbody tr:not(:first-child) td:last-child  {
+            font-family: "Times New Roman", Times, serif;
+        }
+
+        .invoice-top .invoice-top__title,
+        table.calculateResult tfoot tr:not(:nth-child(2)) td {
+            font-weight: bold;
+        }
+        td {
+            text-align: center;
+            font-size: 10px; 
+        }
+        .invoice-top .invoice-top__title {
+            font-size: 26px;
+        }
+        .invoice-middle .invoice-middle__greeting p {
+            font-size: 11px;
+            line-height: 1.5em;
+        }
+        .invoice-middle .invoice-middle__stamp {
+            padding: 0.2rem;
+        }
+
+        thead th, thead td,
+        tbody th, tbody td,
+        tfoot th, tfoot td,
+        table.calculateList,
+        table.memo,
+        table.wayToCalculate{
+            border: 1px solid #000;
+            border-collapse:collapse;
+        }
+        table.wayToCalculate {
+            margin-top: 0.8rem;
+        }
+        table.calculateResult {
+            border-spacing: 0px 2px;
+        }
+        .invoice-page__employment table.calculateResult {
+            border-spacing: 0px 2px;
+            margin-top: 1.8rem;
+        }
+
+        td span.front {display: block; float: left; padding-left: 0.2rem;}
+        td span.center {display: inline-block;}
+        td span.back {display: block; float: right; padding-right: 0.2rem;}
+        /* -------------------------------------------------------------------------------- 공용 */
+        
+        .invoice-top,
+        .invoice-middle,
+        .invoice-bottom,
+        .invoice-bottom table.calculateList,
+        .invoice-bottom table.memo,
+        .invoice-bottom table.wayToCalculate {
+            width: 100%;
+        }
+        /* 상단 INVOICE, 로고 */
+        .invoice-top {height: 3.6rem;}
+        .invoice-middle {height: 5rem;}
+        
+        /* 인보이스 테이블 헤더 셀 높이 */
+        .invoice-page__interLec thead tr,
+        .invoice-page__employment thead tr, tbody tr:first-child {
+            height: 2.4rem;
+        }  
+        /* 인보이스 테이블 바디 셀 높이 */
+        .invoice-page__interLec tbody tr,
+        .invoice-page__employment tbody tr:not(:first-child) {
+            height: 2.2rem;
+        }
+        /* 하단 인보이스 최종 결과 지급액  높이 */
+        .invoice-bottom tfoot tr {height: 2rem;}
+        /* 메모 높이 */
+        .invoice-page__employment table.memo  {
+            height: 3.2rem;
+        }
+        .invoice-page__employment table.memo td {
+            line-height: 1.5em;
+        }
+        table.calculateResult tfoot th {border-right: none;}
+
+        table.calculateResult tfoot tr th {
+            text-align: right;
+            padding-right: 0.2rem;
+        }
+        .invoice-middle .invoice-middle__greeting p,
+        table.calculateList thead tr th,
+        table.calculateList tbody tr th,
+        table.calculateResult tfoot tr th,
+        table.wayToCalculate thead tr th,
+        table.wayToCalculate tbody tr:nth-child(-n+1),
+        table.wayToCalculate tbody tr:not(:nth-child(-n+1)) th {
+            font-size: 11px;
+            font-family:"Malgun Gothic", "맑은고딕", serif;
+        }
+
+        table.calculateList thead tr th,
+        table.calculateList tbody tr th,
+        table.calculateResult tfoot tr th,
+        table.wayToCalculate thead tr th{
+            color: #fff; 
+        }
+        .invoice-page__employment tfoot tr:nth-child(2) td,
+        table.wayToCalculate tbody tr:not(:first-child) td:nth-child(2) {
+            color: red;
+        }
+        table.calculateList thead tr th,
+        table.calculateResult tfoot tr th,
+        table.wayToCalculate thead tr {
+            background-color: #316B5D;
+        }
+        .invoice-page__employment table.calculateList tbody tr:first-child th {
+            background-color: #00B0F0;
+        }
+        .invoice-page__employment table.calculateList tbody tr:not(:first-child) th {
+            background-color: red;
+        }
+        table.calculateResult tfoot tr:nth-child(3) td,
+        table.wayToCalculate tbody tr:not(:nth-child(-n+1)) th {
+            background-color: yellow;
+        }
+        
+        table.wayToCalculate tbody tr:not(:nth-child(-n+1)) td:nth-child(2) {
+            background-color: orange;
+        }
+    </style>
+</head>
+<body>
+    <div class="invoice-page__interLec">
+        <div class="invoice-page__wrap">
+            <div class="invoice-top">
+                <h1 class="invoice-top__title">INVOICE</h1>                    
+                <img class="invoice-top__logo" src="images/clevers_logo.png" alt="#">
+            </div>
+            <div class="invoice-middle">
+                <div class="invoice-middle__greeting">
+                    <p>저희에게 전문가님의 소중한 지식과 정보를 공유해주셔서 감사드립니다.</p>
+                    <p>해당 인보이스를 보시고 내역에 이견이 있으실 경우 언제든지 연락 부탁드리겠습니다.</p>
+                    <p>항상 전문가님의 적극적인 참여와 도움에 진심으로 감사의 말씀을 드립니다.</p>
+                </div>
+                <img src="images/clevers_stamp.png" alt="#" class="invoice-middle__stamp">
+            </div>
+            <div class="invoice-bottom">
+                <table class="calculateList">
+                    <colgroup>
+                        <col style="width:12%">
+                        <col style="width:8%">
+                        <col style="width:20%">
+                        <col style="width:20%">
+                        <col style="width:10%">
+                        <col style="width:10%">
+                        <col style="width:10%">
+                        <col style="width:10%">
+                    </colgroup>
+                    <thead>
+                        <tr>
+                            <th scope="col">컨설팅 날짜</th>
+                            <th scope="col">구분</th>
+                            <th scope="col">프로젝트</th>
+                            <th scope="col">Expert</th>
+                            <th scope="col">자문료</th>
+                            <th scope="col">참여 시간</th>
+                            <th scope="col">크레딧</th>
+                            <th scope="col">지급액</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td class="consulting-date">
+                                <span class="center">23-May-22</span>
+                            </td>
+                            <td class="consulting-type">
+                                <span class="center">인터뷰</span>
+                            </td>
+                            <td class="project-name">
+                                <span class="center">구매전략 프로젝트</span>
+                            </td>
+                            <td class="expert-name">
+                                <span class="center">홍길동, 삼성</span>
+                            </td>
+                            <td class="consultation-cost">
+                                <span class="front">&#8361</span>
+                                <span class="back"></span>
+                            </td>
+                            <td class="participation-time">
+                                <span class="center"></span>
+                                <span class="back">mins</span>
+                            </td>
+                            <td class="credit">
+                                <span class="back"></span>
+                            </td>
+                            <td class="payment-cost">
+                                <span class="front">&#8361</span>
+                                <span class="back">5000000</span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="consulting-date">
+                                <span class="center">23-May-22</span>
+                            </td>
+                            <td class="consulting-type">
+                                <span class="center">인터뷰</span>
+                            </td>
+                            <td class="project-name">
+                                <span class="center">구매전략 프로젝트</span>
+                            </td>
+                            <td class="expert-name">
+                                <span class="center">홍길동, 삼성</span>
+                            </td>
+                            <td class="consultation-cost">
+                                <span class="front">&#8361</span>
+                                <span class="back"></span>
+                            </td>
+                            <td class="participation-time">
+                                <span class="center"></span>
+                                <span class="back">mins</span>
+                            </td>
+                            <td class="credit">
+                                <span class="back"></span>
+                            </td>
+                            <td class="payment-cost">
+                                <span class="front">&#8361</span>
+                                <span class="back">2000000</span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="consulting-date">
+                                <span class="center">23-May-22</span>
+                            </td>
+                            <td class="consulting-type">
+                                <span class="center">인터뷰</span>
+                            </td>
+                            <td class="project-name">
+                                <span class="center">구매전략 프로젝트</span>
+                            </td>
+                            <td class="expert-name">
+                                <span class="center">홍길동, 삼성</span>
+                            </td>
+                            <td class="consultation-cost">
+                                <span class="front">&#8361</span>
+                                <span class="back"></span>
+                            </td>
+                            <td class="participation-time">
+                                <span class="center"></span>
+                                <span class="back">mins</span>
+                            </td>
+                            <td class="credit">
+                                <span class="back"></span>
+                            </td>
+                            <td class="payment-cost">
+                                <span class="front">&#8361</span>
+                                <span class="back">3000000</span>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                <table class="calculateResult">
+                    <colgroup>
+                        <col>
+                        <col>
+                        <col>
+                    </colgroup>
+                    <tfoot>
+                        <tr>
+                            <th scope="row" colspan="2">총지급액</th>
+                            <td>
+                                <span class="front">&#8361</span>
+                                <span class="totalPayment sum back"></span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th scope="row" colspan="2">
+                                <span class="deducted-rate back">3.3</span>% 공제액
+                            </th>
+                            <td>
+                                <span class="front">&#8361</span>
+                                <span class="totalPayment deducted back"></span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th scope="row" colspan="2">실지급액</th>
+                            <td>
+                                <span class="front">&#8361</span>
+                                <span class="totalPayment amount back"></span>
+                            </td>
+                        </tr>
+                    </tfoot>
+                </table>
+            </div>
+        </div>    
+    </div>
+    <div class="invoice-page__employment">
+        <div class="invoice-page-wrap">
+            <div class="invoice-top">
+                <h1 class="invoice-top__title">INVOICE</h1>                    
+                <img src="images/clevers_logo.png" alt="" class="invoice-top__logo">
+            </div>
+            <div class="invoice-middle">
+                <div class="invoice-middle__greeting">
+                    <p>저희에게 전문가님의 소중한 지식과 정보를 공유해주셔서 감사드립니다.</p>
+                    <p>해당 인보이스를 보시고 내역에 이견이 있으실 경우 언제든지 연락 부탁드리겠습니다.</p>
+                    <p>항상 전문가님의 적극적인 참여와 도움에 진심으로 감사의 말씀을 드립니다.</p>
+                </div>
+                <img src="images/clevers_stamp.png" alt="" class="invoice-middle__stamp">
+            </div>
+            <div class="invoice-bottom">
+                <table class="calculateList">
+                    <colgroup>
+                        <col style="width:12%">
+                        <col style="width:10%">
+                        <col style="width:10%">
+                        <col style="width:12%">
+                        <col style="width:16%">
+                        <col style="width:20%">
+                        <col style="width:10%">
+                        <col style="width:10%">
+                    </colgroup>
+                    <thead>                                
+                        <tr>
+                            <th scope="row">전문가 이름</th>
+                            <td class="expert-name" colspan="3">
+                                <span class="center">홍길동, 삼성</span>
+                            </td>
+                            <th scope="row">계약기간</th>
+                            <td class="contract-period" colspan="3">
+                                <span class="center">2022.09.30 - 2022.12.31</span>
+                            </td>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <th scope="col">구분</th>
+                            <th scope="col">시작 일자</th>
+                            <th scope="col">종료 일자</th>
+                            <th scope="col">총 근무일 수</th>
+                            <th scope="col">총 근무 시간</th>
+                            <th scope="col">프로젝트</th>
+                            <th scope="col">지급 항목</th>
+                            <th scope="col">지급 금액</th>
+                        </tr>
+                        <tr class="workPeriod">
+                            <th scope="row">기존 계약</th>
+                            <td>
+                                <span class="basic start-date center">2022-09-01</span>
+                            </td>
+                            <td>
+                                <span class="basic end-date center">2022-09-11</span>
+                            </td>
+                            <td>
+                                <span class="basic total-day center"></span>일
+                            </td>
+                            <td>
+                                <span class="basic total-time center"></span>h
+                            </td>
+                            <td rowspan="4">
+                                <span class="basic project-name center">구매전략 프로젝트</span>
+                            </td>
+                            <td>기본금액</td>
+                            <td class="">
+                                <span class="front">&#8361</span>
+                                <span class="basic payment-cost back">2000000</span>
+                            </td>
+                        </tr>
+                        <tr class="workPeriod">
+                            <th scope="row">추가 업무</th>
+                            <td>
+                                <span class="additional start-date center">2022-09-01</span>
+                            </td>
+                            <td>
+                                <span class="additional end-date center">2022-09-11</span>
+                            </td>
+                            <td>
+                                <span class="additional total-day center"></span>일
+                            </td>
+                            <td>
+                                <span class="additional total-time center"></span>h
+                            </td>
+                            <td>추가금액</td>
+                            <td>
+                                <span class="front">&#8361</span>
+                                <span class="additional payment-cost back">2000000</span>
+                            </td>
+                        </tr>
+                        <tr class="workPeriod">
+                            <th scope="row">그 외</th>
+                            <td>
+                                <span class="etc start-date center">2022-09-01</span>
+                            </td>
+                            <td>
+                                <span class="etc end-date center">2022-09-11</span>
+                            </td>
+                            <td>
+                                <span class="etc total-day center"></span>일
+                            </td>
+                            <td>
+                                <span class="etc total-time center"></span>h
+                            </td>
+                            <td>기타금액</td>
+                            <td>
+                                <span class="front">&#8361</span>
+                                <span class="etc payment-cost back">2000000</span>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                <table class="calculateResult">
+                    <colgroup>
+                        <col>
+                        <col>
+                        <col>
+                    </colgroup>
+                    <tfoot>
+                        <tr>
+                            <th scope="row" colspan="2">총지급액</th>
+                            <td class="totalPayment sum">
+                                <span class="front">&#8361</span>
+                                <span class="back"></span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th scope="row" colspan="2">공제액</th>
+                            <td class="totalPayment deducted">
+                                <span class="front">&#8361</span>
+                                <span class="back"></span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th scope="row" colspan="2">실지급액</th>
+                            <td class="totalPayment amount">
+                                <span class="front">&#8361</span>
+                                <span class="back"></span>
+                            </td>
+                        </tr>
+                    </tfoot>
+                </table>
+                <table class="memo">
+                    <tbody>
+                        <tr>
+                            <td colspan="8">
+                                메모
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                <table class="wayToCalculate">
+                    <thead>
+                        <tr>
+                            <th scope="col" colspan="3">공제액 산출 방법</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <th scope="col">공제항목</th>
+                            <th scope="col">산출방법</th>
+                            <th scope="col">지급액</th>
+                        </tr>
+                        <tr class="nationalPension">
+                            <th scope="row">국민연금</th>
+                            <td>
+                                과세금액의 <span class="rate center">4.5</span>%
+                            </td>
+                            <td>
+                                <span class="center">&#8361</span>
+                                <span class="deduction center"></span>
+                            </td>
+                        </tr>
+                        <tr class="healthInsurance">
+                            <th scope="row">건강보험</th>
+                            <td>
+                                과세금액의 <span class="rate center">3.495</span>%
+                            </td>
+                            <td>
+                                <span class="center">&#8361</span>
+                                <span class="deduction center"></span>
+                            </td>
+                        </tr>
+                        <tr class="longCare">
+                            <th scope="row">장기요양</th>
+                            <td>
+                                건강보험액의 <span class="rate center">12.27</span>%
+                            </td>
+                            <td>
+                                <span class="center">&#8361</span>
+                                <span class="deduction center"></span>
+                            </td>
+                        </tr>
+                        <tr class="employInsurance">
+                            <th scope="row">고용보험</th>
+                            <td>
+                                과세금액의 <span class="rate center">0.8</span>%
+                            </td>
+                            <td>
+                                <span class="center">&#8361</span>
+                                <span class="deduction center"></span>
+                            </td>
+                        </tr>
+                        <tr class="incomeTax">
+                            <th scope="row">소득세</th>
+                            <td>
+                                부양가족수, 20세 이하 자녀 수 따라 간이세액표 기준
+                            </td>
+                            <td>
+                                <span class="center">&#8361</span>
+                                <span class="deduction center"></span>
+                            </td>
+                        </tr>
+                        <tr class="localIncomeTax">
+                            <th scope="row">지방소득세</th>
+                            <td>
+                                소득세의 <span class="rate center">10</span>%
+                            </td>
+                            <td>
+                                <span class="center">&#8361</span>
+                                <span class="deduction center"></span>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <script>
+        /* 공용 함수 ---------------------------------------------------------------------------------------------------------------- */
+            // 정규식 표현 - k단위 자동(,)입력
+            const regularExpressionComma = function(payment) {
+                Array.from(payment).forEach((consultation) => {
+                    consultation.innerText = Number(consultation.innerText).toLocaleString();
+                });
+            }
+            // 정규식 표현 - 소수점 출력 (대상, 소수점 개수)
+            const regularExpressionFloat = function(invoiceCredit, len) {
+                Array.from(invoiceCredit).forEach((credit) => {
+                    credit.innerText = parseFloat(Number(credit.innerText)).toFixed(len);
+                });
+            }
+            // 근무 기간 계산 
+        //     var workPeriod = document.querySelectorAll(".workPeriod");
+        //     Array.from(workPeriod).forEach((date) => {
+        //         var startDate = new Date(date.querySelector(".start-date").innerText);
+        //         var endDate = new Date(date.querySelector(".end-date").innerText);
+        //         var workingDay = new Date(endDate - startDate).getDate();
+        //         date.querySelector(".total-day").innerText = workingDay;
+        //         startDate.innerText = new Intl.DateTimeFormat('kr').format(new Date(startDate));
+        //     });
+        // /* ---------------------------------------------------------------------------------------------------------------- 공용 함수 */
+
+        /* 인보이스(인터뷰, 강연) ---------------------------------------------------------------------------------------------------- */
+            const interLecColList = document.querySelector(".invoice-page__interLec colgroup").children;
+
+            // 인보이스(인터뷰, 강연) - 상단 로고, 도장 사이즈
+            var interLecLogo = document.querySelector(".invoice-page__interLec .invoice-top__logo");
+            var interLecStamp = document.querySelector(".invoice-page__interLec .invoice-middle__stamp");
+            interLecLogo.style.width = (interLecColList[5].clientWidth + interLecColList[6].clientWidth) + "px";
+            interLecStamp.style.width = (interLecColList[7].clientWidth) + "px";
+            interLecStamp.style.height = (interLecColList[7].clientWidth) + "px";
+
+            // 인보이스(인터뷰, 강연) - 지급액 총 계산 결과 테이블 헤더 & 바디 셀 길이
+            var interLecResultHeader = document.querySelector(".invoice-page__interLec tfoot tr th");
+            var interLecResultBody = document.querySelector(".invoice-page__interLec tfoot tr td");
+            interLecResultHeader.style.width = (interLecColList[5].clientWidth + interLecColList[6].clientWidth) + "px";
+            interLecResultBody.style.width = (interLecColList[7].clientWidth) + 1 + "px";
+            
+            // 총 지급액 계산
+            const calculateTotalPayment_deduction = function(paymentList) {
+                var totalPayment = 0;
+                var deductedRate = Number(document.querySelector(".deducted-rate").innerText) * 0.01;
+                
+                Array.from(paymentList).forEach((payment) => {  // 총지급액 계산
+                    totalPayment += Number(payment.innerText);
+                });
+                var amountDeducted = totalPayment * deductedRate;  // 공제액 계산
+                var amountPayment = totalPayment - amountDeducted;  // 실지급액 계산
+                document.querySelector(".invoice-page__interLec .totalPayment.sum.back").innerText = totalPayment;
+                document.querySelector(".invoice-page__interLec .totalPayment.deducted.back").innerText = amountDeducted;
+                document.querySelector(".invoice-page__interLec .totalPayment.amount.back").innerText = amountPayment;
+            }
+
+            var invoiceCredit = document.querySelectorAll(".invoice-page__interLec .credit .back");  // 크레딧 
+            var invoiceConsultation = document.querySelectorAll(".invoice-page__employment .consultation-cost .back");  // 자문료 리스트
+            var invoicePayment = document.querySelectorAll(".invoice-page__interLec .payment-cost .back");  // 지급액 리스트
+            var calculatePayment = document.querySelectorAll(".invoice-page__interLec .totalPayment.back");  // 총 지급액 리스트
+
+            regularExpressionFloat(invoiceCredit, 1);
+            regularExpressionComma(invoiceConsultation);
+            calculateTotalPayment_deduction(invoicePayment);
+            regularExpressionComma(invoicePayment);
+            regularExpressionComma(calculatePayment);
+        /* ---------------------------------------------------------------------------------------------------- 인보이스(인터뷰, 강연) */
+
+        /* 인보이스(장단기 채용) ----------------------------------------------------------------------------------------------------- */
+            const employColList = document.querySelector(".invoice-page__employment colgroup").children;
+
+            // 인보이스(장단기 채용) - 상단 로고, 도장 사이즈
+            var employmentLogo = document.querySelector(".invoice-page__employment .invoice-top__logo");
+            var employmentStamp = document.querySelector(".invoice-page__employment .invoice-middle__stamp");
+            employmentLogo.style.width = (employColList[5].clientWidth / 2) + employColList[7].clientWidth + "px";
+            employmentStamp.style.width = (employColList[7].clientWidth) + "px";
+            employmentStamp.style.height = (employColList[7].clientWidth) + "px";
+
+            // 인보이스(장단기 채용) - 지급액 총 계산 결과 테이블 헤더 & 바디 셀 길이
+            var employmentResultHeader = document.querySelector(".invoice-page__employment tfoot tr th");
+            var employmentResultBody = document.querySelector(".invoice-page__employment tfoot tr td");
+            employmentResultHeader.style.width = (employColList[5].clientWidth / 2) + employColList[7].clientWidth + "px";
+            employmentResultBody.style.width = (employColList[7].clientWidth) + 1 + "px";
+
+            // 인보이스(장단기 채용) - 공제액 산출방법 테이블 헤더 & 바디 셀 길이
+            var wayToCalculateIndex =  document.querySelector(".invoice-page__employment .wayToCalculate tbody tr").children;
+            wayToCalculateIndex[0].style.width = (employColList[0].clientWidth) + (employColList[1].clientWidth) + (employColList[2].clientWidth) + "px";
+            wayToCalculateIndex[1].style.width = (employColList[3].clientWidth) + (employColList[4].clientWidth) + (employColList[5].clientWidth / 2) + "px";
+            wayToCalculateIndex[2].style.width = (employColList[5].clientWidth / 2) + (employColList[6].clientWidth) + (employColList[7].clientWidth) + "px";
+
+            // 총 지급액 계산
+            const calculateTotalPayment_Insurance = function(paymentList) {
+                
+                var totalTax = 0;
+                var totalPayment = 0;
+                var nationalPension = document.querySelector(".invoice-page__employment .nationalPension");  // 국민연금
+                var healthInsurance = document.querySelector(".invoice-page__employment .healthInsurance");  // 건강보험
+                var longCare = document.querySelector(".invoice-page__employment .longCare");  // 장기요양
+                var employInsurance = document.querySelector(".invoice-page__employment .employInsurance");  // 고용보험
+                var incomeTax = document.querySelector(".invoice-page__employment .incomeTax");  // 소득세
+                var localIncomeTax = document.querySelector(".invoice-page__employment .localIncomeTax");  // 지방소득세
+                const insuranceList = [nationalPension, healthInsurance, employInsurance];
+                
+                Array.from(paymentList).forEach((payment) => {  // 총지급액 계산
+                    totalPayment += Number(payment.innerText);
+                });
+                
+                Array.from(insuranceList).forEach((taxType) => {  // 공제액 계산
+                    var rate = Number(taxType.querySelector(".rate").innerText);
+                    var paymentTax = taxType.querySelector(".deduction");
+                    var calculatedTax = Math.round(Number(totalPayment * rate * 0.01));
+                    paymentTax.innerText = calculatedTax;
+                    totalTax += calculatedTax;
+                });
+                // 장기요양 계산
+                var longCareRate = Number(longCare.querySelector(".rate").innerText * 0.01);
+                longCare.querySelector(".deduction").innerText = Math.round(healthInsurance.querySelector(".deduction").innerText * longCareRate);
+                
+                // 지방소득세 계산
+                var localIncomeTaxRate = Number(localIncomeTax.querySelector(".rate").innerText * 0.01);
+                localIncomeTax.querySelector(".deduction").innerText = Math.round(incomeTax.querySelector(".deduction").innerText * localIncomeTaxRate);
+                
+                // 지방소득세 추후 추가 기입을 위해 계산식 분리
+                var taxList = document.querySelectorAll(".invoice-page__employment table.wayToCalculate tbody .back");  
+                Array.from(taxList).forEach((tax) => {
+                    totalTax += Number(tax.innerText);
+                });
+
+                var amountPayment = totalPayment - totalTax;  // 실지급액 계산
+                document.querySelector(".invoice-page__employment .totalPayment.sum .back").innerText = totalPayment;
+                document.querySelector(".invoice-page__employment .totalPayment.deducted .back").innerText = totalTax;
+                document.querySelector(".invoice-page__employment .totalPayment.amount .back").innerText = amountPayment;
+            }
+
+            var employinvoicePayment = document.querySelectorAll(".invoice-page__employment .payment-cost.back");  // 지급액 리스트
+            var employCalculatePayment = document.querySelectorAll(".invoice-page__employment .totalPayment .back");  // 총 지급액 리스트
+            var deductionList = document.querySelectorAll(".invoice-page__employment .deduction.center");
+            
+            calculateTotalPayment_Insurance(employinvoicePayment);
+            regularExpressionComma(employCalculatePayment);
+            regularExpressionComma(employinvoicePayment);
+            regularExpressionComma(deductionList);
+        /* ----------------------------------------------------------------------------------------------------- 인보이스(장단기 채용) */
+
+    </script>
+</body>
+</html>

@@ -1,0 +1,985 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="css/reset.css">
+    <link rel="stylesheet" href="css/animate.css">
+    <style>
+        /* 공용 시작 ---------------------------------------------------------------------- */
+        :root {
+            /* rgb(43, 43, 43) */
+            --background-main: #fff;
+
+            /* rgb (244, 186, 86) */
+            --theme-main: #f4ba56;
+
+            /* rgb (203, 109, 47) */
+            --theme-sub: #cb6d2f;
+
+            /* rgb (206, 218, 224) */
+            --theme-text: #cedae0;
+            --book-shrink-scale: 0.5;
+            --book-width: 640px;  /* 320 300 */
+            --book-page-width: 600px;
+            --book-height: 884px;/* 424 404*/
+            --book-page-height: 808px;
+            --book-cover-thick: 35px;
+            --book-pages: 6px;
+            --book-pages-thick: calc(0.1 * var(--book-pages));
+            /* --book-pages-thick: 0px; */
+            --book-total-thick: calc((var(--book-cover-thick) * 2) + var(--book-pages-thick));
+            --book-side-thick: calc(0.5 * var(--book-total-thick));
+            --book-total-width: calc(var(--book-side-thick) + var(--book-width));
+            --book-perspective: calc(var(--book-height) + var(--book-width));
+            
+            --pi: 3.14159265358979;
+            --book-cover-border-radius: 10px;
+            --book-cover-radius-corner-count: 20;
+            /* 다각형의 내각
+                n(변의 수)f
+                = (n - 2) * 180° / n */
+            /* 원에 내접하는 한 면의 길이
+                n(내각)
+                = 2r * tan(π/n)
+                */
+            /* 원에 외접하는 한 면의 길이
+                n(내각)
+                = 2R * sin(π/n)
+                */
+            --book-radius-corner-degree: calc((360 / var(--book-cover-radius-corner-count)));
+            --book-radius-corner-width: calc(
+                2 * var(--book-cover-border-radius) * sin(var(--pi) / var(--book-cover-radius-corner-count))
+            );
+            --book-side-radius-corner-width: calc(
+                2 * (0.5 * var(--book-total-thick)) * sin(var(--pi) / var(--book-cover-radius-corner-count))
+            );
+            
+            --open-book-side-radius-corner-width: calc(
+                2 * var(--book-cover-thick) * sin(var(--pi) / var(--book-cover-radius-corner-count))
+            );
+        }
+        @font-face {
+            font-family: 'maplestory-bold';
+            src: url('./font/Maplestory-Bold.ttf');
+        }
+        @font-face {
+            font-family: 'maplestory-light';
+            src: url('./font/Maplestory-Light.ttf');
+        }
+        @keyframes hhi {
+            0% {
+                transform: rotateX(45deg)
+                rotateY(0deg) rotateZ(0deg)
+                translate3d(0, 0, 0);
+            }
+            100% {
+                transform: rotateX(45deg)
+                rotateY(0deg) rotateZ(360deg)
+                translate3d(0, 0, 0);
+            }
+        }
+
+        /* 공용 끝 ---------------------------------------------------------------------- */
+        
+
+        /* 책 바인더 공통 시작 ---------------------------------------------------------------------- */
+            .book-binder__box {
+                display: flex;
+                position: relative;
+                align-items: center;
+                justify-content: center;
+                width: 100vw;
+                height: 100vh;
+                background-color: #cb6d2f;
+            }    
+            .book-binder__box .scene {
+                display: flex;
+                position: relative;
+                width: var(--book-width);
+                height: var(--book-height);
+                background-color: #f4ba56;
+                perspective: var(--book-perspective);
+            }
+            .book-binder {
+                scale: var(--book-shrink-scale);
+                top: 50%;
+                left: calc(var(--book-shrink-scale) * (0.5 * var(--book-total-width)));
+                position: absolute;
+                transform-style: preserve-3d;
+                transition: 0.4s;
+                transform: rotateX(30deg) rotateZ(10deg);
+            }
+            .book-binder.open {
+                scale: 1;
+                left: 50%;
+                transform: rotateX(0deg) rotateZ(0deg);
+            }
+            .book-side,
+            .book-cover,
+            .book-binder__page {            
+                display: flex;    
+                position: absolute;
+                flex-flow: column;
+                -ms-flex-flow: column;
+                align-items: center;
+                justify-content: center;
+                top: 50%;
+                transform: translate(0, -50%);
+                transform-style: preserve-3d;
+            }
+        /* 책 바인더 공통 끝 ---------------------------------------------------------------------- */
+
+
+        /* 책 옆면 시작 ---------------------------------------------------------------------- */
+            .book-side {
+                position: absolute;
+                width: var(--book-width);
+                height: var(--book-height);
+            }
+            .book-side__face {
+                display: flex;
+                position: absolute;
+                align-items: center;
+                justify-content: center;
+                transition: 0.4s;
+            }
+            .book-side__face--top,
+            .book-side__face--bottom {
+                position: absolute;
+                width: var(--book-side-thick);
+                height: var(--book-total-thick);
+            }
+            .book-side__face--top {
+                top: calc(-1 * var(--book-side-thick));
+                left: calc(-1 * var(--book-side-thick));
+                transform: rotateX(90deg) rotateZ(0deg);
+                border-top-left-radius: calc(var(--book-side-thick)) calc(var(--book-side-thick));
+                border-bottom-left-radius: calc(var(--book-side-thick)) calc(var(--book-side-thick));
+            }
+            .book-side__face--bottom {
+                bottom: calc(-1 * var(--book-side-thick));
+                left: calc(-1 * var(--book-side-thick));
+                transform: rotateX(90deg) rotateZ(180deg);
+                border-top-right-radius: calc(var(--book-side-thick)) calc(var(--book-side-thick));
+                border-bottom-right-radius: calc(var(--book-side-thick)) calc(var(--book-side-thick));
+            }
+
+            .book-side__face--top.open {
+                left: calc(-0.5 * var(--book-side-thick));
+                width: var(--book-cover-thick);
+                height: calc(2 * var(--book-cover-thick));
+                transform:
+                    rotateX(90deg)
+                    rotateZ(90deg)
+                    translateX(calc(-0.5 * (var(--book-cover-thick)))
+                    );
+            }
+            .book-side__face--bottom.open {    
+                left: calc(-0.5 * var(--book-side-thick));            
+                width: var(--book-cover-thick);
+                height: calc(2 * var(--book-cover-thick));
+                transform:
+                    rotateX(90deg)
+                    rotateZ(270deg)
+                    translateX(calc(0.5 * (var(--book-cover-thick)))
+                    );
+            }
+            
+            .book-side .cr-Side {
+                position: absolute;
+                left: calc(-1 * var(--book-side-thick));
+                height: var(--book-height);
+                width: calc(0.5 * (var(--book-total-thick)));
+                transform-style: preserve-3d;                
+                transform: rotateY(180deg);
+                transition: 0.4s;
+            }
+            /* open */
+            .book-side .cr-Side.open {
+                left: calc(-0.5 * var(--book-side-thick));            
+                width: calc(var(--book-cover-thick));
+                transform:
+                    rotateY(90deg)
+                    translateX(calc(0.5 * (var(--book-cover-thick)))
+                    );
+            }
+            .book-side .cr-Side .side {
+                left: calc(-0.5* var(--book-side-radius-corner-width));
+                position: absolute;
+                height: var(--book-height);
+                width: var(--book-side-radius-corner-width);                
+            }
+            .book-side .cr-Side .s0 {
+                background-color: rgba(255, 0, 0, 0.8);
+                transform: rotateY(9deg) translate3D(0, 0, calc(0.5 * var(--book-total-thick)));
+            }
+            .book-side .cr-Side .s1 {
+                background-color: rgba(255, 122, 0, 0.8);
+                transform: rotateY(27deg) translate3D(0, 0, calc(0.5 * var(--book-total-thick)));
+            }
+            .book-side .cr-Side .s2 {
+                background-color: rgba(255, 255, 0, 0.8);
+                transform: rotateY(45deg) translate3D(0, 0, calc(0.5 * var(--book-total-thick)));
+            }
+            .book-side .cr-Side .s3 {
+                background-color: rgba(0, 255, 122, 0.8);
+                transform: rotateY(63deg) translate3D(0, 0, calc(0.5 * var(--book-total-thick)));
+            }
+            .book-side .cr-Side .s4 {
+                background-color: rgba(120, 122, 255, 0.8);
+                transform: rotateY(81deg) translate3D(0, 0, calc(0.5 * var(--book-total-thick)));
+            }
+            .book-side .cr-Side .s5 {
+                background-color: rgba(0, 0, 255, 0.8);
+                transform: rotateY(99deg) translate3D(0, 0, calc(0.5 * var(--book-total-thick)));
+            }
+            .book-side .cr-Side .s6 {
+                background-color: rgba(255, 0, 255, 0.8);
+                transform: rotateY(117deg) translate3D(0, 0, calc(0.5 * var(--book-total-thick)));
+            }
+            .book-side .cr-Side .s7 {
+                background-color: rgba(24, 122, 60, 0.8);
+                transform: rotateY(135deg) translate3D(0, 0, calc(0.5 * var(--book-total-thick)));
+            }
+            .book-side .cr-Side .s8 {
+                background-color: rgba(24, 255, 60, 0.8);
+                transform: rotateY(153deg) translate3D(0, 0, calc(0.5 * var(--book-total-thick)));
+            }
+            .book-side .cr-Side .s9 {
+                background-color: rgba(124, 25, 120, 0.8);
+                transform: rotateY(171deg) translate3D(0, 0, calc(0.5 * var(--book-total-thick)));
+            }
+        /* 책 옆면 끝 ---------------------------------------------------------------------- */
+
+
+        /* 책 페이지 시작 ---------------------------------------------------------------------- */
+            .book-binder__page {
+                display: flex;
+                position: absolute;
+                flex-flow: column;
+                -ms-flex-flow: column;
+                justify-content: space-between;
+                width: calc(var(--book-page-width));
+                height: calc(var(--book-page-height));
+                padding: 4% 5%;
+                border: 0.1px solid black;
+                transition: 0.4s;
+                top: 50%;
+            }
+            /* .book-binder__page:nth-of-type(1) {transform: translate3D(0%, -50%, 6px);}
+            .book-binder__page:nth-of-type(2) {transform: translate3D(0%, -50%, 5px);}
+            .book-binder__page:nth-of-type(3) {transform: translate3D(0%, -50%, 4px);}
+            .book-binder__page:nth-of-type(4) {transform: translate3D(0%, -50%, 3px);}
+            .book-binder__page:nth-of-type(5) {transform: translate3D(0%, -50%, 2px);}
+            .book-binder__page:nth-of-type(6) {transform: translate3D(0%, -50%, 1px);} */
+            .page-main {
+                display: flex;
+                position: relative;
+                align-items: center;
+                flex-flow: column;
+                -ms-flex-flow: column;
+                width: 100%;
+                height: 100%;
+            }
+            .page-main h1 {
+                font-size: 1px;
+            }
+            .page-main span {
+                position: relative;
+                height: 50%;
+                width: 70%;
+            }
+            .page-main span img {
+                position: relative;
+                object-fit: contain;
+                width: 100%;
+            }
+            .page-bottom {
+                display: flex;
+                position: relative;
+                flex-flow: row;
+                -ms-flex-flow: row;
+                align-items: flex-end;
+                justify-content: flex-end;
+                width: 100%;
+                line-height: 2em;
+                height: 2em;
+                font-size: 1px;
+            }
+            .page-bottom .page-index{
+                width: 2em;
+                text-align: center;
+                font-size: inherit;
+            }
+        /* 책 페이지 끝 ---------------------------------------------------------------------- */
+
+
+        /* 책 커버 시작 ---------------------------------------------------------------------- */
+            .book-cover {
+                position: absolute;
+                width: var(--book-width);
+                height: var(--book-height);
+                transform-origin: left;
+                transition: 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            }
+            .book-cover.Fr {
+                top: 50%;
+                transform:
+                    rotateY(0deg)
+                    translate3d(
+                        0,
+                        -50%,
+                        calc(0.5 * (var(--book-cover-thick) + var(--book-pages-thick)))
+                    );
+                border-top-right-radius: var(--book-cover-border-radius) var(--book-cover-border-radius);
+                border-bottom-right-radius: var(--book-cover-border-radius) var(--book-cover-border-radius);
+            }
+            .book-cover.Rr {
+                top: 50%;
+                transform:
+                    rotateY(180deg)
+                    translate3d(
+                        -100%,
+                        -50%,
+                        calc((0.5 * (var(--book-cover-thick) + var(--book-pages-thick))))
+                    );                
+                border-top-left-radius: var(--book-cover-border-radius) var(--book-cover-border-radius);
+                border-bottom-left-radius: var(--book-cover-border-radius) var(--book-cover-border-radius);
+            }
+            .book-cover.Fr.flip { /* 앞 커버 오픈 */
+                transform:
+                    rotateY(-180deg)
+                    translate3D(
+                        0,
+                        -50%,
+                        calc(0.5 * (var(--book-cover-thick) + var(--book-pages-thick)))
+                    );
+            }
+            .book-cover.Rr.flip { /* 뒷 커버 닫기 */
+                transform:
+                    rotateY(0deg)
+                    translate3d(
+                        -100%,
+                        -50%,
+                        calc(0.5 * (var(--book-cover-thick) + var(--book-pages-thick)))
+                    );
+            }
+            .book-cover__face {
+                display: flex;
+                position: absolute;
+                align-items: center;
+                justify-content: center;
+            }
+            .book-cover h1 {
+                font-size: 1px;
+                font-weight: 700;
+            }
+            .book-cover__face--top,
+            .book-cover__face--bottom {
+                width: calc(var(--book-width) - var(--book-cover-border-radius));
+                height: var(--book-cover-thick);
+            }
+            
+            .book-cover__face--front,
+            .book-cover__face--back {
+                width: var(--book-width);
+                height: var(--book-height);
+            }
+            .Fr .book-cover__face--front,
+            .Rr .book-cover__face--back {
+                border-top-right-radius: var(--book-cover-border-radius) var(--book-cover-border-radius);
+                border-bottom-right-radius: var(--book-cover-border-radius) var(--book-cover-border-radius);
+            }
+            .Fr .book-cover__face--back,
+            .Rr .book-cover__face--front {
+                border-top-left-radius: var(--book-cover-border-radius) var(--book-cover-border-radius);
+                border-bottom-left-radius: var(--book-cover-border-radius) var(--book-cover-border-radius);
+            }
+            
+            .Fr .book-cover__face--top {
+                top: calc(-0.5 * var(--book-cover-thick));
+                left: 0;
+                transform: rotateX(90deg);
+            }
+            .Rr .book-cover__face--top {
+                top: calc(-0.5 * var(--book-cover-thick));
+                right: 0;
+                transform: rotateX(90deg);
+            }
+            .Fr .book-cover__face--bottom {
+                bottom: calc(-0.5 * var(--book-cover-thick));
+                left: 0;
+                transform: rotateX(90deg);
+            }
+            .Rr .book-cover__face--bottom {
+                bottom: calc(-0.5 * var(--book-cover-thick));
+                right: 0;
+                transform: rotateX(90deg);
+            }
+            .Fr .book-cover__face--front {
+                transform: rotateY(0deg)
+                    translateZ(calc(0.5 * var(--book-cover-thick))
+                    );
+            }
+            .Rr .book-cover__face--front {
+                transform: rotateY(0deg)
+                    translateZ(calc(0.5 * var(--book-cover-thick))
+                    );
+            }
+            .Fr .book-cover__face--back {
+                transform: rotateY(180deg)
+                    translateZ(calc(0.5 * var(--book-cover-thick))
+                    );
+            }
+            .Rr .book-cover__face--back {
+                transform: rotateY(180deg)
+                    translateZ(calc(0.5 * var(--book-cover-thick))
+                    );
+            }
+            .book-cover__face--left,
+            .book-cover__face--right {            
+                width: var(--book-cover-thick);
+            }
+            .Fr .book-cover__face--left,
+            .Rr .book-cover__face--right {
+                height: var(--book-height);
+            }
+            .Fr .book-cover__face--right,
+            .Rr .book-cover__face--left {
+                height: calc(var(--book-height) - (2 * var(--book-cover-border-radius)));
+            }
+            .Fr .book-cover__face--right {
+                right: calc(-0.5 * var(--book-cover-thick));                
+                transform: rotateY(90deg);
+            }
+            .Fr .book-cover__face--left {  /* 앞 커버 좌측면 */
+                left: calc(-0.5 * var(--book-cover-thick));
+                transform: rotateY(90deg);
+            }
+            .Rr .book-cover__face--right {  /* 뒷 커버 우측면 */
+                right: calc(-0.5 * var(--book-cover-thick));
+                transform: rotateY(90deg);
+            }
+            .Rr .book-cover__face--left {  /* 뒷 커버 좌측면 */
+                left: calc(-0.5 * var(--book-cover-thick));
+                bottom: var(--book-cover-border-radius);
+                transform: rotateY(-90deg);
+            }
+            .book-cover .cr {
+                position: absolute;
+                transform: rotateY(90deg);
+                transform-style: preserve-3d;
+                width: var(--book-cover-thick);
+                height: var(--book-cover-border-radius);
+                
+            }
+            .cr-Tp-Rt {
+                top: 0;
+                right: calc(-0.5 * var(--book-cover-thick) + var(--book-cover-border-radius));
+            }
+            .cr-Bt-Rt {
+                bottom: 0;
+                right: calc(-0.5 * var(--book-cover-thick) + var(--book-cover-border-radius));
+            } 
+            .cr-Tp-Lt {
+                top: 0;
+                left: calc(-0.5 * var(--book-cover-thick) + var(--book-cover-border-radius));
+            }
+            .cr-Bt-Lt {
+                bottom: 0;
+                left: calc(-0.5 * var(--book-cover-thick) + var(--book-cover-border-radius));
+            }
+            
+            .book-cover .cr .side {
+                position: absolute;
+                height: var(--book-radius-corner-width);
+                width: var(--book-cover-thick);
+            }
+            .book-cover .cr-Tp-Rt .side,
+            .book-cover .cr-Tp-Lt .side {
+                top: calc(var(--book-cover-border-radius) - (0.5 * var(--book-radius-corner-width)));
+            }
+            .book-cover .cr-Bt-Rt .side,
+            .book-cover .cr-Bt-Lt .side {
+                bottom: calc(var(--book-cover-border-radius) - (0.5 * var(--book-radius-corner-width)));
+            }
+            .book-cover .cr-Tp-Rt .s0 {
+                transform: rotateX(9deg) translate3D(0, 0, var(--book-cover-border-radius));
+            }
+            .book-cover .cr-Tp-Rt .s1 {
+                transform: rotateX(27deg) translate3D(0, 0, var(--book-cover-border-radius));
+            }
+            .book-cover .cr-Tp-Rt .s2 {
+                transform: rotateX(45deg) translate3D(0, 0, var(--book-cover-border-radius));
+            }
+            .book-cover .cr-Tp-Rt .s3 {
+                transform: rotateX(63deg) translate3D(0, 0, var(--book-cover-border-radius));
+            }
+            .book-cover .cr-Tp-Rt .s4 {
+                transform: rotateX(81deg) translate3D(0, 0, var(--book-cover-border-radius));
+            }
+            .book-cover .cr-Tp-Lt .s0 {            
+                transform: rotateX(99deg) translate3D(0, 0, var(--book-cover-border-radius));
+            }
+            .book-cover .cr-Tp-Lt .s1 {            
+                transform: rotateX(117deg) translate3D(0, 0, var(--book-cover-border-radius));
+            }
+            .book-cover .cr-Tp-Lt .s2 {            
+                transform: rotateX(135deg) translate3D(0, 0, var(--book-cover-border-radius));
+            }
+            .book-cover .cr-Tp-Lt .s3 {            
+                transform: rotateX(153deg) translate3D(0, 0, var(--book-cover-border-radius));
+            }
+            .book-cover .cr-Tp-Lt .s4 {            
+                transform: rotateX(171deg) translate3D(0, 0, var(--book-cover-border-radius));
+            }
+            .book-cover .cr-Bt-Lt .s0 {            
+                transform: rotateX(189deg) translate3D(0, 0, var(--book-cover-border-radius));
+            }
+            .book-cover .cr-Bt-Lt .s1 {            
+                transform: rotateX(207deg) translate3D(0, 0, var(--book-cover-border-radius));
+            }
+            .book-cover .cr-Bt-Lt .s2 {            
+                transform: rotateX(225deg) translate3D(0, 0, var(--book-cover-border-radius));
+            }
+            .book-cover .cr-Bt-Lt .s3 {            
+                transform: rotateX(243deg) translate3D(0, 0, var(--book-cover-border-radius));
+            }
+            .book-cover .cr-Bt-Lt .s4 {            
+                transform: rotateX(261deg) translate3D(0, 0, var(--book-cover-border-radius));
+            }
+            .book-cover .cr-Bt-Rt .s0 {
+                transform: rotateX(279deg) translate3D(0, 0, var(--book-cover-border-radius));
+            }
+            .book-cover .cr-Bt-Rt .s1 {
+                transform: rotateX(297deg) translate3D(0, 0, var(--book-cover-border-radius));
+            }
+            .book-cover .cr-Bt-Rt .s2 {
+                transform: rotateX(315deg) translate3D(0, 0, var(--book-cover-border-radius));
+            }
+            .book-cover .cr-Bt-Rt .s3 {
+                transform: rotateX(333deg) translate3D(0, 0, var(--book-cover-border-radius));
+            }
+            .book-cover .cr-Bt-Rt .s4 {
+                transform: rotateX(351deg) translate3D(0, 0, var(--book-cover-border-radius));
+            }
+        /* 책 커버 끝 ---------------------------------------------------------------------- */
+
+        .book-cover {
+            color: #fff;
+        }
+        .book-side__face--top,
+        .book-side__face--bottom,
+        .book-cover__face--right,
+        .book-cover__face--left {
+            writing-mode: vertical-lr;
+        }
+        .book-side__face--top {background-color: rgba(112,2,55,1);}
+        .book-side__face--bottom {background-color: rgba(112,2,55,1);}
+        .book-side .cr-Side .side {background-color: rgba(112,2,55,1);}
+        .book-cover__face--front {background-color: rgba(112,2,55,0.8);}
+        .book-cover__face--back {background-color: rgba(225, 222, 167, 0.8);}
+        .book-cover__face--top {background-color: rgba(2, 27, 246, 1);}
+        .book-cover__face--bottom {background-color: rgb(255, 162, 0);}
+        
+        .book-cover__face--right {background-color: rgba(255, 0, 0, 1);}
+        .book-cover__face--left {background-color: rgb(114, 255, 6);}
+        .cr-Tp-Rt{background-color: rgba(2, 27, 246, 1);}
+        .cr-Bt-Rt{background-color: rgba(255, 0, 0, 1);}
+        .cr-Tp-Lt{background-color: rgb(114, 255, 6);}
+        .cr-Bt-Lt{background-color: rgb(255, 162, 0);}
+        .book-cover .cr .face.side {background-color:inherit;}
+        .book-binder__page {
+            background-color: #fff;
+        }
+
+        .book-cover__face,
+        .cr .side,
+        .book-side__face,
+        .cr-Side .side {
+            border: 0.5px solid rgba(0, 0, 0, 0.5);
+        }
+    </style>
+    <body>
+        <div class="book-binder__box">
+            <div class="scene">
+                <ul class="book-binder">
+                    <!-- 0. side -->
+                    <li class="book-side">
+                        <div class="book-side__face book-side__face--top"></div>
+                        <div class="cr-Side">
+                            <div class="face side s0"></div>
+                            <div class="face side s1"></div>
+                            <div class="face side s2"></div>
+                            <div class="face side s3"></div>
+                            <div class="face side s4"></div>
+                            <div class="face side s5"></div>
+                            <div class="face side s6"></div>
+                            <div class="face side s7"></div>
+                            <div class="face side s8"></div>
+                            <div class="face side s9"></div>
+                        </div>
+                        <div class="book-side__face book-side__face--bottom"></div>
+                    </li>
+                    <!-- 1. cover Front -->
+                    <li class="book-cover Fr">
+                        <div class="book-cover__face book-cover__face--front"></div>
+                        <div class="book-cover__face book-cover__face--back"></div>
+                        <div class="book-cover__face book-cover__face--right"></div>
+                        <div class="book-cover__face book-cover__face--left"></div>
+                        <div class="book-cover__face book-cover__face--top"></div>
+                        <div class="book-cover__face book-cover__face--bottom"></div>
+                        <!-- <div class="book-cover__face book-cover__face--front">front</div>
+                        <div class="book-cover__face book-cover__face--back">back</div>
+                        <div class="book-cover__face book-cover__face--right">right</div>
+                        <div class="book-cover__face book-cover__face--left">left</div>
+                        <div class="book-cover__face book-cover__face--top">top</div>
+                        <div class="book-cover__face book-cover__face--bottom">bottom</div> -->
+                        <div class="cr cr-Tp-Rt">
+                            <div class="face side s0"></div>
+                            <div class="face side s1"></div>
+                            <div class="face side s2"></div>
+                            <div class="face side s3"></div>
+                            <div class="face side s4"></div>
+                        </div>
+                        <div class="cr cr-Bt-Rt">
+                            <div class="face side s0"></div>
+                            <div class="face side s1"></div>
+                            <div class="face side s2"></div>
+                            <div class="face side s3"></div>
+                            <div class="face side s4"></div>
+                        </div>
+                    </li>
+                    <!-- 2. page 1~2-->
+                    <li class="book-binder__page right">
+                        <div class="page-main">
+                            <h1>title</h1>
+                            <span>
+                                <img class="pimage" src="" alt="">
+                            </span>
+                        </div>
+                        <div class="page-bottom">
+                            <span class="page-index">1</span>
+                        </div>
+                    </li>
+                    <!-- 3. page 3~4-->
+                    <li class="book-binder__page right">
+                        <div class="page-main">
+                            <h1>3</h1>
+                            <span>
+                                <img class="pimage" src="" alt="">
+                            </span>
+                        </div>
+                        <div class="page-bottom">
+                            <span class="page-index">3</span>
+                        </div>
+                    </li>
+                    <!-- 4. page 5~6-->
+                    <li class="book-binder__page right">
+                        <div class="page-main">
+                            <h1>5</h1>
+                            <span>
+                                <img class="pimage" src="" alt="">
+                            </span>
+                        </div>
+                        <div class="page-bottom">
+                            <span class="page-index">5</span>
+                        </div>
+                    </li>
+                    <!-- 5. page 7~8-->
+                    <li class="book-binder__page right">
+                        <div class="page-main">
+                            <h1>7</h1>
+                            <span>
+                                <img class="pimage" src="" alt="">
+                            </span>
+                        </div>
+                        <div class="page-bottom">
+                            <span class="page-index">7</span>
+                        </div>
+                    </li>
+                    <!-- 6. page 9~10-->
+                    <li class="book-binder__page right">
+                        <div class="page-main">
+                            <h1>9</h1>
+                            <span>
+                                <img class="pimage" src="" alt="">
+                            </span>
+                        </div>
+                        <div class="page-bottom">
+                            <span class="page-index">9</span>
+                        </div>
+                    </li>
+                    <!-- 7. page 10~11-->
+                    <li class="book-binder__page right">
+                        <div class="page-main">
+                            <h1>11</h1>
+                            <span>
+                                <img class="pimage" src="" alt="">
+                            </span>
+                        </div>
+                        <div class="page-bottom">
+                            <span class="page-index">11</span>
+                        </div>
+                    </li>
+                    <!-- 8. cover Rear -->
+                    <li class="book-cover Rr">
+                        <div class="book-cover__face book-cover__face--front"></div>
+                        <div class="book-cover__face book-cover__face--back"></div>
+                        <div class="book-cover__face book-cover__face--right"></div>
+                        <div class="book-cover__face book-cover__face--left"></div>
+                        <div class="book-cover__face book-cover__face--top"></div>
+                        <div class="book-cover__face book-cover__face--bottom"></div>
+                        <!-- <div class="book-cover__face book-cover__face--front">front</div>
+                        <div class="book-cover__face book-cover__face--back">back</div>
+                        <div class="book-cover__face book-cover__face--right">right</div>
+                        <div class="book-cover__face book-cover__face--left">left</div>
+                        <div class="book-cover__face book-cover__face--top">top</div>
+                        <div class="book-cover__face book-cover__face--bottom">bottom</div> -->
+                        <div class="cr cr-Tp-Lt">
+                            <div class="face side s0"></div>
+                            <div class="face side s1"></div>
+                            <div class="face side s2"></div>
+                            <div class="face side s3"></div>
+                            <div class="face side s4"></div>
+                        </div>
+                        <div class="cr cr-Bt-Lt">
+                            <div class="face side s0"></div>
+                            <div class="face side s1"></div>
+                            <div class="face side s2"></div>
+                            <div class="face side s3"></div>
+                            <div class="face side s4"></div>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </body>
+    <script>
+        
+        const bookCoverFr = document.querySelector(".book-cover.Fr");
+        const bookCoverRr = document.querySelector(".book-cover.Rr");
+        const bookSideTp = document.querySelector(".book-side__face--top");
+        const bookSideBt = document.querySelector(".book-side__face--bottom");
+        const bookBinder = document.querySelector(".book-binder");
+        const bookBinderList = Array.from(bookBinder.children).slice(1, undefined);
+        const bookSide = document.querySelector(".book-side .cr-Side");
+        const bookPages = document.querySelectorAll(".book-binder__page");
+        let pageIndex;
+        
+        bookCoverFr.addEventListener("mouseup", ()=>{
+            if(bookCoverFr.classList.contains("flip")) {
+                bookCoverFr.classList.remove("flip");
+                bookBinder.classList.remove("open");
+                bookSide.classList.remove("open");
+                bookSideTp.classList.remove("open");
+                bookSideBt.classList.remove("open");
+            } else {
+                bookBinder.classList.add("open");
+                bookCoverFr.classList.add("flip");
+                bookSide.classList.add("open");
+                bookSideTp.classList.add("open");
+                bookSideBt.classList.add("open");
+                refreshRight();
+                pageIndex = 1;
+                addFlipEventPage(pageIndex);
+            }
+        });
+    
+        
+        addFlipEventPage = (idx) =>{
+            if (idx===0) {
+                bookPages[idx].addEventListener("mouseup", ()=>{                    
+                    console.log(bookPages[idx]);
+                    // bookCoverFr.removeEventListener('mouseup', (event)=>{
+                    //     event.preventDefault();
+                    //     event.stopPropagation();
+                    //     event.stopImmediatePropagation();
+                    // });
+                });
+            } else if (0 < idx < (bookPages.length - 1)) {
+                
+            } else if (idx === (bookPages.length - 1)) {
+
+            }
+        }
+        // const bookCoverFr = document.querySelector(".book-cover.Fr");
+        // const bookCoverRr = document.querySelector(".book-cover.Rr");
+        const bookCoverList = [bookCoverFr, bookCoverRr];
+        // const bookSideFace = document.querySelector(".book-side .cr-Side");
+        
+        let bookPaperWidth = Number(getComputedStyle(document.documentElement).getPropertyValue("--book-page-width").split("px")[0]);        
+        let bookBinderDuration = 1000;
+        let bookPageDuration = 2000;
+        let bookLeftPages;
+        let bookRightPages;
+        // console.log(bookSideFace.children)
+        // coverStatus = (cover) => {  // 커버 상태
+        //     bookLeftPages = document.querySelectorAll(".book-binder__page.left");
+        //     bookRightPages = document.querySelectorAll(".book-binder__page.right");
+        //     if (cover.classList.contains("open")) {  // 커버 닫을 때
+        //         if (bookRightPages.length) {  //앞 커버 닫을때
+        //             bookSideFace.classList.remove("open");
+        //             Array.from(bookSideFace.children).forEach((e, i) => {
+        //                 e.style.cssText = `
+        //                     width: var(--book-side-radius-corner-width);
+        //                     transform: rotateY(${(i + 1) * 9}deg) translate3D(0, 0, calc(0.5 * var(--book-total-thick)));
+        //                 `;
+        //             });
+        //             bookBinder.classList.remove("expand-book");
+        //             cover.classList.add("flipCoverRight");
+        //             Array.from(bookBinderList).forEach((e, i)=>{
+        //                 if (e.classList.contains("book-cover")) {
+        //                     e.classList.remove("open");
+        //                     e.style.cssText = `
+        //                         z-index: ${bookBinderList.length - i};
+        //                         left: 0;
+        //                     `;
+        //                 } else {
+        //                     e.style.cssText = `
+        //                         z-index: ${bookBinderList.length - i};
+        //                         width: ${bookPaperWidth}px;
+        //                         left: 0;
+        //                     `;
+        //                 }
+        //             });
+        //         } else if(bookLeftPages.length) {  // 뒷 커버 닫을 때
+        //             cover.classList.remove("flipCoverRight");
+        //             cover.classList.add("flipCoverLeft");
+        //             bookBinder.classList.remove("expand-book");
+        //             bookBinder.classList.add("shrink-book");
+        //             Array.from(bookBinderList).forEach((e, i)=>{
+        //                 if (e.classList.contains("book-cover")) {
+        //                     e.classList.remove("open");
+        //                     e.style.cssText = `
+        //                         z-index: ${i};
+        //                         left: 0;
+        //                     `;
+        //                 } else {
+        //                     e.style.cssText = `
+        //                         z-index: ${i};
+        //                         width: ${bookPaperWidth}px;
+        //                         left: 0;
+        //                     `;
+        //                 }
+        //             });
+        //         }
+        //     } else {  // 커버 열 때
+        //         if (bookRightPages.length) {  // 앞 커버가 위로 올라왔을 때
+        //             bookSideFace.classList.add("open");
+        //             Array.from(bookSideFace.children).forEach((e, i) => {
+        //                 e.style.cssText = `
+        //                     width: var(--open-book-side-radius-corner-width);
+        //                     transform: rotateY(${(i + 1) * 9}deg) translate3D(0, 0, calc(0.5 * var(--book-cover-thick)));
+        //                 `;
+        //             });
+        //             bookBinder.classList.add("expand-book");
+        //             cover.classList.add("flipCoverLeft");
+        //             cover.classList.remove("flipCoverRight");
+        //             Array.from(bookPages).forEach((e, i)=>{
+        //                 e.style.cssText = `
+        //                     z-index: ${bookPages.length - i};
+        //                     width: ${((bookPages.length) * i) * 0.3 + bookPaperWidth}px;
+        //                     left: 0;
+        //                 `;
+        //             });
+
+        //         }
+        //         else if(bookLeftPages.length) {  // 뒷 커버가 위로 올라왔을 때
+        //             bookBinder.classList.add("expand-book");
+        //             bookBinder.classList.remove("shrink-book");
+        //             cover.classList.add("flipCoverRight");
+        //             cover.classList.remove("flipCoverLeft");
+        //             Array.from(bookPages).forEach((e, i)=>{
+        //                 e.style.cssText = `
+        //                     z-index: ${i};
+        //                     width: ${((bookPages.length) * i) * 0.3 + bookPaperWidth}px;
+        //                     left: 0;
+        //                 `;
+        //             });
+        //         }                
+        //         setTimeout(() => {  // 커버가 열렸을 때 커버 z-index: 0, open 클래스 추가
+        //             Array.from(bookCoverList).forEach((e) => {
+        //                 e.classList.add("open");
+        //                 e.style.cssText = `z-index: 0;`;
+        //             });
+        //         }, 500);
+        //     }
+        // }
+
+        // Array.from(bookCoverList).forEach((e)=>{  // 책 커버를 클릭했을 떄 상태에 따른 함수 연결
+        //     e.addEventListener('mouseup', (event) => {
+        //         event.preventDefault();
+        //         coverStatus(e);
+        //     });
+        // });
+
+        setBindSequence = () => { // 책 바인딩 순서
+            Array.from(bookPages).forEach((e, i)=>{
+                e.style.cssText = `z-index: ${bookBinderList.length - i};`;
+            });
+        }
+
+
+        refreshRight = () => {  // 오른편 페이지들 재정렬
+            bookRightPages = document.querySelectorAll(".book-binder__page.right");  // 페이지 플립 후의 오른쪽 페이지 양
+            Array.from(bookRightPages).forEach((e, i)=>{
+                e.style.cssText = `
+                    z-index: ${bookRightPages.length - i};
+                    width: ${((bookRightPages.length) * i) * 0.3 + bookPaperWidth}px;
+                `;
+            });
+        }      
+        
+        refreshLeft = () => { // 왼편 페이지들 재정렬
+            bookLeftPages = document.querySelectorAll(".book-binder__page.left");  // 페이지 플립 후의 왼쪽 페이지 양
+            Array.from(bookLeftPages).forEach((e, i)=>{
+                e.style.cssText = `
+                    z-index: ${i};
+                    width: ${((bookLeftPages.length) * (bookLeftPages.length - i - 1)) * 0.3 + bookPaperWidth}px;
+                    `;
+            });
+        }
+        
+        (() =>{
+            setBindSequence();
+        })()
+        Array.from(bookPages).forEach((e, i)=>{  // 페이지 넘기는 함수
+            e.addEventListener("mouseup", (event) =>{
+                event.preventDefault();
+                if (e.classList.contains("right")) {  // 해당 페이지 위치가 오른쪽인지
+                    e.classList.remove("flipPageRight", "right");
+                    e.classList.add("flipPageLeft", "left");
+                    refreshLeft();
+                        refreshRight();
+                    setTimeout(() => {
+                        e.querySelector("h1").style.display="none";
+                        e.querySelector("img").style.display="none";
+                        e.querySelector(".page-index").innerText = Number(e.querySelector(".page-index").innerText) + 1;
+                        e.querySelector(".page-index").style.cssText = `transform: rotateY(180deg);`;
+                    }, 500);
+                } else if (e.classList.contains("left")) {  // 왼쪽 인지 확인
+                    e.classList.remove("flipPageLeft", "left");
+                    e.classList.add("flipPageRight", "right");
+                        refreshRight();
+                        refreshLeft();
+                    setTimeout(() => {
+                        e.querySelector("h1").style.display="block";
+                        e.querySelector("img").style.display="block";
+                        e.querySelector(".page-index").innerText = Number(e.querySelector(".page-index").innerText) - 1;
+                        e.querySelector(".page-index").style.cssText = `transform: rotateY(0deg);`;
+                    }, 500);
+                }
+                // console.log(bookLeftPages.length)
+                // console.log(bookRightPages.length)
+                // Array.from(bookBinderList).forEach((e, i)=>{
+                //     console.log("----------------------------------------------------");
+                //     console.log(`${window.getComputedStyle(e).getPropertyValue("class")}-${i}:` + window.getComputedStyle(e).getPropertyValue("width"));
+                // });
+            });
+        });
+    </script>
+</body>
+</html>
