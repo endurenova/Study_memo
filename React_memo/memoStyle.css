@@ -1,0 +1,14 @@
+strong {
+  color:chartreuse;
+}
+
+.accent {
+  font-weight: 700;
+  background-color: yellow;
+  color: red;
+}
+
+.method {
+  font-weight: 700;
+  color: #DCDCA0;
+}
