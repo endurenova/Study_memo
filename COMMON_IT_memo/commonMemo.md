@@ -398,13 +398,22 @@
 > ---
 
 > ### 재귀 함수
->```JavaScript
-> // JavaScript
-> function(x) {
->    if (x <= 1) return 1;
->    return x * arguments.callee(x-1);
->}
->```
+>> <details>
+>> <summary>
+>>  <span class="accent">JavaScript</span>
+>> </summary>
+>>
+>>```JavaScript
+>> // JavaScript - .callee()
+>>
+>> function(x) {
+>>    if (x <= 1) return 1;
+>>    return x * arguments.callee(x-1);
+>>}
+>>```
+>>
+>> </details>
+> ---
 
 > ### Alias
 > + 별칭이란 뜻으로 보기 편하게 대체명을 만들기 위해 사용
