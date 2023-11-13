@@ -1,14 +1,13 @@
 ### [Study Memo](https://github.com/endurenova/Study_memo/tree/main)
-> #### [COMMON_IT](https://github.com/endurenova/Study_memo/tree/main/COMMON_IT_memo)
+> #### [COMMON_IT](https://github.com/endurenova/Study_memo/tree/main/COMMON_IT_memo) 
+> + [Common Function Memo](https://github.com/endurenova/Study_memo/blob/main/COMMON_IT_memo/commonMemo.md)🌱
 > + [CSR (Client Side Rendering)](https://github.com/endurenova/Study_memo/blob/main/COMMON_IT_memo/CSR_SSR.md) 
->
 > + [SSR (Server Side Rendering)](https://github.com/endurenova/Study_memo/blob/main/COMMON_IT_memo/CSR_SSR.md)
 > + [CRM (Customer Relationship Management)](https://github.com/endurenova/Study_memo/blob/main/COMMON_IT_memo/CRM_ERP.md)
 > + [ERP (Enterprise Resource Planning)](https://github.com/endurenova/Study_memo/blob/main/COMMON_IT_memo/CRM_ERP.md)
 > + [SPA (Single Page Application)](https://github.com/endurenova/Study_memo/blob/main/COMMON_IT_memo/SPA_MPA.md)
 > + [MPA (Multi Page Application)](https://github.com/endurenova/Study_memo/blob/main/COMMON_IT_memo/SPA_MPA.md)
 > + [SEO (Search Engine Optimization)](https://github.com/endurenova/Study_memo/blob/main/COMMON_IT_memo/SEO.md)
->
 > 
 > #### [Flutter](https://github.com/endurenova/Study_memo/tree/main/Flutter_memo)
 > + <img src="https://img.shields.io/badge/Dart-0175C2?style=flat&logo=dart&logoColor=white"/>
@@ -28,6 +27,7 @@
 > #### [source making](https://github.com/endurenova/Study_memo/tree/main/making_source)
 > + 3D
 > + function
+>
 > #### [Python](https://github.com/endurenova/Study_memo/tree/main/Python_memo)
 > + <img src="https://img.shields.io/badge/Python-3776AB?style=flat&logo=python&logoColor=white"/> <br> - <img src="https://img.shields.io/badge/Qt-Python-3776AB?logo=qt"> <br> - <img src="https://img.shields.io/badge/Selenium-Python-3776AB?logo=selenium">
 > 
