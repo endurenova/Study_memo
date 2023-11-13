@@ -1,4 +1,4 @@
-<link rel="stylesheet" href="./memoStyle.css"/>
+<link rel="stylesheet" href="./css/memoStyle.css"/>
 
 ## SEO (Search Engine Optimization)
 > 웹사이트가 유기적인(무료) 검색 방식을 통해 검색 엔진에서 상위에 노출될 수 있도록 최적화하는 과정 (검색 엔진 최적화)<br>

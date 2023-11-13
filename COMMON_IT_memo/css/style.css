@@ -1,0 +1,40 @@
+
+.title {
+    color: #333;
+}
+strong {
+    color: red;
+}
+span {
+    display: inline-block;
+}
+
+span.accent {
+    font-weight: bold;
+}
+
+span.small {
+    font-size: 12px;
+}
+
+summary {
+    display: flex;
+    flex-flow: row;
+    justify-content: space-between;
+    width: 100%;
+}
+summary:hover {
+    cursor: pointer;
+}
+span.accent:hover::before{    
+    display: inline-block;
+    content: "▼";
+    font-size: 14px;
+    width: 20px;
+}
+span.accent::before{    
+    display: inline-block;
+    content: "▶";
+    font-size: 14px;
+    width: 20px;
+}

@@ -1,4 +1,4 @@
-<link rel="stylesheet" href="./memoStyle.css"/>
+<link rel="stylesheet" href="./css/memoStyle.css"/>
 
 ## CRM (Customer Relationship Management)
 > ### 고객 관계 관리

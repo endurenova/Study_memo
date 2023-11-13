@@ -1,4 +1,4 @@
-<link rel="stylesheet" href="./memoStyle.css"/>
+<link rel="stylesheet" href="./css/memoStyle.css"/>
 
 > ## SPA (Single Page Application)
 > 한 개의 페이지로 된 어플리케이션
