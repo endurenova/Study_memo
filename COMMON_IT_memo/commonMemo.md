@@ -10,12 +10,10 @@
 > operand (피연산자)
 > <br> - 처리될 데이터 그 자체 또는 데이터를 지정하는 컴퓨터 명령어의 일부를 의미
 
-
 > redirection (리디렉션)
 > <br> - 어떤 처리를 한 후, 페이지를 전환
 
-
-> ### parameter (매개변수)
+> ## parameter (매개변수)
 > + 입력되는 정보의 형식
 >> <details>
 >> <summary>
@@ -75,7 +73,7 @@
 >> </details>
 > --- 
 
-> ### object
+> ## object
 > + 객체
 > + 순서가 없는 정보를 이음으로 식별자를 구분
 >> <details>
@@ -88,6 +86,55 @@
 >>
 >>let object = {'한글': '가나', '영어': 'abc'};
 >>```
+>>
+>>> <details>
+>>> <summary>
+>>>   <span class="accent">Object.keys(obj)</span>
+>>>   <span class="small"> - 객체의 키만 담은 배열을 반환</span>
+>>> </summary>
+>>>
+>>>``` JavaScript
+>>> // Object.keys(obj)
+>>> let object = {'한글': '가나', '영어': 'abc'};
+>>>
+>>> console.log(Object.keys(object))
+>>> // ['한글', '영어']
+>>>```
+>>>
+>>> </details>
+>>
+>>> <details>
+>>> <summary>
+>>>   <span class="accent">Object.values(obj)</span>
+>>>   <span class="small"> - 객체의 값만 담은 배열을 반환</span>
+>>> </summary>
+>>>
+>>>``` JavaScript
+>>> // Object.values(obj)
+>>> let object = {'한글': '가나', '영어': 'abc'};
+>>>
+>>> console.log(Object.values(object))
+>>> // ['가나', 'abc']
+>>>```
+>>>
+>>> </details>
+>>
+>>> <details>
+>>> <summary>
+>>>   <span class="accent">Object.entries(obj)</span>
+>>>   <span class="small"> - [키, 값] 쌍을 담은 배열을 반환</span>
+>>> </summary>
+>>>
+>>>``` JavaScript
+>>> // Object.entries(obj)
+>>> let object = {'한글': '가나', '영어': 'abc'};
+>>>
+>>> console.log(Object.entries(object))
+>>> // [Array(2), Array(2)]
+>>> // [['한글', '가나'], ['영어', 'abc']]
+>>>```
+>>>
+>>> </details>
 >>
 >> </details>
 >
@@ -331,7 +378,45 @@
 >>
 > --- 
 
-> ### array
+# Data Structure (자료 구조)
+> ## Primitive Data Structure (단순 자료 구조)
+> + <span class="bold">Integer</span>
+> + <span class="bold">Float</span>
+> + <span class="bold">Character</span>
+> + <span class="bold">Pointer</span>
+> 
+> ## Non-Primitive Data Structure (복합 자료 구조)
+>> ### Linear Structure (선형 구조)
+>> + <span class="bold">Stack (스택)</span>
+>> <br> - Last In First Out (LIFO, 후입선출)
+>> 
+>> + <span class="bold">Queue (큐)</span>
+>> <br> First In First Out (FIFO, 선입선출)
+>>
+>> + <span class="bold">Deque (덱)</span>
+>> <br> - Double-Ended Queue (DEQUE, 전단, 후단모두 입출력 가능)
+>>
+>> + <span class="bold">Linked List (연결 리스트)</span>
+>> + <span class="bold">Heap (힙)</span>
+>> <br> - 완전 이진 트리(Complete Binary Tree)
+>> <br> - 최댓값과 최솟값을 빠르게 찾기 위해 고안 (중복 값 허용)
+>> <br> - 최대 힙 (Max Heap)은 root가 제일 큰 값
+>> <br> - 최소 힙 (Min Heap)은 root가 제일 작은 값
+>> <br> - 왼 쪽부터 채워 짐
+>>
+>> ### Non-Linear Structure (비선형 구조)
+>> + <span class="bold">Graph (그래프)</span>
+>> <br> -  nodes/vertices 사이에 edge가 있는 collection
+>>
+>> + <span class="bold">Tree (트리)</span>
+>> <br> - 노드로 구성된 계층적 자료구조
+>> <br> - 최상위 노드(root), 거리(depth), 노드 선(edge), 끝(leaf)
+>>
+>> + <span class="bold">Hash Table (해시 테이블)</span>
+>> <br> - (Key, Value)로 데이터를 저장하는 자료구조
+
+
+> ## array
 > + 배열
 > + 순서가 있는 정보를 순서로 식별자를 구분
 >> <details>
@@ -344,7 +429,118 @@
 >>let array = ['가나', 'abc'];
 >>```
 >>
+>>> <details>
+>>> <summary>
+>>>   <span class="accent">.split()</span>
+>>>   <span class="small"> - 매개변수로 문자열을 분리하여 배열 반환</span>
+>>> </summary>
+>>>
+>>>``` JavaScript
+>>> // .split()
+>>>
+>>> let helloString = "Hello,Siru,Jjong";
+>>>
+>>> console.log(helloString.split(","));
+>>> // ["Hello", "Siru", "Jjong"]
+>>>```
+>>>
+>>> </details>
+>>
+>>> <details>
+>>> <summary>
+>>>   <span class="accent">.join()</span>
+>>>   <span class="small"> - 매개변수로 배열을 합쳐 문자열 반환</span>
+>>> </summary>
+>>>
+>>>``` JavaScript
+>>> // .join()
+>>>
+>>> let helloArray = ["Hello", "Siru", "Jjong"];
+>>>
+>>> console.log(helloArray.join(","));
+>>> // "Hello,Siru,Jjong"
+>>>```
+>>>
+>>> </details>
+>>
+>>> <details>
+>>> <summary>
+>>>   <span class="accent">.push()</span>
+>>>   <span class="small"> - 배열의 맨 뒤에 원소 추가</span>
+>>> </summary>
+>>>
+>>>``` JavaScript
+>>> // .push()
+>>>
+>>> let helloArray = ["Hello", "Siru", "Jjong"];
+>>>
+>>> helloArray.push("Maltese", "Puppy");
+>>>
+>>> console.log(helloArray);
+>>> // ["Hello", "Siru", "Jjong", "Maltese", "Puppy"]
+>>>```
+>>>
+>>> </details>
+>>
+>>> <details>
+>>> <summary>
+>>>   <span class="accent">.pop()</span>
+>>>   <span class="small"> - 배열의 맨 끝 원소 제거</span>
+>>> </summary>
+>>>
+>>>``` JavaScript
+>>> // .pop()
+>>>
+>>> let helloArray = ["Hello", "Siru", "Jjong"];
+>>>
+>>> helloArray.pop();
+>>>
+>>> console.log(helloArray);
+>>> // ["Hello", "Siru"]
+>>>```
+>>>
+>>> </details>
+>>
+>>> <details>
+>>> <summary>
+>>>   <span class="accent">.unshift()</span>
+>>>   <span class="small"> - 배열을 맨 앞에 원소 추가</span>
+>>> </summary>
+>>>
+>>>``` JavaScript
+>>> // .unshift()
+>>>
+>>> let helloArray = ["Hello", "Siru", "Jjong"];
+>>>
+>>> helloArray.unshift("Maltese", "Puppy");
+>>>
+>>> console.log(helloArray);
+>>> // ["Maltese", "Puppy", "Hello", "Siru", "Jjong"]
+>>>```
+>>>
+>>> </details>
+>>
+>>> <details>
+>>> <summary>
+>>>   <span class="accent">.shift()</span>
+>>>   <span class="small"> - 배열을 맨 처음 원소 제거</span>
+>>> </summary>
+>>>
+>>>``` JavaScript
+>>> // .shift()
+>>>
+>>> let helloArray = ["Hello", "Siru", "Jjong"];
+>>>
+>>> helloArray.shift();
+>>>
+>>> console.log(helloArray);
+>>> // ["Siru", "Jjong"]
+>>>```
+>>>
+>>> </details>
+>>
 >> </details>
+>
 >> <details>
 >> <summary>
 >>  <span class="accent">Python - list</span>
@@ -362,10 +558,106 @@
 >> print(type(list_1), type(list_2), type(list_3))
 >> # <class 'list'> <class 'list'> <class 'list'>
 >>```
+> ---
+
+> ## array-like
+>> <details>
+>> <summary>
+>>   <span class="accent">JavaScript</span>
+>> </summary>
 >>
+>>> <details>
+>>> <summary>
+>>>   <span class="accent">array-like object</span>
+>>>   <span class="small"> - 유사 배열 객체 [LengthOfArrayLike]</span>
+>>> </summary>
+>>>
+>>> + <strong>arguments</strong>
+>>> 
+>>> + <strong>HTMLCollection</strong>
+>>> <br> - document.body.children
+>>> 
+>>> + <strong>NodeList</strong>
+>>> <br> - element.childNodes
+>>> <br> - document.querySelectorAll()
+>>>
+>>>``` JavaScript
+>>> // JavaScript - array-like
+>>>
+>>> // - 배열처럼 인덱스로 프로퍼티 값에 접근 가능
+>>> // - length 프로퍼티 존재
+>>>
+>>> const arrayLikeObject = {
+>>>   0: 'a',
+>>>   1: 'b',
+>>>   2: 'c',
+>>>   length: 3,
+>>> };
+>>>
+>>> for(let i=0; i < arrayLikeObject.length; i++) {
+>>>   console.log(arrayLikeObject[i])
+>>>   // 'a', 'b', 'c'
+>>> }
+>>>```
+>>>
+>>> </details>
+>>
+>>> <details>
+>>> <summary>
+>>>   <span class="accent">iterable object</span>
+>>> <span class="small"> - 반복 가능 객체</span>
+>>> </summary>
+>>>
+>>>``` JavaScript
+>>> // JavaScript - iterable
+>>>
+>>> // - for..of를 사용 가능한 객체
+>>>
+>>> function iterableObject(){
+>>>
+>>>  let iter_1 = "abcd";
+>>>  let iter_2 = [ "a", "b", "c", "d"];
+>>>
+>>>  for (let char of iter_1) {
+>>>    console.log(char);
+>>>    // "a", "b", "c", "d"
+>>>  };
+>>>
+>>>  for (let char of iter_2) {
+>>>    console.log(char);
+>>>    // "a", "b", "c", "d"
+>>>  };
+>>> };
+>>>```
+>>>
+>>> </details>
+>> ---
+>>> <details>
+>>> <summary>
+>>>   <span class="accent">Array.from()</span>
+>>>   <span class="small"> - 유사배열을 배열로 반환</span>
+>>> </summary>
+>>>
+>>>``` JavaScript
+>>> // Array.from()
+>>>
+>>> const arrayLikeObject = {
+>>>   0: 'a',
+>>>   1: 'b',
+>>>   2: 'c',
+>>>   length: 3,
+>>> };
+>>>
+>>> console.log(Array.from(arrayLikeObject));
+>>> // ['a', 'b', 'c']
+>>>```
+>>>
+>>> </details>
+>>
+>> </details>
 > --- 
 
-> ### 생략 가능 인자
+> ## 생략 가능 인자
 >> <details>
 >> <summary>
 >>  <span class="accent">JavaScript</span>
@@ -415,7 +707,7 @@
 >> </details>
 > ---
 
-> ### Alias
+> ## Alias
 > + 별칭이란 뜻으로 보기 편하게 대체명을 만들기 위해 사용
 >> <details>
 >> <summary>
