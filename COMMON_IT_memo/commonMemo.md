@@ -419,7 +419,7 @@
 > ## array
 > + 배열
 > + 순서가 있는 정보를 순서로 식별자를 구분
->> <details>
+>> <details open>
 >> <summary>
 >>  <span class="accent">JavaScript - array</span>
 >> </summary>
@@ -428,6 +428,77 @@
 >> // JavaScript - array
 >>let array = ['가나', 'abc'];
 >>```
+>>
+>>> <details open>
+>>> <summary>
+>>>   <span class="accent">.trim()</span>
+>>>   <span class="small"> - </span>
+>>> </summary>
+>>>
+>>>``` JavaScript
+>>> // .trim()
+>>>
+>>>
+>>>```
+>>>
+>>> </details>
+>>
+>>> <details>
+>>> <summary>
+>>>   <span class="accent">.splice()</span>
+>>>   <span class="small"> - 배열 일부를 추가 및 삭제</span>
+>>> </summary>
+>>>
+>>>``` JavaScript
+>>> // .splice(start[, deleteCount[, item1[, item2[, ...]]]])
+>>> //  - start: 시작 index
+>>> //  - deleteCount: 삭제할 요소 개수
+>>> //  - itemX: 추가할 요소
+>>>
+>>> let listArray = [1, 2, 3, 4, 5, 6];
+>>>
+>>> listArray.splice(2, 1);
+>>>
+>>> console.log(listArray);
+>>> // [1, 2, 4, 5, 6];
+>>>
+>>> listArray.splice(3, 2, 7, 8);
+>>>
+>>> console.log(listArray);
+>>> // [1, 2, 4, 7, 8];
+>>>
+>>>```
+>>>
+>>> </details>
+>>
+>>> <details>
+>>> <summary>
+>>>   <span class="accent">.slice()</span>
+>>>   <span class="small"> - 데이터 일부를 추출하여 새로운 데이터 반환</span>
+>>> </summary>
+>>>
+>>>``` JavaScript
+>>> // .slice(start[, end])
+>>> //  - start: 시작 index
+>>> //  - end: 끝 index
+>>>
+>>> let stringArray = "[1, 2, 3, 4, 5, 6]";
+>>> let sliceStringArray = stringArray.slice(1, -1)
+>>>
+>>> console.log(sliceStringArray);
+>>> // "1, 2, 3, 4, 5, 6"
+>>>
+>>> let listArray = [1, 2, 3, 4, 5, 6];
+>>> let sliceListArray_0 = stringArray.slice()
+>>> let sliceListArray_1 = stringArray.slice(1, -1)
+>>>
+>>> console.log(sliceListArray_0);
+>>> // [1, 2, 3, 4, 5, 6]
+>>> console.log(sliceListArray_1);
+>>> // [2, 3, 4, 5]
+>>>```
+>>>
+>>> </details>
 >>
 >>> <details>
 >>> <summary>
@@ -441,7 +512,7 @@
 >>> let helloString = "Hello,Siru,Jjong";
 >>>
 >>> console.log(helloString.split(","));
->>> // ["Hello", "Siru", "Jjong"]
+>>> // ["Hello", "Siru", "Jjong"] 
 >>>```
 >>>
 >>> </details>
