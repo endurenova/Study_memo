@@ -1,5 +1,44 @@
 <link rel="stylesheet" href="./css/style.css"/>
 
+
+# Data Structure (자료 구조)
+>
+> ## Primitive Data Structure (단순 자료 구조)
+> + <span class="bold">Integer</span>
+> + <span class="bold">Float</span>
+> + <span class="bold">Character</span>
+> + <span class="bold">Pointer</span>
+> 
+> ## Non-Primitive Data Structure (복합 자료 구조)
+>> ### Linear Structure (선형 구조)
+>> + <span class="bold">Stack (스택)</span>
+>> <br> - Last In First Out (LIFO, 후입선출)
+>> 
+>> + <span class="bold">Queue (큐)</span>
+>> <br> First In First Out (FIFO, 선입선출)
+>>
+>> + <span class="bold">Deque (덱)</span>
+>> <br> - Double-Ended Queue (DEQUE, 전단, 후단모두 입출력 가능)
+>>
+>> + <span class="bold">Linked List (연결 리스트)</span>
+>> + <span class="bold">Heap (힙)</span>
+>> <br> - 완전 이진 트리(Complete Binary Tree)
+>> <br> - 최댓값과 최솟값을 빠르게 찾기 위해 고안 (중복 값 허용)
+>> <br> - 최대 힙 (Max Heap)은 root가 제일 큰 값
+>> <br> - 최소 힙 (Min Heap)은 root가 제일 작은 값
+>> <br> - 왼 쪽부터 채워 짐
+>>
+>> ### Non-Linear Structure (비선형 구조)
+>> + <span class="bold">Graph (그래프)</span>
+>> <br> -  nodes/vertices 사이에 edge가 있는 collection
+>>
+>> + <span class="bold">Tree (트리)</span>
+>> <br> - 노드로 구성된 계층적 자료구조
+>> <br> - 최상위 노드(root), 거리(depth), 노드 선(edge), 끝(leaf)
+>>
+>> + <span class="bold">Hash Table (해시 테이블)</span>
+>> <br> - (Key, Value)로 데이터를 저장하는 자료구조
+
 > expression (식)
 > <br> - 값을 만들어 내는 코드
 
@@ -13,8 +52,9 @@
 > redirection (리디렉션)
 > <br> - 어떤 처리를 한 후, 페이지를 전환
 
-> ## parameter (매개변수)
-> + 입력되는 정보의 형식
+> ## parameter
+> + 매개변수 (인자) (선언용)
+> + 함수를 정의할 때 사용되는 변수
 >> <details>
 >> <summary>
 >>  <span class="accent">JavaScript</span>
@@ -44,31 +84,30 @@
 >>
 >> </details>
 > --- 
-
-> ### argument
-> + 전달 인자
-> + 배열이 아닌 객체
-> + 식에 맞게 실제로 입력하는 값
+>
+> ## argument
+> + 전달인자 (인수) (호출용)
+> + 변수가 아닌 값(Value)로 정의
 >> <details>
 >> <summary>
 >>  <span class="accent">JavaScript</span>
 >> </summary>
 >>
->>``` JavaScript
->> // JavaScript - arguments
->>function func1(a, b, c) {
+>> ``` JavaScript
+>> // JavaScript - argument
+>> function func1(a, b, c) {
 >>  console.log(arguments);
 >>  console.log(arguments[0]);
->>}
+>> }
 >>
->>func(1, 2, 3);
+>> func1(1, 2, 3);  // func1(argument, argument, argument);
 >>
->>/* 
+>> /* 
 >>  Expected output: 
+>>    > Arguments(3) [1, 2, 3]
 >>    > 1
->>    > Object { 0: 1, 1: 2, 2: 3 }
->>*/
->>```
+>> */
+>> ```
 >>
 >> </details>
 > --- 
@@ -81,11 +120,11 @@
 >>  <span class="accent">JavaScript - object</span>
 >> </summary>
 >>
->>``` JavaScript
+>> ``` JavaScript
 >> // JavaScript - object
 >>
->>let object = {'한글': '가나', '영어': 'abc'};
->>```
+>> let object = {'한글': '가나', '영어': 'abc'};
+>> ```
 >>
 >>> <details>
 >>> <summary>
@@ -93,13 +132,13 @@
 >>>   <span class="small"> - 객체의 키만 담은 배열을 반환</span>
 >>> </summary>
 >>>
->>>``` JavaScript
+>>> ``` JavaScript
 >>> // Object.keys(obj)
 >>> let object = {'한글': '가나', '영어': 'abc'};
 >>>
 >>> console.log(Object.keys(object))
 >>> // ['한글', '영어']
->>>```
+>>> ```
 >>>
 >>> </details>
 >>
@@ -109,13 +148,13 @@
 >>>   <span class="small"> - 객체의 값만 담은 배열을 반환</span>
 >>> </summary>
 >>>
->>>``` JavaScript
+>>> ``` JavaScript
 >>> // Object.values(obj)
 >>> let object = {'한글': '가나', '영어': 'abc'};
 >>>
 >>> console.log(Object.values(object))
 >>> // ['가나', 'abc']
->>>```
+>>> ```
 >>>
 >>> </details>
 >>
@@ -377,43 +416,6 @@
 >> </details>
 >>
 > --- 
-
-# Data Structure (자료 구조)
-> ## Primitive Data Structure (단순 자료 구조)
-> + <span class="bold">Integer</span>
-> + <span class="bold">Float</span>
-> + <span class="bold">Character</span>
-> + <span class="bold">Pointer</span>
-> 
-> ## Non-Primitive Data Structure (복합 자료 구조)
->> ### Linear Structure (선형 구조)
->> + <span class="bold">Stack (스택)</span>
->> <br> - Last In First Out (LIFO, 후입선출)
->> 
->> + <span class="bold">Queue (큐)</span>
->> <br> First In First Out (FIFO, 선입선출)
->>
->> + <span class="bold">Deque (덱)</span>
->> <br> - Double-Ended Queue (DEQUE, 전단, 후단모두 입출력 가능)
->>
->> + <span class="bold">Linked List (연결 리스트)</span>
->> + <span class="bold">Heap (힙)</span>
->> <br> - 완전 이진 트리(Complete Binary Tree)
->> <br> - 최댓값과 최솟값을 빠르게 찾기 위해 고안 (중복 값 허용)
->> <br> - 최대 힙 (Max Heap)은 root가 제일 큰 값
->> <br> - 최소 힙 (Min Heap)은 root가 제일 작은 값
->> <br> - 왼 쪽부터 채워 짐
->>
->> ### Non-Linear Structure (비선형 구조)
->> + <span class="bold">Graph (그래프)</span>
->> <br> -  nodes/vertices 사이에 edge가 있는 collection
->>
->> + <span class="bold">Tree (트리)</span>
->> <br> - 노드로 구성된 계층적 자료구조
->> <br> - 최상위 노드(root), 거리(depth), 노드 선(edge), 끝(leaf)
->>
->> + <span class="bold">Hash Table (해시 테이블)</span>
->> <br> - (Key, Value)로 데이터를 저장하는 자료구조
 
 
 > ## array
@@ -760,7 +762,46 @@
 >> </details>
 > ---
 
-> ### 재귀 함수
+> ## Callback Function
+> + 콜백 함수
+
+> ## Generator Function 
+> + 제너레이터 함수
+>> <details>
+>> <summary>
+>>  <span class="accent">JavaScript</span>
+>> </summary>
+>> 
+>>``` JavaScript
+>> // JavaScript - function*
+>>
+>> function* anotherGenerator(i) {
+>>   yield i + 1;
+>>   yield i + 2;
+>>   yield i + 3;
+>> }
+>> 
+>> function* generator(i) {
+>>   yield i;
+>>   yield* anotherGenerator(i);
+>>   yield i + 10;
+>> }
+>> 
+>> var gen = generator(10);
+>> 
+>> console.log(gen.next().value); // 10
+>> console.log(gen.next().value); // 11
+>> console.log(gen.next().value); // 12
+>> console.log(gen.next().value); // 13
+>> console.log(gen.next().value); // 20
+>> 
+>>```
+>>
+>> </details>
+> ---
+
+> ## Recursive Function
+> + 재귀 함수
 >> <details>
 >> <summary>
 >>  <span class="accent">JavaScript</span>
@@ -833,8 +874,47 @@
 >> </details>
 > ---
 
+> ## Spread syntax
+> + 전개 문법
+>> <details>
+>> <summary>
+>>  <span class="accent">JavaScript</span>
+>> </summary>
+>>
+>>```JavaScript
+>> // JavaScript - ...Array
+>>
+>> function sum(x, y, z) {
+>>    return x + y + z;
+>> }
+>>
+>> console.log(sum(...[1, 2, 3]))
+>> // 6
+>>```
+>>
+>> </details>
+>
+>> <details>
+>> <summary>
+>>  <span class="accent">Python</span>
+>> </summary>
+>>
+>>```Python
+>> # Python - *list
+>>
+>> def sumList(x, y, z):
+>>    return x + y + z
+>>
+>> print(sumList(*[1, 2, 3]))  # = sum([1, 2, 3])
+>> # 6
+>>```
+>>
+>> </details>
+> ---
 
-> ### String interpolation
+
+> ## String interpolation
+> + 문자열 보간
 > + String 내부에 parameter를 넣을 수 있다.
 >> <details>
 >> <summary>
@@ -886,7 +966,7 @@
 >> </details>
 > ---
 
-> ### Fat arrow syntax
+> ## Fat arrow syntax
 > + =>
 > + return을 포함한 function의 축약형
 >> <details>
