@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    textarea[name="memo"] {
+      width: 400px;
+      height: 300px;
+    }
+  </style>
+</head>
+<body>
+  <!-- autocomplete="off" 시, 자동완성기능 끄기 -->
+  <form method="get" name="form_get" action="get_post.php" autocomplete="off">
+    아이디(get): <input type="text" name="id_get"> <br>    
+    패스워드(get): <input type="password" name="password"> <br>    
+    메모(get): <textarea name="memo" cols="30" row="10"></textarea>
+    <button type="button" id="submit_btn">전송</button>
+  </form>
+  <form method="post" action="get_post.php" autocomplete="off">
+    아이디(post): <input type="text" name="id_post"> <br>
+    패스워드(post): <input type="password" name="password"> <br>
+    메모(post): <textarea name="memo" cols="30" row="10"></textarea>
+    <button>전송</button>
+  </form>
+  <script>
+    const submitBtn = document.getElementById('submit_btn');
+    submitBtn.addEventListener("click", function(){
+      if (document.form_get.id_get.value==''){
+        alert("id를 입력해주세요.");
+        document.form_get.id_get.focus();
+        return;  // submit이 되지 않게 해준다.
+      }
+      document.form_get.submit();
+    });
+  </script>
+</body>
+</html>
