@@ -1,39 +1,111 @@
+.section01 li:first-child {
+  /* 첫번째 요소 선택 */
+  background: skyblue;
+}
 
-#id-name
-/* ID 선택자 문법 (아이디 앞에 "#"을 붙임) 
- - 문서에서 딱 하나의 태그에만 스타일을 입히고 싶을 때 사용
- - 동일한 아이디를 여러 태그가 가질 수 없음 */
+.section02 li:last-child {
+  /* 마지막 요소 선택 */
+  background: skyblue;
+}
 
+.section03 li:nth-child(6) {
+  /* 6번째 요소 선택 */
+  background: skyblue;
+}
 
-.class-name
-/* Class 선택자 문법 (클래스 앞에 "."을 붙임)
- - 여러 요소를 스타일링 하고 싶을 때 사용
- - 하나의 클래스에 여러 값을 가질 수 있음 */
-  <li class="beginner Python">프로그래밍 기초 <i>in Python</i></li>
-  /*위 li 태그는 class 값 두 개, 'beginner'와 'Python'을 가짐 */
+.section04 li:nth-child(odd) {
+  /* 홀수 선택 */
+  background: skyblue;
+}
 
-/* id와 class를 제외한 나머지 속성 CSS 선택자 문법 [attr="value"] → [속성=값] */
-[href="https://www.codeit.kr/"]
+.section05 li:nth-child(even) {
+  /* 짝수 선택 */
+  background: skyblue;
+}
 
+.section06 li:nth-child(3n) {
+  /* 세번째 요소마다 선택 */
+  background: skyblue;
+}
 
-/* AND selector (AND 연산 선택자 문법 - 선택자들을 이어붙임) */
-div#m_box { width:500px; height:150px; } /* tag#id { attr1:value; attr2:value; } */
-div.box { background-color:blue; } /* tag.class { attr:value; }*/
+.section07 li:nth-child(3n + 2) {
+  /* 두번째 요소부터 세번째 요소마다 선택 */
+  background: skyblue;
+}
 
-/* OR selector (OR 연산 선택자 문법 - 선택자 사이 ",") */
-div, #m_box { width:500px; height:150px; } /* tag, #id { attr1:value; attr2:value; } */
-div, .box { background-color:blue; } /* id, .class { attr:value; }*/
+.section08 li:nth-child(n + 6) {
+  /* 6번부터 모든 요소 선택 */
+  background: skyblue;
+}
 
-/* Descendant selector (중첩 요소 선택자 문법 - 선택자 사이 " " ) */
-div span { text-align:center; padding:10px; } /* tag tag */
-div.yellow_box span {background-color:yellow; } /* tag.class tag → descendant selector + AND selector*/
-div#c_box span { text-align:center; padding:10px; } /* tag#id tag → descendant selector + AND selector*/
-div span .blue_span { background-color:blue; } /* tag tag .class → descendant selector */
-div span #c_span { text-align:center; padding:10px; } /* tag tag #id  → descendant selector + AND selector*/
+.section09 li:nth-child(-n + 3) {
+  /* 1번부터 3번까지 요소 선택 */
+  background: skyblue;
+}
 
-/* Child selector (직속 자식 선택자 문법 - 선택자 사이 ">") */
-ul > li { list-style: none; } /* tag > tag → child selector */
+.section10 li:nth-child(n + 3):nth-child(-n + 6) {
+  /* 3번부터 6번까지 요소 선택  */
+  background: skyblue;
+}
 
-/* All selector (모든 선택자 문법 - 선택자 뒤에 "*") */
-li * { text-align:center; padding:10px; } /* tag *→ all selector
+.section11 li:nth-last-child(3) {
+  /* 끝에서 3번째 요소 선택 */
+  background: skyblue;
+}
 
+.section12 li:nth-last-child(-n + 3) {
+  /* 끝에서 3번째 요소까지 선택 */
+  background: skyblue;
+}
+
+.section13 li:nth-last-child(3n + 3) {
+  /* 끝에서 3번째 요소부터 세번째 요소마다 선택 */
+  background: skyblue;
+}
+
+.section14 li:nth-last-child(n + 3) {
+  /* 끝에서 3번째 요소부터 첫번째 요소까지 선택 */
+  background: skyblue;
+}
+
+.section15 li:nth-last-child(n + 5),
+.section15 li:nth-last-child(n + 5) ~ li {
+  /* 그룹 내 형제요소가 5개 이상일 때 전체 선택 */
+  background: skyblue;
+}
+
+.section16 li:nth-last-child(-n + 3):first-child,
+.section16 li:nth-last-child(-n + 3):first-child ~ li {
+  /* 그룹 내 형제요소가 3개 이하일 때 전체 선택 */
+  background: skyblue;
+}
+
+.section17 li:not(:nth-child(3)) {
+  /* 3번째 요소만 제외하고 전체 선택 */
+  background: skyblue;
+}
+
+.section01 .group div:first-of-type {
+  /* group 내 첫번째 div 요소 선택 */
+  background: skyblue;
+}
+
+.section02 .group div:last-of-type {
+  /* group 내 마지막 div 요소 선택 */
+  background: skyblue;
+}
+
+.section03 .group span:nth-of-type(2) {
+  /* 두번째 span 요소 선택 */
+  background: skyblue;
+}
+
+.section04 .group p:nth-of-type(2n + 1) {
+  /* 첫번째 p 요소 부터 두번째 p요소마다 선택 */
+  background: skyblue;
+}
+
+.section05 .group p:nth-of-type(n + 3):nth-of-type(-n + 6) {
+  /* 세번째 p 요소부터 전체선택 + 첫번째 p 요소부터 6개 선택의 교집합 */
+  background: skyblue;
+}

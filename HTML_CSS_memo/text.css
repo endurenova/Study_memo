@@ -1,0 +1,8 @@
+.text {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;  /* 2줄까지 보이고 나머지 ellipsis */
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  white-space: wrap;
+  text-overflow: ellipsis;
+}
